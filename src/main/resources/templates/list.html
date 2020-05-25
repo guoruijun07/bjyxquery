@@ -59,8 +59,8 @@
                         </tr>
                         </thead>
                         <tbody id="querybody">
-                        <tr th:each="exportInfo:${exportInfos}" class="text-center" style="height: 40px">
-                            <td th:text="${exportInfo.id}"></td>
+                        <tr th:each="exportInfo,itemStat:${exportInfos}" class="text-center" style="height: 40px">
+                            <td th:text="${itemStat.count}"></td>
                             <td th:text="${exportInfo.fileName}"></td>
                             <td th:text="${exportInfo.totalNum}"></td>
                             <td th:text="${exportInfo.sucessNum}"></td>
@@ -116,13 +116,36 @@
                 contentType: false,//必须false才会自closeLoading();动加上正确的Content-Type
                 processData: false,//必须false才会避开jQuery对 formdata 的默认处理XMLHttpRequest会对 formdata 进行正确的处理
                 success: function (data) {
-                    $("#fileName").val(data.msg);
-                    alert("上传成功")
+                    alert(data.msg);
+                    // $("#fileName").val(data.msg);
+                    if(data.code==1){
+                        alert("上传成功")
+                    }
+                   if(data.code==0){
+                       alert(data.msg)
+                   }
 
-                    $("#upload").val("");
+                    // $("#upload").val("");
+                    $("#file").outerHTML="";
+                    // $("#file").text("");
+                    var str = "";
+                    var resultData = data.data;
+                    for(var i = 0;i<resultData.length;i++){
+                        alert(resultData[i].fileName);
+                        str += "<tr>"+
+                                "<td>"+(i+1)+"</td>"+
+                                "<td>"+resultData[i].fileName+"</td>"+
+                                "<td>"+resultData[i].totalNum+"</td>"+
+                                "<td>"+resultData[i].sucessNum+"</td>"+
+                                "</tr>"
+                    }
+                    // tbody.innerHTML = str;
+                    alert(str);
+                    // $("querybody").html(str);
+                    $("querybody").innerHTML = str;
                 },
                 error: function (er) {          //失败，回调函数
-                    alert(er);
+                    alert("eer"+data.msg);
                 }
             });
         });

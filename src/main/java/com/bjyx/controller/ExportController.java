@@ -10,6 +10,7 @@ import com.bjyx.entity.TbUserInfo;
 import com.bjyx.listener.DemoDataListener;
 import com.bjyx.mapper.TbExportInfoMapper;
 import com.bjyx.mapper.TbSortingInfoMapper;
+import com.bjyx.mapper.TbUserInfoMapper;
 import com.bjyx.template.SortingExportTemplate;
 import com.bjyx.utils.SysResult;
 import org.slf4j.Logger;
@@ -35,6 +36,8 @@ public class ExportController {
     private TbSortingInfoMapper tbSortingInfoMapper;
     @Autowired(required = false)
     private TbExportInfoMapper tbExportInfoMapper;
+    @Autowired(required = false)
+    private TbUserInfoMapper tbUserInfoMapper;
 
     @Value("${perMoney}")
     private String perMoney;
@@ -59,7 +62,8 @@ public class ExportController {
         TbUserInfo tbUserInfo = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
 
         //取出用户的余额
-        Double remainingSum = tbUserInfo.getRemainingSum();
+        TbUserInfo tbUserInfo2 = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
+        Double totalSum = tbUserInfo2.getRemainingSum()==null?0.0:tbUserInfo2.getRemainingSum();
 
         List<ReadySortingData> list = new ArrayList<>();
         // 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
@@ -96,11 +100,18 @@ public class ExportController {
             exportDatas.add(sortingExport);
         }
         //如果余额不够，直接返回，不生成文件
-        Double totalmoney = successNum * Double.valueOf(perMoney);
-        if (totalmoney > remainingSum) {
+        Double cost = successNum * Double.valueOf(perMoney);
+        if (cost > totalSum) {
             return new SysResult(0, "您的余额不够，请联系管理员充值");
         }
-        String fileNameOriginal = file.getName();
+        //更新余额
+        Double remainingSum = totalSum - cost;
+        TbUserInfo tbUserInfo1 = new TbUserInfo();
+        tbUserInfo1.setId(tbUserInfo.getId());
+        tbUserInfo1.setRemainingSum(remainingSum);
+        tbUserInfoMapper.updateRemainingSumByPrimaryKey(tbUserInfo1);
+
+        String fileNameOriginal = file.getOriginalFilename();
         String fileName = new String((fileNameOriginal + "_" + DateUtils.format(new Date(), "yyyyMMddHHmmss") + ".xlsx").getBytes(), "UTF-8");
         try {
 
@@ -116,14 +127,16 @@ public class ExportController {
             tbExportInfo.setFileName(fileName);
             tbExportInfo.setTotalNum(totalNum);
             tbExportInfo.setSucessNum(successNum);
-            tbExportInfo.setMoney(successNum * Double.valueOf(perMoney));
+            tbExportInfo.setMoney(cost);
             tbExportInfo.setCreateTime(new Date());
             tbExportInfoMapper.insert(tbExportInfo);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new SysResult(1, fileName);
+        List<TbExportInfo> tbExportInfos = tbExportInfoMapper.selectAll();
+        return new SysResult(1, fileName,tbExportInfos);
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)

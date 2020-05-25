@@ -30,6 +30,11 @@ public class SysResult {
         this.msg = msg;
     }
 
+    public SysResult(Integer code, String msg,List list) {
+        this.code = code;
+        this.msg = msg;
+        this.data = list;
+    }
     public SysResult(EnumReasultCode enumReasultCode) {
         this.code = enumReasultCode.getCode();
         this.msg = enumReasultCode.getExplainChInfo();

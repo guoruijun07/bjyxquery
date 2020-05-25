@@ -279,4 +279,16 @@ public interface TbUserInfoMapper {
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateImeiByPrimaryKey(TbUserInfo record);
+
+    /**
+     *
+     * @mbggenerated
+     */
+    @Update({
+            "update tb_user_info",
+            "set ",
+            "remaining_sum = #{remainingSum,jdbcType=DOUBLE}",
+            "where id = #{id,jdbcType=INTEGER}"
+    })
+    int updateRemainingSumByPrimaryKey(TbUserInfo record);
 }

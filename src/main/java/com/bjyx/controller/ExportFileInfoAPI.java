@@ -27,6 +27,7 @@ public class ExportFileInfoAPI {
         // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInfo
 //        PageInfo<Article> pageInfo = new PageInfo<>(articles);
 
+//        return new SysResult(1, "",tbExportInfos);
         return "list";
 
     }

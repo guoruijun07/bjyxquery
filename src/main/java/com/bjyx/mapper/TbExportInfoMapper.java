@@ -65,6 +65,27 @@ public interface TbExportInfoMapper {
             "select",
             "id, user_id, file_name, total_num, sucess_num, money, create_time, remark",
             "from tb_export_info",
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="file_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="total_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="sucess_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="money", javaType=Double.class, jdbcType=JdbcType.DOUBLE),
+            @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="remark", javaType=String.class, jdbcType=JdbcType.VARCHAR)
+    })
+    List<TbExportInfo> selectAll();
+
+    /**
+     *
+     * @mbggenerated
+     */
+    @Select({
+            "select",
+            "id, user_id, file_name, total_num, sucess_num, money, create_time, remark",
+            "from tb_export_info",
             "where user_id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
