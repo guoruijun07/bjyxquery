@@ -1,0 +1,28 @@
+server:
+  port: 9002
+
+thymeleaf:
+  cache: false
+  mode: LEGACYHTML5
+
+logging:
+  level:
+    com:
+      bjyx: debug
+
+spring:
+  datasource:
+    mysql:
+      driver-class-name: com.mysql.jdbc.Driver
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/bjyxquery?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: root
+#      password: GuoruiJUN@07
+
+perMoney: 0.5
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
