@@ -27,6 +27,12 @@
 <br/>
 <h3 align="center">北京查询系统</h3>
 <div id="wrapData" width="90%">
+    <div class="panel-heading text-center">
+        <span class="panel-title"><h3>您好:[[${session.user.username}]]</h3></span>
+    </div>
+    <div class="panel-heading text-center">
+        <span class="panel-title"><h3>余额:<span id="remainingSum"> [[${session.user.remainingSum}]]</span></h3></span>
+    </div>
     <div class="container-fluid" th:align="center">
 <!--        <form action="/upload" method="POST" enctype="multipart/form-data">-->
 <!--            <input type="file" name="file" ><br>-->
@@ -130,19 +136,28 @@
                     // $("#file").text("");
                     var str = "";
                     var resultData = data.data;
+                    /*<![CDATA[*/
                     for(var i = 0;i<resultData.length;i++){
-                        alert(resultData[i].fileName);
+                        /*]]>*/
+                       var faildNum  = resultData[i].totalNum - resultData[i].sucessNum;
                         str += "<tr>"+
                                 "<td>"+(i+1)+"</td>"+
                                 "<td>"+resultData[i].fileName+"</td>"+
                                 "<td>"+resultData[i].totalNum+"</td>"+
                                 "<td>"+resultData[i].sucessNum+"</td>"+
-                                "</tr>"
+                                "<td>"+faildNum+"</td>"+
+                                "<td>"+resultData[i].money+"</td>"+
+                                "<td>"+resultData[i].createTime+"</td>"+
+                                "<td>"+resultData[i].sucessNum+"</td>"+
+                                "<td>"+"<button id='dowloadBtn1' onclick='downloadFile("+resultData[i].fileName+");' class='btn btn-info ' type='button'>"+"下载"+"</button>"+"</td>"
+                        "</tr>"
                     }
                     // tbody.innerHTML = str;
-                    alert(str);
+                    // alert(str);
+                    // alert($("#querybody").html);
                     // $("querybody").html(str);
-                    $("querybody").innerHTML = str;
+                    $("#querybody").html(str);
+                    $("#remainingSum").html(data.msg);
                 },
                 error: function (er) {          //失败，回调函数
                     alert("eer"+data.msg);

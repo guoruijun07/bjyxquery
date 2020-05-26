@@ -136,7 +136,7 @@ public class ExportController {
         }
 
         List<TbExportInfo> tbExportInfos = tbExportInfoMapper.selectAll();
-        return new SysResult(1, fileName,tbExportInfos);
+        return new SysResult(1, remainingSum.toString(),tbExportInfos);
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
