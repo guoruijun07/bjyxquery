@@ -11,7 +11,7 @@
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 25/05/2020 02:11:16
+ Date: 27/05/2020 02:19:24
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,41 @@ CREATE TABLE `tb_export_info`  (
   `create_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_export_info
+-- ----------------------------
+INSERT INTO `tb_export_info` VALUES (2, 1, 'file_20200525211156.xlsx', 363, 354, 177.00, '2020-05-25 21:12:00', NULL);
+INSERT INTO `tb_export_info` VALUES (3, 1, 'file_20200525213836.xlsx', 363, 354, 177.00, '2020-05-25 21:38:39', NULL);
+INSERT INTO `tb_export_info` VALUES (4, 1, 'file_20200525214153.xlsx', 363, 354, 177.00, '2020-05-25 21:41:55', NULL);
+INSERT INTO `tb_export_info` VALUES (5, 1, 'file_20200525214420.xlsx', 363, 354, 177.00, '2020-05-25 21:44:21', NULL);
+INSERT INTO `tb_export_info` VALUES (6, 1, 'file_20200525214759.xlsx', 363, 354, 177.00, '2020-05-25 21:48:01', NULL);
+INSERT INTO `tb_export_info` VALUES (7, 1, 'shuju.xls_20200525221041.xlsx', 363, 354, 177.00, '2020-05-25 22:10:43', NULL);
+INSERT INTO `tb_export_info` VALUES (8, 1, 'shuju.xls_20200526012043.xlsx', 363, 354, 177.00, '2020-05-26 01:20:46', NULL);
+INSERT INTO `tb_export_info` VALUES (9, 1, 'shuju.xls_20200526012452.xlsx', 363, 354, 177.00, '2020-05-26 01:24:53', NULL);
+INSERT INTO `tb_export_info` VALUES (10, 1, 'shuju.xls_20200526013124.xlsx', 363, 354, 177.00, '2020-05-26 01:31:25', NULL);
+INSERT INTO `tb_export_info` VALUES (11, 1, 'shuju.xls_20200526013251.xlsx', 363, 354, 177.00, '2020-05-26 01:32:52', NULL);
+INSERT INTO `tb_export_info` VALUES (12, 1, 'shuju.xls_20200526013423.xlsx', 363, 354, 177.00, '2020-05-26 01:34:26', NULL);
+INSERT INTO `tb_export_info` VALUES (13, 1, 'shuju.xls_20200526013614.xlsx', 363, 354, 177.00, '2020-05-26 01:36:14', NULL);
+INSERT INTO `tb_export_info` VALUES (14, 1, 'shuju.xls_20200526232145.xlsx', 363, 354, 177.00, '2020-05-26 23:21:48', NULL);
+INSERT INTO `tb_export_info` VALUES (15, 1, 'shuju.xls_20200526233840.xlsx', 363, 354, 177.00, '2020-05-26 23:38:43', NULL);
+INSERT INTO `tb_export_info` VALUES (16, 1, 'shuju.xls_20200526235305.xlsx', 363, 354, 177.00, '2020-05-26 23:53:07', NULL);
+INSERT INTO `tb_export_info` VALUES (17, 1, 'shuju.xls_20200526235533.xlsx', 363, 354, 177.00, '2020-05-26 23:55:33', NULL);
+INSERT INTO `tb_export_info` VALUES (18, 1, 'shuju.xls_20200527000138.xlsx', 363, 354, 177.00, '2020-05-27 00:01:38', NULL);
+INSERT INTO `tb_export_info` VALUES (19, 1, 'shuju.xls_20200527020504.xlsx', 363, 354, 177.00, '2020-05-27 02:05:07', NULL);
+
+-- ----------------------------
+-- Table structure for tb_price_info
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_price_info`;
+CREATE TABLE `tb_price_info`  (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NULL DEFAULT NULL,
+  ` menu` int(11) NULL DEFAULT NULL COMMENT '功能 1:pc 2：app',
+  `price` double(11, 2) NULL DEFAULT NULL COMMENT '单价:元',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tb_sorting_info
@@ -471,7 +505,7 @@ CREATE TABLE `tb_user_info`  (
 -- ----------------------------
 -- Records of tb_user_info
 -- ----------------------------
-INSERT INTO `tb_user_info` VALUES (1, 'test', '123', '快乐', '13720975543', '123456', '11', '8494907a-5c0a-4ecf-b277-513885e83fe0', '2021-05-23', NULL, NULL, NULL, NULL, NULL, '2020-05-23 03:12:34', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tb_user_info` VALUES (1, 'test', '123', '天空', '13720975543', '1232455', '11', NULL, NULL, NULL, NULL, 7876, NULL, NULL, '2020-05-27 02:05:04', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tb_user_info` VALUES (2, 'shiyan', '123456', NULL, '18330297651', '1234567', NULL, '53b01843-37e9-4efa-90ce-421769e25aab', '2021-05-23', NULL, NULL, NULL, NULL, NULL, '2020-05-23 20:14:56', NULL, NULL, NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
