@@ -86,7 +86,7 @@ public interface TbExportInfoMapper {
             "select",
             "id, user_id, file_name, total_num, sucess_num, money, create_time, remark",
             "from tb_export_info",
-            "where user_id = #{id,jdbcType=INTEGER}"
+            "where user_id = #{id,jdbcType=INTEGER} "
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),

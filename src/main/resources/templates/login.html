@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Realm - Login</title>
+    <title>北京生产业务辅助系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Bluth Company">
     <link rel="shortcut icon" href="assets/ico/favicon.html">
@@ -32,7 +32,7 @@
 					<div class="widget-body clearfix" style="padding:25px;">
 		      			<form action="#" th:action="@{/pcLogin}" th:object="${userInfo}" method="post">
 		      				<div style="padding:10px 0">
-		      					<a style="" href="#" class="btn btn-large btn-block btn-primary"><i class="icon-facebook-sign"></i> 北京查询系统</a>
+		      					<a style="" href="#" class="btn btn-large btn-block btn-primary"><i class="icon-facebook-sign"></i> 北京生产业务辅助系统</a>
 		      				</div>
 
 							<div class="control-group">
@@ -79,5 +79,39 @@
     <script type="text/javascript" src="js/jquery.elfinder.min.html"></script>
     <script type="text/javascript" src="js/jquery.alertify.min.js"></script>
     <script type="text/javascript" src="js/realm.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#uploadButton").click(function () {
+                var file = $("#file").val();
+                if (file == null || file == "") {
+                    alert("请选择导入文件");
+                    return;
+                }
+                var formData = new FormData();
+                formData.append('file', $('#file')[0].files[0]);
+                $.ajax({
+                    dataType: "json",
+                    type: "POST",
+                    url: '/upload',
+                    data: formData,
+                    contentType: false,//必须false才会自closeLoading();动加上正确的Content-Type
+                    processData: false,//必须false才会避开jQuery对 formdata 的默认处理XMLHttpRequest会对 formdata 进行正确的处理
+                    success: function (data) {
+                        alert(data.msg);
+                        // $("#fileName").val(data.msg);
+                        if(data.code==1){
+                            alert("上传成功")
+                        }
+                        if(data.code==0){
+                            alert(data.msg)
+                        }
+                    },
+                    error: function (er) {          //失败，回调函数
+                        alert("eer"+data.msg);
+                    }
+                });
+            });
+        });
+    </script>
   </body>
 </html>

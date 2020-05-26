@@ -2,18 +2,18 @@
 <html lang="en" xmlns:text-align="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>北京查询系统</title>
+    <title>北京生产业务辅助系统</title>
     <!-- <meta http-equiv="refresh" content="60">-->
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Bluth Company" name="author">
     <link href="ico/favicon.html" rel="../static/shortcut icon">
-    <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/theme.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/alertify.css" rel="stylesheet">
     <link href="favicon.ico" rel="Favicon Icon">
     <link href="css/alertify.css" rel="stylesheet">
     <link href="css/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
     <style>
         html,
         body {
@@ -25,7 +25,7 @@
 <body>
 
 <br/>
-<h3 align="center">北京查询系统</h3>
+<h3 align="center">北京生产业务辅助系统</h3>
 <div id="wrapData" width="90%">
     <div class="panel-heading text-center">
         <span class="panel-title"><h3>您好:[[${session.user.username}]]</h3></span>
@@ -65,7 +65,7 @@
                         </tr>
                         </thead>
                         <tbody id="querybody">
-                        <tr th:each="exportInfo,itemStat:${exportInfos}" class="text-center" style="height: 40px">
+                        <tr th:each="exportInfo,itemStat:${page.list}" class="text-center" style="height: 40px">
                             <td th:text="${itemStat.count}"></td>
                             <td th:text="${exportInfo.fileName}"></td>
                             <td th:text="${exportInfo.totalNum}"></td>
@@ -77,6 +77,37 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+                <div >
+                    <ul >
+
+                        <!-- 首页 -->
+                        <li>
+                            <a th:href="@{'/getList?pageNum=1'}">首页</a>
+                        </li>
+
+                        <!-- 上一页 -->
+                        <li th:if="${page.hasPreviousPage}">
+                            <a th:href="@{'/getList?pageNum=' + ${page.prePage}}" th:text="上一页"></a>
+                        </li>
+
+                        <!-- 中间页 -->
+                        <li th:each="pageNum:${#numbers.sequence(1, page.pages)}">
+                            <a th:href="@{'/getList?pageNum=' + ${pageNum}}" th:text="${pageNum}" th:if="${pageNum ne page.pageNum}"></a>
+                            <a th:href="@{'/getList?pageNum=' + ${pageNum}}" th:text="${pageNum}" th:if="${pageNum eq page.pageNum}" th:style="'font-weight:bold;background: #6faed9;'"></a>
+                        </li>
+
+                        <!-- 下一页 -->
+                        <li th:if="${page.hasNextPage}">
+                            <a th:href="@{'/getList?pageNum=' + ${page.nextPage}}" th:text="下一页"></a>
+                        </li>
+
+                        <!-- 尾页 -->
+                        <li>
+                            <a th:href="@{'/getList?pageNum=' + ${page.pages}}">尾页</a>
+                        </li>
+
+                    </ul>
                 </div>
                 <div class="panel-footer text-right">
                     <span class="panel-title">copy right@2020</span>
@@ -126,38 +157,11 @@
                     // $("#fileName").val(data.msg);
                     if(data.code==1){
                         alert("上传成功")
+                        window.location.href="/getList?";
                     }
                    if(data.code==0){
                        alert(data.msg)
                    }
-
-                    // $("#upload").val("");
-                    $("#file").outerHTML="";
-                    // $("#file").text("");
-                    var str = "";
-                    var resultData = data.data;
-                    /*<![CDATA[*/
-                    for(var i = 0;i<resultData.length;i++){
-                        /*]]>*/
-                       var faildNum  = resultData[i].totalNum - resultData[i].sucessNum;
-                        str += "<tr>"+
-                                "<td>"+(i+1)+"</td>"+
-                                "<td>"+resultData[i].fileName+"</td>"+
-                                "<td>"+resultData[i].totalNum+"</td>"+
-                                "<td>"+resultData[i].sucessNum+"</td>"+
-                                "<td>"+faildNum+"</td>"+
-                                "<td>"+resultData[i].money+"</td>"+
-                                "<td>"+resultData[i].createTime+"</td>"+
-                                "<td>"+resultData[i].sucessNum+"</td>"+
-                                "<td>"+"<button id='dowloadBtn1' onclick='downloadFile("+resultData[i].fileName+");' class='btn btn-info ' type='button'>"+"下载"+"</button>"+"</td>"
-                        "</tr>"
-                    }
-                    // tbody.innerHTML = str;
-                    // alert(str);
-                    // alert($("#querybody").html);
-                    // $("querybody").html(str);
-                    $("#querybody").html(str);
-                    $("#remainingSum").html(data.msg);
                 },
                 error: function (er) {          //失败，回调函数
                     alert("eer"+data.msg);
@@ -184,12 +188,13 @@
         //         alert("error")
         //     }
         // })
-    })
+    });
 
     function downloadFile(fileName) {
 
         window.location.href="/download?fileName="+ fileName;
     }
+
 
 </script>
 </body>
