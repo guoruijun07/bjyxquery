@@ -65,6 +65,9 @@ public class ExportController {
         TbUserInfo tbUserInfo2 = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
         Double totalSum = tbUserInfo2.getRemainingSum() == null ? 0.0 : tbUserInfo2.getRemainingSum();
         TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPcPriceByUserId(tbUserInfo.getId());
+        if(tbPriceInfo ==  null){
+            return new SysResult(0, "请先设置该用户pc功能单价");
+        }
         Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
 
         List<ReadySortingData> list = new ArrayList<>();

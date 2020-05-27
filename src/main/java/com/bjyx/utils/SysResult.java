@@ -13,6 +13,8 @@ public class SysResult {
 
     private String msg;
 
+    private String cost;
+
     private Object data;
 
     public SysResult() {
@@ -30,11 +32,19 @@ public class SysResult {
         this.msg = msg;
     }
 
+    public SysResult(Integer code, String msg,String cost) {
+        this.code = code;
+        this.msg = msg;
+        this.data = cost;
+    }
+
     public SysResult(Integer code, String msg,List list) {
         this.code = code;
         this.msg = msg;
         this.data = list;
     }
+
+
     public SysResult(EnumReasultCode enumReasultCode) {
         this.code = enumReasultCode.getCode();
         this.msg = enumReasultCode.getExplainChInfo();

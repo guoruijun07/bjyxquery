@@ -29,14 +29,16 @@ public class ExportFileInfoAPI {
 
 //        PageHelper.startPage(queryVo.getPage(), queryVo.getLimit());
         TbUserInfo tbUserInfo1 = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
-
+        TbUserInfo tbUserInfo2 = tbuserInfoMapper.selectByPrimaryKey(tbUserInfo1.getId());
+        model.addAttribute("remainingSum",tbUserInfo2.getRemainingSum());
         System.out.println("当前页为："+pageNum);
         pageNum = pageNum==null?1:pageNum;
-        PageHelper.startPage(pageNum,15,"create_time desc");
+        PageHelper.startPage(pageNum,10,"create_time desc");
         List<TbExportInfo> tbExportInfos = tbExportInfoMapper.selectByUserId(tbUserInfo1.getId());
         PageInfo<TbExportInfo> page = new PageInfo<>(tbExportInfos);
         System.out.println("总记录条数为："+page.getTotal());
         model.addAttribute("page",page);
+
         return "list";
 
 

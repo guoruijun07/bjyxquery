@@ -31,7 +31,8 @@
         <span class="panel-title"><h3>您好:[[${session.user.username}]]</h3></span>
     </div>
     <div class="panel-heading text-center">
-        <span class="panel-title"><h3>余额:<span id="remainingSum"> [[${session.user.remainingSum}]]</span></h3></span>
+<!--        <span class="panel-title"><h3>余额:<span id="remainingSum"> [[${session.user.remainingSum}]]</span></h3></span>-->
+        <span class="panel-title"><h3>余额:<span id="remainingSum">[[${remainingSum}]]</span><span>元</span></h3></span>
     </div>
     <div class="container-fluid" th:align="center">
 <!--        <form action="/upload" method="POST" enctype="multipart/form-data">-->
@@ -41,7 +42,7 @@
         <input  type="file" name="file" id="file">
         <input  class="btn btn-info " type="button" id="uploadButton" value="上传">
         <input  type="hidden" name="fileName" id="fileName">
-        <button id="dowloadBtn" class="btn btn-info " type="button"><i class="fa fa-trash-o"></i> 当前结果下载</button>
+<!--        <button id="dowloadBtn" class="btn btn-info " type="button"><i class="fa fa-trash-o"></i> 当前结果下载</button>-->
 
         <br/>
         <br/>
@@ -78,8 +79,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div >
-                    <ul >
+                <div class="col-md-2 ">
+                    <ul class="pagination pull-right no-margin">
 
                         <!-- 首页 -->
                         <li>
@@ -153,7 +154,7 @@
                 contentType: false,//必须false才会自closeLoading();动加上正确的Content-Type
                 processData: false,//必须false才会避开jQuery对 formdata 的默认处理XMLHttpRequest会对 formdata 进行正确的处理
                 success: function (data) {
-                    alert(data.msg);
+                    // alert(data.msg);
                     // $("#fileName").val(data.msg);
                     if(data.code==1){
                         alert("上传成功")
