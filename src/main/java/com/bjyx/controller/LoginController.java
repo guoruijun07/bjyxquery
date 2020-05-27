@@ -52,6 +52,7 @@ public class LoginController {
             if (tbUserInfo == null) {
                 return "redirect:/";
             }
+            tbUserInfo.setRemainingSum(tbUserInfo.getRemainingSum()==null?0.0:tbUserInfo.getRemainingSum());
 //            List<TbExportInfo> tbExportInfos = tbExportInfoMapper.selectByUserId(tbUserInfo.getId());
 //            model.addAttribute("exportInfos", tbExportInfos);
             // 设置session

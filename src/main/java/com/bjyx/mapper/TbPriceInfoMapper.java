@@ -22,7 +22,7 @@ public interface TbPriceInfoMapper {
      */
     @Insert({
         "insert into tb_price_info (id, user_id, ",
-        "\" menu\", price)",
+        "menu, price)",
         "values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, ",
         "#{menu,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE})"
     })
@@ -34,7 +34,7 @@ public interface TbPriceInfoMapper {
      */
     @Select({
         "select",
-        "id, user_id, \" menu\", price",
+        "id, user_id,menu, price",
         "from tb_price_info",
         "where id = #{id,jdbcType=INTEGER}"
     })
@@ -50,10 +50,28 @@ public interface TbPriceInfoMapper {
      *
      * @mbggenerated
      */
+    @Select({
+            "select",
+            "id, user_id,menu, price",
+            "from tb_price_info",
+            "where user_id = #{userId,jdbcType=INTEGER} AND menu = 1 "
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column=" menu", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="price", javaType=Double.class, jdbcType=JdbcType.DOUBLE)
+    })
+    TbPriceInfo selectPcPriceByUserId(Integer userId);
+
+    /**
+     *
+     * @mbggenerated
+     */
     @Update({
         "update tb_price_info",
         "set user_id = #{userId,jdbcType=INTEGER},",
-          "\" menu\" = #{menu,jdbcType=INTEGER},",
+          "menu= #{menu,jdbcType=INTEGER},",
           "price = #{price,jdbcType=DOUBLE}",
         "where id = #{id,jdbcType=INTEGER}"
     })

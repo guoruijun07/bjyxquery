@@ -3,12 +3,10 @@ package com.bjyx.controller;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.DateUtils;
 import com.bjyx.common.Constants;
-import com.bjyx.entity.ReadySortingData;
-import com.bjyx.entity.TbExportInfo;
-import com.bjyx.entity.TbSortingInfo;
-import com.bjyx.entity.TbUserInfo;
+import com.bjyx.entity.*;
 import com.bjyx.listener.DemoDataListener;
 import com.bjyx.mapper.TbExportInfoMapper;
+import com.bjyx.mapper.TbPriceInfoMapper;
 import com.bjyx.mapper.TbSortingInfoMapper;
 import com.bjyx.mapper.TbUserInfoMapper;
 import com.bjyx.template.SortingExportTemplate;
@@ -38,6 +36,8 @@ public class ExportController {
     private TbExportInfoMapper tbExportInfoMapper;
     @Autowired(required = false)
     private TbUserInfoMapper tbUserInfoMapper;
+    @Autowired(required = false)
+    private TbPriceInfoMapper tbPriceInfoMapper;
 
     @Value("${perMoney}")
     private String perMoney;
@@ -63,7 +63,9 @@ public class ExportController {
 
         //取出用户的余额
         TbUserInfo tbUserInfo2 = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
-        Double totalSum = tbUserInfo2.getRemainingSum()==null?0.0:tbUserInfo2.getRemainingSum();
+        Double totalSum = tbUserInfo2.getRemainingSum() == null ? 0.0 : tbUserInfo2.getRemainingSum();
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPcPriceByUserId(tbUserInfo.getId());
+        Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
 
         List<ReadySortingData> list = new ArrayList<>();
         // 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
@@ -100,7 +102,8 @@ public class ExportController {
             exportDatas.add(sortingExport);
         }
         //如果余额不够，直接返回，不生成文件
-        Double cost = successNum * Double.valueOf(perMoney);
+        Double cost = successNum * pcPrice;
+//        Double cost = successNum * Double.valueOf(perMoney);
         if (cost > totalSum) {
             return new SysResult(0, "您的余额不够，请联系管理员充值");
         }
@@ -136,7 +139,7 @@ public class ExportController {
         }
 
         List<TbExportInfo> tbExportInfos = tbExportInfoMapper.selectAll();
-        return new SysResult(1, remainingSum.toString(),tbExportInfos);
+        return new SysResult(1, remainingSum.toString(), tbExportInfos);
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
@@ -186,7 +189,7 @@ public class ExportController {
                 }
             }
         }
-        return null;
+        return "此文件已丢失";
     }
 
     private File MakeLogDir(String fileName, String mobile) {
