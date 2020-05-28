@@ -73,7 +73,7 @@
                             <td th:text="${exportInfo.sucessNum}"></td>
                             <td th:text="${exportInfo.totalNum - exportInfo.sucessNum}"></td>
                             <td th:text="${exportInfo.money}"></td>
-                            <td th:text="${#dates.format(exportInfo.createTime, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                            <td th:text="${#dates.format(exportInfo.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                             <td><button id="dowloadBtn1" th:onclick="downloadFile([[${exportInfo.fileName}]]);" class="btn btn-info " type="button">下载</button></td>
                         </tr>
                         </tbody>

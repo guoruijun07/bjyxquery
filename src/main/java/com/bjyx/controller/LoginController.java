@@ -136,6 +136,9 @@ public class LoginController {
             Date invalidDate = tbUserInfo.getInvalidDate();
             if (invalidDate != null && new Date().getTime() < invalidDate.getTime()) {
                 TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPcPriceByUserId(tbUserInfo.getId());
+                if(tbPriceInfo==null){
+                    return new SysResult(0, token, "请先配置该用户单价");
+                }
                 Double remainingSum = tbUserInfo.getRemainingSum() == null ? 0.0 : tbUserInfo.getRemainingSum();
                 Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
                 if (pcPrice > remainingSum) {
