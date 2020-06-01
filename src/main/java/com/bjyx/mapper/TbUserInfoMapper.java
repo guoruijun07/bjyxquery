@@ -27,7 +27,7 @@ public interface TbUserInfoMapper {
             "insert into tb_user_info (id, username, ",
             "password, real_name, ",
             "mobile, imei, mac, ",
-            "token, invalid_date, ",
+            "status, token, invalid_date, ",
             "org_num, org_name, ",
             "remaining_sum, project_base, ",
             "remark, create_time, ",
@@ -37,7 +37,7 @@ public interface TbUserInfoMapper {
             "values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, ",
             "#{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, ",
             "#{mobile,jdbcType=VARCHAR}, #{imei,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, ",
-            "#{token,jdbcType=VARCHAR}, #{invalidDate,jdbcType=DATE}, ",
+            "#{status,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, #{invalidDate,jdbcType=DATE}, ",
             "#{orgNum,jdbcType=INTEGER}, #{orgName,jdbcType=VARCHAR}, ",
             "#{remainingSum,jdbcType=DOUBLE}, #{projectBase,jdbcType=VARCHAR}, ",
             "#{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, ",
@@ -54,9 +54,9 @@ public interface TbUserInfoMapper {
      */
     @Select({
             "select",
-            "id, username, password, real_name, mobile, imei, mac, token, invalid_date, org_num, ",
-            "org_name, remaining_sum, project_base, remark, create_time, receive1, receive3, ",
-            "receive2, receive4, receive5",
+            "id, username, password, real_name, mobile, imei, mac, status, token, invalid_date, ",
+            "org_num, org_name, remaining_sum, project_base, remark, create_time, receive1, ",
+            "receive3, receive2, receive4, receive5",
             "from tb_user_info",
             "where id = #{id,jdbcType=INTEGER}"
     })
@@ -68,6 +68,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mobile", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="imei", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
@@ -91,9 +92,9 @@ public interface TbUserInfoMapper {
      */
     @Select({
             "select",
-            "id, username, password, real_name, mobile, imei, mac, token, invalid_date, org_num, ",
-            "org_name, remaining_sum, project_base, remark, create_time, receive1, receive3, ",
-            "receive2, receive4, receive5",
+            "id, username, password, real_name, mobile, imei, mac, status, token, invalid_date, ",
+            "org_num, org_name, remaining_sum, project_base, remark, create_time, receive1, ",
+            "receive3, receive2, receive4, receive5",
             "from tb_user_info",
             "where 1=1 and status = 1 and username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}",
     })
@@ -105,6 +106,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mobile", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="imei", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
@@ -127,9 +129,9 @@ public interface TbUserInfoMapper {
      */
     @Select({
             "select",
-            "id, username, password, real_name, mobile, imei, mac, token, invalid_date, org_num, ",
-            "org_name, remaining_sum, project_base, remark, create_time, receive1, receive3, ",
-            "receive2, receive4, receive5",
+            "id, username, password, real_name, mobile, imei, mac, status, token, invalid_date, ",
+            "org_num, org_name, remaining_sum, project_base, remark, create_time, receive1, ",
+            "receive3, receive2, receive4, receive5",
             "from tb_user_info",
             "where 1=1 and status = 1 and  mobile = #{mobile,jdbcType=VARCHAR} and IMEI = #{imei,jdbcType=VARCHAR}",
     })
@@ -141,6 +143,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mobile", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="imei", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
@@ -163,9 +166,9 @@ public interface TbUserInfoMapper {
      */
     @Select({
             "select",
-            "id, username, password, real_name, mobile, imei, mac, token, invalid_date, org_num, ",
-            "org_name, remaining_sum, project_base, remark, create_time, receive1, receive3, ",
-            "receive2, receive4, receive5",
+            "id, username, password, real_name, mobile, imei, mac, status, token, invalid_date, ",
+            "org_num, org_name, remaining_sum, project_base, remark, create_time, receive1, ",
+            "receive3, receive2, receive4, receive5",
             "from tb_user_info",
             "where 1=1 and status = 1 and  mobile = #{mobile,jdbcType=VARCHAR}",
     })
@@ -177,6 +180,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mobile", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="imei", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
@@ -199,9 +203,9 @@ public interface TbUserInfoMapper {
      */
     @Select({
             "select",
-            "id, username, password, real_name, mobile, imei, mac, token, invalid_date, org_num, ",
-            "org_name, remaining_sum, project_base, remark, create_time, receive1, receive3, ",
-            "receive2, receive4, receive5",
+            "id, username, password, real_name, mobile, imei, mac, status, token, invalid_date, ",
+            "org_num, org_name, remaining_sum, project_base, remark, create_time, receive1, ",
+            "receive3, receive2, receive4, receive5",
             "from tb_user_info",
             "where 1=1 and status = 1 and  token = #{token,jdbcType=VARCHAR}",
     })
@@ -213,6 +217,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mobile", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="imei", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
@@ -237,6 +242,7 @@ public interface TbUserInfoMapper {
             "mobile = #{mobile,jdbcType=VARCHAR},",
             "imei = #{imei,jdbcType=VARCHAR},",
             "mac = #{mac,jdbcType=VARCHAR},",
+            "status = #{status,jdbcType=INTEGER},",
             "token = #{token,jdbcType=VARCHAR},",
             "invalid_date = #{invalidDate,jdbcType=DATE},",
             "org_num = #{orgNum,jdbcType=INTEGER},",

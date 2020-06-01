@@ -13,7 +13,7 @@ public class SysResult {
 
     private String msg;
 
-    private String cost;
+    private Double cost;
 
     private Object data;
 
@@ -32,10 +32,11 @@ public class SysResult {
         this.msg = msg;
     }
 
-    public SysResult(Integer code, String msg,String cost) {
+    public SysResult(Integer code, String msg,Double cost, Object data) {
         this.code = code;
         this.msg = msg;
-        this.data = cost;
+        this.cost = cost;
+        this.data = data;
     }
 
     public SysResult(Integer code, String msg,List list) {
@@ -93,6 +94,18 @@ public class SysResult {
         this.data = data;
     }
 
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
+    }
+
     public void setEnumAndObj(EnumReasultCode enumReasultCode, Object data) {
         this.data = data;
         this.code = enumReasultCode.getCode();
@@ -106,7 +119,7 @@ public class SysResult {
 
     @Override
     public String toString() {
-        return "SysResult {code=" + code + ", msg='" + msg + '\'' + ", data=" + data + '}';
+        return "SysResult {code=" + code + ", msg='" + msg +"cost="+cost+ '\'' + ", data=" + data + '}';
     }
 
     @Override
@@ -116,11 +129,12 @@ public class SysResult {
         SysResult resultParam = (SysResult) o;
         return Objects.equals(code, resultParam.code) &&
                 Objects.equals(msg, resultParam.msg) &&
+                Objects.equals(cost, resultParam.cost) &&
                 Objects.equals(data, resultParam.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, msg, data);
+        return Objects.hash(code, msg,cost, data);
     }
 }

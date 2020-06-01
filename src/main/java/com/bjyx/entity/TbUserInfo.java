@@ -39,6 +39,11 @@ public class TbUserInfo {
     private String mac;
 
     /**
+     * 用户状态:1生效，0失效 status
+     */
+    private Integer status;
+
+    /**
      * token token
      */
     private String token;
@@ -64,7 +69,7 @@ public class TbUserInfo {
     private Double remainingSum;
 
     /**
-     * 项目归宿地 project_base
+     * 项目归属地 project_base
      */
     private String projectBase;
 
@@ -115,6 +120,34 @@ public class TbUserInfo {
         this.mobile = mobile;
         this.imei = imei;
         this.mac = mac;
+        this.token = token;
+        this.invalidDate = invalidDate;
+        this.orgNum = orgNum;
+        this.orgName = orgName;
+        this.remainingSum = remainingSum;
+        this.projectBase = projectBase;
+        this.remark = remark;
+        this.createTime = createTime;
+        this.receive1 = receive1;
+        this.receive3 = receive3;
+        this.receive2 = receive2;
+        this.receive4 = receive4;
+        this.receive5 = receive5;
+    }
+
+    /**
+     *
+     * @mbggenerated
+     */
+    public TbUserInfo(Integer id, String username, String password, String realName, String mobile, String imei, String mac, Integer status, String token, Date invalidDate, Integer orgNum, String orgName, Double remainingSum, String projectBase, String remark, Date createTime, String receive1, String receive3, String receive2, String receive4, String receive5) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.realName = realName;
+        this.mobile = mobile;
+        this.imei = imei;
+        this.mac = mac;
+        this.status = status;
         this.token = token;
         this.invalidDate = invalidDate;
         this.orgNum = orgNum;
@@ -265,6 +298,24 @@ public class TbUserInfo {
     }
 
     /**
+     * 用户状态:1生效，0失效
+
+     * @return status 用户状态:1生效，0失效
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * 用户状态:1生效，0失效
+
+     * @param status 用户状态:1生效，0失效
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
      * token
     
      * @return token token
@@ -355,18 +406,18 @@ public class TbUserInfo {
     }
 
     /**
-     * 项目归宿地
+     * 项目归属地
     
-     * @return project_base 项目归宿地
+     * @return project_base 项目归属地
      */
     public String getProjectBase() {
         return projectBase;
     }
 
     /**
-     * 项目归宿地
+     * 项目归属地
     
-     * @param projectBase 项目归宿地
+     * @param projectBase 项目归属地
      */
     public void setProjectBase(String projectBase) {
         this.projectBase = projectBase == null ? null : projectBase.trim();

@@ -12,9 +12,15 @@ public class TbPriceInfo {
     private Integer userId;
 
     /**
-     * 功能 1:pc 2：app  menu
+     * 菜单: 0:根据数据设备查询 1:匹配查询，2:地址查询，3:面单打印 menu
      */
     private Integer menu;
+
+    /**
+     * 数据来源: 0:根据菜单查询 :1WEB，2APP，3接口 source
+     */
+    private Integer source;
+
 
     /**
      * 单价:元 price
@@ -29,6 +35,18 @@ public class TbPriceInfo {
         this.id = id;
         this.userId = userId;
         this.menu = menu;
+        this.price = price;
+    }
+
+    /**
+     *
+     * @mbggenerated
+     */
+    public TbPriceInfo(Integer id, Integer userId, Integer menu, Integer source, Double price) {
+        this.id = id;
+        this.userId = userId;
+        this.menu = menu;
+        this.source = source;
         this.price = price;
     }
 
@@ -77,21 +95,39 @@ public class TbPriceInfo {
     }
 
     /**
-     * 功能 1:pc 2：app
-    
-     * @return  menu 功能 1:pc 2：app
+     * 菜单: 0:根据数据设备查询 1:匹配查询，2:地址查询，3:面单打印
+
+     * @return menu 菜单: 0:根据数据设备查询 1:匹配查询，2:地址查询，3:面单打印
      */
     public Integer getMenu() {
         return menu;
     }
 
     /**
-     * 功能 1:pc 2：app
-    
-     * @param menu 功能 1:pc 2：app
+     * 菜单: 0:根据数据设备查询 1:匹配查询，2:地址查询，3:面单打印
+
+     * @param menu 菜单: 0:根据数据设备查询 1:匹配查询，2:地址查询，3:面单打印
      */
     public void setMenu(Integer menu) {
         this.menu = menu;
+    }
+
+    /**
+     * 数据来源: 0:根据菜单查询 :1WEB，2APP，3接口
+
+     * @return source 数据来源: 0:根据菜单查询 :1WEB，2APP，3接口
+     */
+    public Integer getSource() {
+        return source;
+    }
+
+    /**
+     * 数据来源: 0:根据菜单查询 :1WEB，2APP，3接口
+
+     * @param source 数据来源: 0:根据菜单查询 :1WEB，2APP，3接口
+     */
+    public void setSource(Integer source) {
+        this.source = source;
     }
 
     /**

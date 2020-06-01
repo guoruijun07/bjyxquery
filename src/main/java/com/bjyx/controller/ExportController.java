@@ -195,6 +195,43 @@ public class ExportController {
         return "此文件已丢失";
     }
 
+    @RequestMapping(value = "/baseInfoDownload", method = RequestMethod.GET)
+    @ResponseBody
+    public List<TbSortingInfo> exportBaseInfoExcel(HttpServletResponse response, HttpSession session) {
+
+        List<TbSortingInfo> tbSortingInfos = tbSortingInfoMapper.selectAllData();
+        return tbSortingInfos;
+//        OutputStream outputStream = null;
+//
+//        List<BaseInfoExportTemplate> list = new ArrayList<>();
+//        for (TbSortingInfo tbSortingInfo : tbSortingInfos) {
+//            BaseInfoExportTemplate baseInfoExportTemplate = new BaseInfoExportTemplate();
+//            BeanUtils.copyProperties(tbSortingInfo,baseInfoExportTemplate);
+//            list.add(baseInfoExportTemplate);
+//        }
+//        try{
+//            String baseFileName = "基础数据_" + DateUtils.format(new Date(), "yyyyMMddHHmmss");
+//            outputStream = response.getOutputStream();
+//            response.setContentType("application/vnd.ms-excel");
+//            response.setCharacterEncoding("utf-8");
+//            String utf8fileName = URLEncoder.encode(baseFileName, "UTF-8");
+//            response.setHeader("Content-disposition", "attachment;filename=" + utf8fileName + ".xlsx");
+//            EasyExcel.write(outputStream, BaseInfoExportTemplate.class).sheet("基础数据").doWrite(list);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (outputStream != null) {
+//                try {
+//                    outputStream.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return new SysResult(1, "");
+    }
+
     private File MakeLogDir(String fileName, String mobile) {
         File folder = new File(dirPath + mobile);
         if (!folder.exists()) {

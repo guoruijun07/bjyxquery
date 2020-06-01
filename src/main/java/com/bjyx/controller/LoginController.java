@@ -100,13 +100,13 @@ public class LoginController {
             tbUserInfo.setToken(token);
             tbUserInfo.setInvalidDate(invalidDate);
             tbuserInfoMapper.updateTokenByPrimaryKey(tbUserInfo);
-            return new SysResult(1, token,df.format(tbUserInfoTmp.getRemainingSum()));
+            return new SysResult(1, token,tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum());
 
         } else {
             //手机登录
             tbUserInfo = tbuserInfoMapper.selectByMobileAndIMEI(tbUserInfo);
             if (tbUserInfo != null) {
-                return new SysResult(1, tbUserInfo.getToken());
+                return new SysResult(1, tbUserInfo.getToken(),tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum());
             } else {
                 return new SysResult(0, "此手机号已在其他设备授权");
             }
@@ -123,7 +123,7 @@ public class LoginController {
         if (tbUserInfo != null) {
             Date invalidDate = tbUserInfo.getInvalidDate();
             if (invalidDate != null && new Date().getTime() < invalidDate.getTime()) {
-                return new SysResult(1, token, tbUserInfo.getRemainingSum() == null ? 0.0 : tbUserInfo.getRemainingSum());
+                return new SysResult(1, token, tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(),"");
             }
         }
 
@@ -143,7 +143,7 @@ public class LoginController {
                 if(tbPriceInfo==null){
                     return new SysResult(0, token, "请先配置该用户单价");
                 }
-                Double remainingSum = tbUserInfo.getRemainingSum() == null ? 0.0 : tbUserInfo.getRemainingSum();
+                Double remainingSum = tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum();
                 Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
                 if (pcPrice > remainingSum) {
                     return new SysResult(0, token, "余额不足，请联系管理员充值");
@@ -158,7 +158,7 @@ public class LoginController {
 
                 tbuserInfoMapper.updateRemainingSumByPrimaryKey(tbUserInfo1);
 
-                return new SysResult(1, token, formatRemainingSum);
+                return new SysResult(1, token, remainingSumAfter);
             }
         }
 
