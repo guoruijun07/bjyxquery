@@ -54,6 +54,24 @@ public interface TbPriceInfoMapper {
             "select",
             "id, user_id, menu, price",
             "from tb_price_info",
+            "where user_id = #{userId,jdbcType=INTEGER} and menu = #{device,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="menu", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="price", javaType=Double.class, jdbcType=JdbcType.DOUBLE)
+    })
+    TbPriceInfo selectPriceByUserId(Integer userId,Integer device);
+
+    /**
+     *
+     * @mbggenerated
+     */
+    @Select({
+            "select",
+            "id, user_id, menu, price",
+            "from tb_price_info",
             "where user_id = #{userId,jdbcType=INTEGER} and menu = 1"
     })
     @ConstructorArgs({
@@ -63,7 +81,6 @@ public interface TbPriceInfoMapper {
             @Arg(column="price", javaType=Double.class, jdbcType=JdbcType.DOUBLE)
     })
     TbPriceInfo selectPcPriceByUserId(Integer userId);
-
     /**
      *
      * @mbggenerated

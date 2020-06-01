@@ -95,7 +95,7 @@ public interface TbUserInfoMapper {
             "org_name, remaining_sum, project_base, remark, create_time, receive1, receive3, ",
             "receive2, receive4, receive5",
             "from tb_user_info",
-            "where 1=1 and  username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}",
+            "where 1=1 and status = 1 and username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}",
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -131,7 +131,7 @@ public interface TbUserInfoMapper {
             "org_name, remaining_sum, project_base, remark, create_time, receive1, receive3, ",
             "receive2, receive4, receive5",
             "from tb_user_info",
-            "where 1=1  and  mobile = #{mobile,jdbcType=VARCHAR} and IMEI = #{imei,jdbcType=VARCHAR}",
+            "where 1=1 and status = 1 and  mobile = #{mobile,jdbcType=VARCHAR} and IMEI = #{imei,jdbcType=VARCHAR}",
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -167,7 +167,7 @@ public interface TbUserInfoMapper {
             "org_name, remaining_sum, project_base, remark, create_time, receive1, receive3, ",
             "receive2, receive4, receive5",
             "from tb_user_info",
-            "where 1=1  and  mobile = #{mobile,jdbcType=VARCHAR}",
+            "where 1=1 and status = 1 and  mobile = #{mobile,jdbcType=VARCHAR}",
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -203,7 +203,7 @@ public interface TbUserInfoMapper {
             "org_name, remaining_sum, project_base, remark, create_time, receive1, receive3, ",
             "receive2, receive4, receive5",
             "from tb_user_info",
-            "where 1=1  and  token = #{token,jdbcType=VARCHAR}",
+            "where 1=1 and status = 1 and  token = #{token,jdbcType=VARCHAR}",
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),

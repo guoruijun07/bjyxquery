@@ -3,6 +3,7 @@ package com.bjyx.controller;
 import com.bjyx.common.Constants;
 import com.bjyx.entity.TbPriceInfo;
 import com.bjyx.entity.TbUserInfo;
+import com.bjyx.enumeration.EnumPriceCode;
 import com.bjyx.mapper.TbExportInfoMapper;
 import com.bjyx.mapper.TbPriceInfoMapper;
 import com.bjyx.mapper.TbUserInfoMapper;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -33,6 +35,8 @@ public class LoginController {
 
     @Autowired(required = false)
     private TbPriceInfoMapper tbPriceInfoMapper;
+
+    DecimalFormat df = new DecimalFormat("#.00");
 
     @RequestMapping("/")
     public String login(Model model) {
@@ -96,7 +100,7 @@ public class LoginController {
             tbUserInfo.setToken(token);
             tbUserInfo.setInvalidDate(invalidDate);
             tbuserInfoMapper.updateTokenByPrimaryKey(tbUserInfo);
-            return new SysResult(1, token,tbUserInfoTmp.getRemainingSum());
+            return new SysResult(1, token,df.format(tbUserInfoTmp.getRemainingSum()));
 
         } else {
             //手机登录
@@ -135,7 +139,7 @@ public class LoginController {
         if (tbUserInfo != null) {
             Date invalidDate = tbUserInfo.getInvalidDate();
             if (invalidDate != null && new Date().getTime() < invalidDate.getTime()) {
-                TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPcPriceByUserId(tbUserInfo.getId());
+                TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.APP_PRICE.getCode());
                 if(tbPriceInfo==null){
                     return new SysResult(0, token, "请先配置该用户单价");
                 }
@@ -146,16 +150,19 @@ public class LoginController {
                 }
 
                 //更新余额
-                Double remainingSum1 = remainingSum - pcPrice;
+                Double remainingSumAfter = remainingSum - pcPrice;
+                String formatRemainingSum = df.format(remainingSumAfter);
                 TbUserInfo tbUserInfo1 = new TbUserInfo();
                 tbUserInfo1.setId(tbUserInfo.getId());
-                tbUserInfo1.setRemainingSum(remainingSum);
+                tbUserInfo1.setRemainingSum(remainingSumAfter);
+
                 tbuserInfoMapper.updateRemainingSumByPrimaryKey(tbUserInfo1);
 
-                return new SysResult(1, token, remainingSum1.toString());
+                return new SysResult(1, token, formatRemainingSum);
             }
         }
 
         return new SysResult(0, token);
     }
+
 }
