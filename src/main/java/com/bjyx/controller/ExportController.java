@@ -195,11 +195,15 @@ public class ExportController {
         return "此文件已丢失";
     }
 
-    @RequestMapping(value = "/baseInfoDownload", method = RequestMethod.GET)
+    @RequestMapping(value = "/baseInfoDownload")
     @ResponseBody
     public List<TbSortingInfo> exportBaseInfoExcel(HttpServletResponse response, HttpSession session) {
 
         List<TbSortingInfo> tbSortingInfos = tbSortingInfoMapper.selectAllData();
+        logger.info("数据总条数:"+tbSortingInfos.size());
+        for (TbSortingInfo tbSortingInfo : tbSortingInfos) {
+            logger.info("数据为:"+tbSortingInfo.toString());
+        }
         return tbSortingInfos;
 //        OutputStream outputStream = null;
 //

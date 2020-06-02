@@ -100,13 +100,13 @@ public class LoginController {
             tbUserInfo.setToken(token);
             tbUserInfo.setInvalidDate(invalidDate);
             tbuserInfoMapper.updateTokenByPrimaryKey(tbUserInfo);
-            return new SysResult(1, token,tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum());
+            return new SysResult(1, token,tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(),"");
 
         } else {
             //手机登录
             tbUserInfo = tbuserInfoMapper.selectByMobileAndIMEI(tbUserInfo);
             if (tbUserInfo != null) {
-                return new SysResult(1, tbUserInfo.getToken(),tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum());
+                return new SysResult(1, tbUserInfo.getToken(),tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(),"");
             } else {
                 return new SysResult(0, "此手机号已在其他设备授权");
             }
