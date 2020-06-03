@@ -1,8 +1,8 @@
 package com.bjyx.controller;
 
 import com.bjyx.common.Constants;
-import com.bjyx.entity.TbExportInfo;
-import com.bjyx.entity.TbUserInfo;
+import com.bjyx.entity.po.TbExportInfo;
+import com.bjyx.entity.po.TbUserInfo;
 import com.bjyx.mapper.TbExportInfoMapper;
 import com.bjyx.mapper.TbUserInfoMapper;
 import com.github.pagehelper.PageHelper;

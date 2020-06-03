@@ -1,8 +1,9 @@
 package com.bjyx.controller;
 
+import com.alibaba.excel.util.DateUtils;
 import com.bjyx.common.Constants;
-import com.bjyx.entity.TbPriceInfo;
-import com.bjyx.entity.TbUserInfo;
+import com.bjyx.entity.po.TbPriceInfo;
+import com.bjyx.entity.po.TbUserInfo;
 import com.bjyx.enumeration.EnumPriceCode;
 import com.bjyx.mapper.TbExportInfoMapper;
 import com.bjyx.mapper.TbPriceInfoMapper;
@@ -12,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -36,6 +39,9 @@ public class LoginController {
     @Autowired(required = false)
     private TbPriceInfoMapper tbPriceInfoMapper;
 
+    @Value("${version}")
+    private String version;
+
     DecimalFormat df = new DecimalFormat("#.00");
 
     @RequestMapping("/")
@@ -51,7 +57,6 @@ public class LoginController {
         String username = tbUserInfo.getUsername();
         String password = tbUserInfo.getPassword();
         String realName = tbUserInfo.getRealName();
-//        String mac = tbUserInfo.getMac();
         String mac = "11";
         //判断是PC登录还是手机登录
         boolean pcLogin = StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && StringUtils.isNotBlank(mac);
@@ -64,7 +69,7 @@ public class LoginController {
             tbUserInfo.setRemainingSum(tbUserInfo.getRemainingSum() == null ? 0.0 : tbUserInfo.getRemainingSum());
             // 设置session
             session.setAttribute(Constants.SESSION_KEY, tbUserInfo);
-
+            logger.info("==用户 PC登录:{}成功!", tbUserInfo.toString());
             return "forward:/getList?id=" + tbUserInfo.getId();
         } else {
             return "redirect:/";
@@ -95,18 +100,26 @@ public class LoginController {
             token = UUID.randomUUID().toString();
             //把token存入库里
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.YEAR, 1);
+            calendar.add(Calendar.DATE, 1);
             Date invalidDate = calendar.getTime();
+            String formatDate = DateUtils.format(invalidDate, "yyyy-MM-dd 00:00:00");
+            try {
+                invalidDate = DateUtils.parseDate(formatDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             tbUserInfo.setToken(token);
             tbUserInfo.setInvalidDate(invalidDate);
             tbuserInfoMapper.updateTokenByPrimaryKey(tbUserInfo);
-            return new SysResult(1, token,tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(),"");
+            logger.info("==用户 APP 登录:{} 成功!", tbUserInfo.toString());
+            return new SysResult(1, token, tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(), "");
 
         } else {
             //手机登录
             tbUserInfo = tbuserInfoMapper.selectByMobileAndIMEI(tbUserInfo);
             if (tbUserInfo != null) {
-                return new SysResult(1, tbUserInfo.getToken(),tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(),"");
+                return new SysResult(1, tbUserInfo.getToken(), tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(), "");
             } else {
                 return new SysResult(0, "此手机号已在其他设备授权");
             }
@@ -123,11 +136,14 @@ public class LoginController {
         if (tbUserInfo != null) {
             Date invalidDate = tbUserInfo.getInvalidDate();
             if (invalidDate != null && new Date().getTime() < invalidDate.getTime()) {
-                return new SysResult(1, token, tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(),"");
+                logger.info("==用户 APP 登录:{} 成功!", tbUserInfo.toString());
+                return new SysResult(1, token, tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(), "");
+            } else {
+                return new SysResult(0, token, 0.00, "登录已失效，请重新登录");
             }
         }
 
-        return new SysResult(0, token);
+        return new SysResult(0, token, 0.00, "获取数据错误，请重新登录");
     }
 
     @PostMapping("/queryWaybillNo")
@@ -140,13 +156,14 @@ public class LoginController {
             Date invalidDate = tbUserInfo.getInvalidDate();
             if (invalidDate != null && new Date().getTime() < invalidDate.getTime()) {
                 TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.APP_PRICE.getCode());
-                if(tbPriceInfo==null){
-                    return new SysResult(0, token, "请先配置该用户单价");
-                }
                 Double remainingSum = tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum();
+                if (tbPriceInfo == null) {
+                    return new SysResult(0, token, remainingSum, "请先配置该用户单价");
+                }
                 Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
+
                 if (pcPrice > remainingSum) {
-                    return new SysResult(0, token, "余额不足，请联系管理员充值");
+                    return new SysResult(0, token, remainingSum, "余额不足，请联系管理员充值");
                 }
 
                 //更新余额
@@ -158,7 +175,7 @@ public class LoginController {
 
                 tbuserInfoMapper.updateRemainingSumByPrimaryKey(tbUserInfo1);
 
-                return new SysResult(1, token, remainingSumAfter);
+                return new SysResult(1, token, remainingSumAfter, null);
             }
         }
 

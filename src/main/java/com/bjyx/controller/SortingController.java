@@ -1,6 +1,6 @@
 package com.bjyx.controller;
 
-import com.bjyx.entity.TbSortingInfo;
+import com.bjyx.entity.po.TbSortingInfo;
 import com.bjyx.mapper.TbSortingInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
