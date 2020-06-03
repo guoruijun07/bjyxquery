@@ -2,7 +2,7 @@ package com.bjyx.listener;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.bjyx.entity.ReadySortingData;
+import com.bjyx.entity.bo.ReadySortingData;
 
 import java.util.List;
 

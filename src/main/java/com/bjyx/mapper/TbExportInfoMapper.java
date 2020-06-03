@@ -1,7 +1,7 @@
 package com.bjyx.mapper;
 
 
-import com.bjyx.entity.TbExportInfo;
+import com.bjyx.entity.po.TbExportInfo;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 

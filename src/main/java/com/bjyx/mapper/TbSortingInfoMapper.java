@@ -1,7 +1,7 @@
 package com.bjyx.mapper;
 
 
-import com.bjyx.entity.TbSortingInfo;
+import com.bjyx.entity.po.TbSortingInfo;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 

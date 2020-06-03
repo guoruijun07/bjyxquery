@@ -1,6 +1,6 @@
 package com.bjyx.mapper;
 
-import com.bjyx.entity.TbUserInfo;
+import com.bjyx.entity.po.TbUserInfo;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 

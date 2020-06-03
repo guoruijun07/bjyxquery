@@ -1,4 +1,4 @@
-package com.bjyx.entity;
+package com.bjyx.entity.po;
 
 import java.util.Date;
 
@@ -547,5 +547,32 @@ public class TbUserInfo {
      */
     public void setReceive5(String receive5) {
         this.receive5 = receive5 == null ? null : receive5.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "TbUserInfo{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", realName='" + realName + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", imei='" + imei + '\'' +
+                ", mac='" + mac + '\'' +
+                ", status=" + status +
+                ", token='" + token + '\'' +
+                ", invalidDate=" + invalidDate +
+                ", orgNum=" + orgNum +
+                ", orgName='" + orgName + '\'' +
+                ", remainingSum=" + remainingSum +
+                ", projectBase='" + projectBase + '\'' +
+                ", remark='" + remark + '\'' +
+                ", createTime=" + createTime +
+                ", receive1='" + receive1 + '\'' +
+                ", receive3='" + receive3 + '\'' +
+                ", receive2='" + receive2 + '\'' +
+                ", receive4='" + receive4 + '\'' +
+                ", receive5='" + receive5 + '\'' +
+                '}';
     }
 }

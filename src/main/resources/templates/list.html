@@ -46,12 +46,27 @@
         <input  type="hidden" name="fileName" id="fileName">
 <!--        <button id="dowloadBtn" class="btn btn-info " type="button"><i class="fa fa-trash-o"></i> 当前结果下载</button>-->
     </div>
-    <div class="layui-inline">
-        <label class="layui-form-label">日期时间范围</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="test10" placeholder=" - ">
+<!--    <div class="layui-inline">-->
+<!--        <label class="layui-form-label">日期时间范围</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="text" class="layui-input" id="test10" placeholder=" - ">-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class='layui-form'>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">起始日期：</label>
+                <input type="text" class="layui-input" id="startdatepicker" autocomplete="off" />
+
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">截止日期：</label>
+                <input type="text" class="layui-input" id="enddatepicker" autocomplete="off" />
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
         </div>
     </div>
+
         <br/>
         <br/>
         <div class="col-md-7">
@@ -206,15 +221,55 @@
         window.location.href="/download?fileName="+ fileName;
     }
 
-    layui.use('laydate', function(){
+    // layui.use('laydate', function(){
+    //     var laydate = layui.laydate;
+    //
+    //     //日期时间范围
+    //     laydate.render({
+    //         elem: '#test10'
+    //         ,type: 'datetime'
+    //         ,range: true
+    //     });
+    // });
+
+    layui.use('laydate',function(){
         var laydate = layui.laydate;
 
-        //日期时间范围
         laydate.render({
-            elem: '#test10'
-            ,type: 'datetime'
-            ,range: true
+            elem:'#startdatepicker'
+            ,format:'yyyy-MM-dd HH:mm:ss'
+            ,done:function(value,date,startDate){
+                //$scope.querySearchParams.startdatepicker = stitchingDate(value,'startdatepicker');
+            }
         });
+
+        var enddatepicker=laydate.render({
+            elem:'#enddatepicker'
+            ,format:'yyyy-MM-dd HH:mm:ss'
+            ,done:function(value,date,startDate){
+                //$scope.querySearchParams.startdatepicker = stitchingDate(value,'startdatepicker');
+            }
+        });
+    });
+    var $ = layui.$, active = {
+        reload : function() {
+            var startdate = $("#startdatepicker");
+            var enddate = $("#enddatepicker");
+
+            alert(startdate);
+            alert(enddate);
+            //执行重载
+            table.reload('tests', {
+                where : {
+                    start : startdate.val(),
+                    end : enddate.val()
+                }
+            });
+        }
+    };
+    $('.layui-btn').on('click', function() {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
     });
 </script>
 </body>

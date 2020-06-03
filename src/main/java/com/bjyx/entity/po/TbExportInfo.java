@@ -1,4 +1,4 @@
-package com.bjyx.entity;
+package com.bjyx.entity.po;
 
 import java.util.Date;
 

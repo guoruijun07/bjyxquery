@@ -1,6 +1,6 @@
 package com.bjyx.mapper;
 
-import com.bjyx.entity.TbPriceInfo;
+import com.bjyx.entity.po.TbPriceInfo;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
@@ -55,7 +55,7 @@ public interface TbPriceInfoMapper {
             "select",
             "id, user_id, menu, source, price",
             "from tb_price_info",
-            "where user_id = #{userId,jdbcType=INTEGER} and menu = #{device,jdbcType=INTEGER}"
+            "where user_id = #{userId,jdbcType=INTEGER} and source = #{device,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -74,7 +74,7 @@ public interface TbPriceInfoMapper {
             "select",
             "id, user_id, menu, source, price",
             "from tb_price_info",
-            "where user_id = #{userId,jdbcType=INTEGER} and menu = 1"
+            "where user_id = #{userId,jdbcType=INTEGER} and source = 1"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -92,7 +92,7 @@ public interface TbPriceInfoMapper {
             "select",
             "id, user_id, menu, source, price",
             "from tb_price_info",
-            "where user_id = #{userId,jdbcType=INTEGER} and menu = 2"
+            "where user_id = #{userId,jdbcType=INTEGER} and source = 2"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),

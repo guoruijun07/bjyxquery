@@ -1,5 +1,7 @@
 server:
   port: 9002
+  tomcat:
+    uri-encoding: UTF-8
 
 thymeleaf:
   cache: false
@@ -18,11 +20,20 @@ spring:
       username: root
       password: root
 #      password: GuoruiJUN@07
+http:
+  encoding:
+    charset: UTF-8
+    enabled: true
+    force: true
 
 perMoney: 0.5
+
+#°æ±¾ºÅ
+version: 1.01
 
 pagehelper:
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
