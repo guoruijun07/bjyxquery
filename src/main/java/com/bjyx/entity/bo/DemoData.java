@@ -1,4 +1,4 @@
-package com.bjyx.entity;
+package com.bjyx.entity.bo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
