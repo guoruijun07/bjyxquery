@@ -14,6 +14,11 @@ public class TbOrderOriginalInfo {
     private String batchNo;
 
     /**
+     * 订单号 batch_no
+     */
+    private String orderNo;
+
+    /**
      * 寄件人姓名 sender_name
      */
     private String senderName;
@@ -112,9 +117,10 @@ public class TbOrderOriginalInfo {
      *
      * @mbggenerated
      */
-    public TbOrderOriginalInfo(Integer id, String batchNo, String senderName, String senderMobileOne, String senderMobileTwo, String senderProvince, String senderCity, String senderCounty, String senderAddress, String reciverName, String reciverMobileOne, String reciverMobileTwo, String reciverProvince, String reciverCity, String reciverCounty, String reciverAddress, String operationNo, String operationName, Date operationTime, Date modifyTime, Date createTime) {
+    public TbOrderOriginalInfo(Integer id, String batchNo,String orderNo, String senderName, String senderMobileOne, String senderMobileTwo, String senderProvince, String senderCity, String senderCounty, String senderAddress, String reciverName, String reciverMobileOne, String reciverMobileTwo, String reciverProvince, String reciverCity, String reciverCounty, String reciverAddress, String operationNo, String operationName, Date operationTime, Date modifyTime, Date createTime) {
         this.id = id;
         this.batchNo = batchNo;
+        this.orderNo = orderNo;
         this.senderName = senderName;
         this.senderMobileOne = senderMobileOne;
         this.senderMobileTwo = senderMobileTwo;
@@ -178,6 +184,24 @@ public class TbOrderOriginalInfo {
      */
     public void setBatchNo(String batchNo) {
         this.batchNo = batchNo == null ? null : batchNo.trim();
+    }
+
+    /**
+     * 订单号
+
+     * @return order_no 订单号
+     */
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    /**
+     * 订单号
+
+     * @param orderNo 订单号
+     */
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
     /**

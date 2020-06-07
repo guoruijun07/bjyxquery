@@ -77,6 +77,32 @@ public class LoginController {
         }
     }
 
+    @PostMapping("/pcLogin2")
+    public String pcLogin2(TbUserInfo tbUserInfo, Model model, HttpSession session) {
+
+        //校验登录方式
+        String username = tbUserInfo.getUsername();
+        String password = tbUserInfo.getPassword();
+        String realName = tbUserInfo.getRealName();
+        String mac = "11";
+        //判断是PC登录还是手机登录
+        boolean pcLogin = StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && StringUtils.isNotBlank(mac);
+
+        if (pcLogin) {
+            tbUserInfo = tbuserInfoMapper.selectByUserInfo(tbUserInfo);
+            if (tbUserInfo == null) {
+                return "redirect:/";
+            }
+            tbUserInfo.setRemainingSum(tbUserInfo.getRemainingSum() == null ? 0.0 : tbUserInfo.getRemainingSum());
+            // 设置session
+            session.setAttribute(Constants.SESSION_KEY, tbUserInfo);
+            logger.info("==用户 PC登录:{}成功!", tbUserInfo.toString());
+            return "orderInfo.html";
+        } else {
+            return "redirect:/";
+        }
+    }
+
     @PostMapping("/appLogin")
     @ResponseBody
     public SysResult Applogin(TbUserInfoVO tbUserInfoVO) {

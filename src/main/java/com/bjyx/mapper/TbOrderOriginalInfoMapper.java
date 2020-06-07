@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.Date;
+import java.util.List;
 
 public interface TbOrderOriginalInfoMapper {
 
@@ -49,6 +50,40 @@ public interface TbOrderOriginalInfoMapper {
     int insert(TbOrderOriginalInfo record);
 
 
+    /**
+     *
+     * @mbggenerated
+     */
+    @Insert({
+            "<script>",
+            "insert into tb_order_original_info (batch_no,order_no, ",
+            "sender_name, sender_mobile_one, ",
+            "sender_mobile_two, sender_province, ",
+            "sender_city, sender_county, ",
+            "sender_address, reciver_name, ",
+            "reciver_mobile_one, reciver_mobile_two, ",
+            "reciver_province, reciver_city, ",
+            "reciver_county, reciver_address, ",
+            "operation_no, operation_name, ",
+            "operation_time, modify_time, ",
+            "create_time)",
+            "values " ,
+            "<foreach collection='tbOrderOriginalInfoList' item='item' index='index' separator=','>",
+            "(#{item.batchNo,jdbcType=VARCHAR}, #{item.orderNo,jdbcType=VARCHAR},",
+            "#{item.senderName,jdbcType=VARCHAR}, #{item.senderMobileOne,jdbcType=VARCHAR}, ",
+            "#{item.senderMobileTwo,jdbcType=VARCHAR}, #{item.senderProvince,jdbcType=VARCHAR}, ",
+            "#{item.senderCity,jdbcType=VARCHAR}, #{item.senderCounty,jdbcType=VARCHAR}, ",
+            "#{item.senderAddress,jdbcType=VARCHAR}, #{item.reciverName,jdbcType=VARCHAR}, ",
+            "#{item.reciverMobileOne,jdbcType=VARCHAR}, #{item.reciverMobileTwo,jdbcType=VARCHAR}, ",
+            "#{item.reciverProvince,jdbcType=VARCHAR}, #{item.reciverCity,jdbcType=VARCHAR}, ",
+            "#{item.reciverCounty,jdbcType=VARCHAR}, #{item.reciverAddress,jdbcType=VARCHAR}, ",
+            "#{item.operationNo,jdbcType=VARCHAR}, #{item.operationName,jdbcType=VARCHAR}, ",
+            "#{item.operationTime,jdbcType=TIMESTAMP}, #{item.modifyTime,jdbcType=TIMESTAMP}, ",
+            "#{item.createTime,jdbcType=TIMESTAMP})",
+            "</foreach>",
+            "</script>"
+    })
+    int batchInsert(@Param("tbOrderOriginalInfoList") List<TbOrderOriginalInfo> tbOrderOriginalInfoList);
     /**
      *
      * @mbggenerated

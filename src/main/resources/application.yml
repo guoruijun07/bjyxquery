@@ -28,8 +28,7 @@ http:
 
 perMoney: 0.5
 
-#°æ±¾ºÅ
-version: 1.01
+currentVersion: 1.01
 
 pagehelper:
   helper-dialect: mysql
