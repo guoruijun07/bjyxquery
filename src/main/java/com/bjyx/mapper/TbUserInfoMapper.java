@@ -1,6 +1,7 @@
 package com.bjyx.mapper;
 
 import com.bjyx.entity.po.TbUserInfo;
+import com.bjyx.entity.vo.TbUserInfoVO;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
@@ -70,7 +71,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
+            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="org_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="remaining_sum", javaType=Double.class, jdbcType=JdbcType.DOUBLE),
@@ -108,7 +109,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
+            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="org_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="remaining_sum", javaType=Double.class, jdbcType=JdbcType.DOUBLE),
@@ -145,7 +146,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
+            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="org_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="remaining_sum", javaType=Double.class, jdbcType=JdbcType.DOUBLE),
@@ -158,7 +159,7 @@ public interface TbUserInfoMapper {
             @Arg(column="receive4", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="receive5", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
-    TbUserInfo selectByMobileAndIMEI(TbUserInfo tbUserInfo);
+    TbUserInfo selectByMobileAndIMEI(TbUserInfoVO tbUserInfo);
 
     /**
      *
@@ -170,7 +171,7 @@ public interface TbUserInfoMapper {
             "org_num, org_name, remaining_sum, project_base, remark, create_time, receive1, ",
             "receive3, receive2, receive4, receive5",
             "from tb_user_info",
-            "where 1=1 and status = 1 and  mobile = #{mobile,jdbcType=VARCHAR}",
+            "where 1=1  and  mobile = #{mobile,jdbcType=VARCHAR}",
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -182,7 +183,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
+            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="org_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="remaining_sum", javaType=Double.class, jdbcType=JdbcType.DOUBLE),
@@ -195,7 +196,7 @@ public interface TbUserInfoMapper {
             @Arg(column="receive4", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="receive5", javaType=String.class, jdbcType=JdbcType.VARCHAR)
     })
-    TbUserInfo selectByMobile(TbUserInfo tbUserInfo);
+    TbUserInfo selectByMobile(TbUserInfoVO tbUserInfo);
 
     /**
      *
@@ -207,7 +208,7 @@ public interface TbUserInfoMapper {
             "org_num, org_name, remaining_sum, project_base, remark, create_time, receive1, ",
             "receive3, receive2, receive4, receive5",
             "from tb_user_info",
-            "where 1=1 and status = 1 and  token = #{token,jdbcType=VARCHAR}",
+            "where 1=1  and  token = #{token,jdbcType=VARCHAR}",
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -219,7 +220,7 @@ public interface TbUserInfoMapper {
             @Arg(column="mac", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="token", javaType=String.class, jdbcType=JdbcType.VARCHAR),
-            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.DATE),
+            @Arg(column="invalid_date", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="org_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="org_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="remaining_sum", javaType=Double.class, jdbcType=JdbcType.DOUBLE),
@@ -244,7 +245,7 @@ public interface TbUserInfoMapper {
             "mac = #{mac,jdbcType=VARCHAR},",
             "status = #{status,jdbcType=INTEGER},",
             "token = #{token,jdbcType=VARCHAR},",
-            "invalid_date = #{invalidDate,jdbcType=DATE},",
+            "invalid_date = #{invalidDate,jdbcType=TIMESTAMP},",
             "org_num = #{orgNum,jdbcType=INTEGER},",
             "org_name = #{orgName,jdbcType=VARCHAR},",
             "remaining_sum = #{remainingSum,jdbcType=DOUBLE},",
@@ -269,7 +270,7 @@ public interface TbUserInfoMapper {
             "set ",
             "imei = #{imei,jdbcType=VARCHAR},",
             "token = #{token,jdbcType=VARCHAR},",
-            "invalid_date = #{invalidDate,jdbcType=DATE}",
+            "invalid_date = #{invalidDate,jdbcType=TIMESTAMP}",
             "where id = #{id,jdbcType=INTEGER}"
     })
     int updateTokenByPrimaryKey(TbUserInfo record);

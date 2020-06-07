@@ -146,7 +146,7 @@ public class ExportController {
         }
 
         List<TbExportInfo> tbExportInfos = tbExportInfoMapper.selectAll();
-        return new SysResult(1, remainingSum.toString(), tbExportInfos);
+        return new SysResult(1, "导入数据成功","",remainingSum, tbExportInfos);
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)

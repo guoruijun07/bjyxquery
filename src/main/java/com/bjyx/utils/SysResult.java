@@ -10,21 +10,13 @@ import java.util.Objects;
 public class SysResult {
 
     private Integer code;
-
     private String msg;
-
+    private String token;
     private Double cost;
-
     private Object data;
 
     public SysResult() {
 
-    }
-
-    public SysResult(Integer code, String msg, Object data) {
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
     }
 
     public SysResult(Integer code, String msg) {
@@ -32,17 +24,25 @@ public class SysResult {
         this.msg = msg;
     }
 
-    public SysResult(Integer code, String msg,Double cost, Object data) {
+    public SysResult(Integer code, String msg, String token) {
         this.code = code;
         this.msg = msg;
-        this.cost = cost;
-        this.data = data;
+        this.token = token;
     }
 
-    public SysResult(Integer code, String msg,List list) {
+    public SysResult(Integer code, String msg, String token,Double cost) {
         this.code = code;
         this.msg = msg;
-        this.data = list;
+        this.token = token;
+        this.cost = cost;
+    }
+
+    public SysResult(Integer code, String msg, String token,Double cost, Object data) {
+        this.code = code;
+        this.msg = msg;
+        this.token = token;
+        this.cost = cost;
+        this.data=data;
     }
 
 
@@ -70,11 +70,11 @@ public class SysResult {
         this.data = data;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -86,16 +86,20 @@ public class SysResult {
         this.msg = msg;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public Object getData() {
         return data;
     }
 
     public void setData(Object data) {
         this.data = data;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
     }
 
     public Double getCost() {
@@ -116,6 +120,7 @@ public class SysResult {
         this.code = enumReasultCode.getCode();
         this.msg = enumReasultCode.getExplainChInfo();
     }
+
 
     @Override
     public String toString() {

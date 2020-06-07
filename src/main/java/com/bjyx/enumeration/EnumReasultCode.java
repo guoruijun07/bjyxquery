@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public enum  EnumReasultCode {
 //   TEST(1001,"","");
-    SUCCESS(0, "成功", "Success"),
-    FAILURE(1, "失败", "FAILURE"),
+    SUCCESS(1, "成功", "Success"),
+    FAILURE(0, "失败", "FAILURE"),
     UNKOWN_ERROR(2, "未知系统错误", "Unknown error");
 
     private int code;

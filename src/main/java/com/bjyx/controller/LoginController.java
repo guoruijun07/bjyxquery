@@ -4,6 +4,7 @@ import com.alibaba.excel.util.DateUtils;
 import com.bjyx.common.Constants;
 import com.bjyx.entity.po.TbPriceInfo;
 import com.bjyx.entity.po.TbUserInfo;
+import com.bjyx.entity.vo.TbUserInfoVO;
 import com.bjyx.enumeration.EnumPriceCode;
 import com.bjyx.mapper.TbExportInfoMapper;
 import com.bjyx.mapper.TbPriceInfoMapper;
@@ -39,8 +40,8 @@ public class LoginController {
     @Autowired(required = false)
     private TbPriceInfoMapper tbPriceInfoMapper;
 
-    @Value("${version}")
-    private String version;
+    @Value("${currentVersion}")
+    private String currentVersion;
 
     DecimalFormat df = new DecimalFormat("#.00");
 
@@ -78,20 +79,27 @@ public class LoginController {
 
     @PostMapping("/appLogin")
     @ResponseBody
-    public SysResult Applogin(TbUserInfo tbUserInfo) {
-        logger.info("app 被调取到:{}", tbUserInfo.toString());
+    public SysResult Applogin(TbUserInfoVO tbUserInfoVO) {
+        logger.info("app 被调取到:{}", tbUserInfoVO.toString());
         //校验登录方式
-        String mobile = tbUserInfo.getMobile();
-        String imei = tbUserInfo.getImei();
+        String version = tbUserInfoVO.getVersion();
         String token = "";
-        boolean mobileLogin = StringUtils.isBlank(mobile) || StringUtils.isBlank(imei);
-        //如果第一次登陆，库里imei是空
-        if (mobileLogin) {
-            return new SysResult(0, token);
+
+        if (!currentVersion.equals(version)) {
+            logger.info("手机号为{}当前版本为:{}", tbUserInfoVO.getVersion(), tbUserInfoVO.getMobile());
+            return new SysResult(0, "请升级app版本");
         }
-        TbUserInfo tbUserInfoTmp = tbuserInfoMapper.selectByMobile(tbUserInfo);
+
+        TbUserInfo tbUserInfo = new TbUserInfo();
+        tbUserInfo.setMobile(tbUserInfoVO.getMobile());
+        tbUserInfo.setImei(tbUserInfoVO.getImei());
+
+        TbUserInfo tbUserInfoTmp = tbuserInfoMapper.selectByMobile(tbUserInfoVO);
         if (tbUserInfoTmp == null) {
             return new SysResult(0, "此手机号没有授权,请联系管理员授权");
+        }
+        if (tbUserInfoTmp.getStatus() == 0) {
+            return new SysResult(0, "本用户已失效，请联系管理员");
         }
 
         if (StringUtils.isBlank(tbUserInfoTmp.getImei())) {
@@ -99,27 +107,19 @@ public class LoginController {
             tbUserInfo.setId(tbUserInfoTmp.getId());
             token = UUID.randomUUID().toString();
             //把token存入库里
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DATE, 1);
-            Date invalidDate = calendar.getTime();
-            String formatDate = DateUtils.format(invalidDate, "yyyy-MM-dd 00:00:00");
-            try {
-                invalidDate = DateUtils.parseDate(formatDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
             tbUserInfo.setToken(token);
-            tbUserInfo.setInvalidDate(invalidDate);
+            tbUserInfo.setInvalidDate(getInvalidDate());
             tbuserInfoMapper.updateTokenByPrimaryKey(tbUserInfo);
             logger.info("==用户 APP 登录:{} 成功!", tbUserInfo.toString());
-            return new SysResult(1, token, tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(), "");
+            return new SysResult(1,"登录成功", token, tbUserInfoTmp.getRemainingSum() == null ? 0.00 : tbUserInfoTmp.getRemainingSum());
 
         } else {
             //手机登录
-            tbUserInfo = tbuserInfoMapper.selectByMobileAndIMEI(tbUserInfo);
+            tbUserInfo = tbuserInfoMapper.selectByMobileAndIMEI(tbUserInfoVO);
             if (tbUserInfo != null) {
-                return new SysResult(1, tbUserInfo.getToken(), tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(), "");
+                tbUserInfo.setInvalidDate(getInvalidDate());
+                tbuserInfoMapper.updateTokenByPrimaryKey(tbUserInfo);
+                return new SysResult(1,"登录成功", tbUserInfo.getToken(), tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum());
             } else {
                 return new SysResult(0, "此手机号已在其他设备授权");
             }
@@ -128,42 +128,69 @@ public class LoginController {
 
     @PostMapping("/checkToken")
     @ResponseBody
-    public SysResult checkToken(String token) {
+    public SysResult checkToken(String token, String version) {
         logger.info("app 校验token:{}", token);
+        if (!currentVersion.equals(version)) {
+            logger.info("token为{}当前版本为:{}", token, version);
+            return new SysResult(0, "请升级app版本");
+        }
         //校验登录方式
         TbUserInfo tbUserInfo = tbuserInfoMapper.selectByToken(token);
 
         if (tbUserInfo != null) {
+            if (tbUserInfo.getStatus() == 0) {
+                return new SysResult(0, "本用户已失效，请联系管理员");
+            }
+
             Date invalidDate = tbUserInfo.getInvalidDate();
-            if (invalidDate != null && new Date().getTime() < invalidDate.getTime()) {
+//            String currentDateStr = DateUtils.format(new Date(), "yyyy-MM-dd 00:00:00");
+//            Date currentDate =null;
+//            try {
+//                currentDate = DateUtils.parseDate(currentDateStr);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+
+            if (invalidDate != null && new Date().getTime() <= invalidDate.getTime()) {
                 logger.info("==用户 APP 登录:{} 成功!", tbUserInfo.toString());
-                return new SysResult(1, token, tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum(), "");
+                return new SysResult(1, "登录成功",token, tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum());
             } else {
-                return new SysResult(0, token, 0.00, "登录已失效，请重新登录");
+                return new SysResult(0, "当前登录已失效，请重新登录");
             }
         }
 
-        return new SysResult(0, token, 0.00, "获取数据错误，请重新登录");
+        return new SysResult(0,"登录失败，请重新登录");
     }
 
     @PostMapping("/queryWaybillNo")
     @ResponseBody
-    public SysResult queryWaybillNo(String token) {
+    public SysResult queryWaybillNo(String token, String version) {
 
+        if (!currentVersion.equals(version)) {
+            logger.info("token为{}当前版本为:{}", token, version);
+            return new SysResult(0, "请升级app版本");
+        }
         //校验登录方式
         TbUserInfo tbUserInfo = tbuserInfoMapper.selectByToken(token);
         if (tbUserInfo != null) {
+            if (tbUserInfo.getStatus() == 0) {
+                return new SysResult(0, "本用户已失效，请联系管理员");
+            }
+
             Date invalidDate = tbUserInfo.getInvalidDate();
-            if (invalidDate != null && new Date().getTime() < invalidDate.getTime()) {
+            if (invalidDate != null && new Date().getTime() <= invalidDate.getTime()) {
                 TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.APP_PRICE.getCode());
                 Double remainingSum = tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum();
+                if (remainingSum <= 0) {
+                    return new SysResult(2, "账户余额为0，请联系管理员充值",token, remainingSum);
+                }
                 if (tbPriceInfo == null) {
-                    return new SysResult(0, token, remainingSum, "请先配置该用户单价");
+                    return new SysResult(2, "请先联系管理员，先配置该用户单价",token, remainingSum);
                 }
                 Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
 
                 if (pcPrice > remainingSum) {
-                    return new SysResult(0, token, remainingSum, "余额不足，请联系管理员充值");
+                    return new SysResult(2, "当前余额不够支付本次消费金额，请联系管理员充值",token, remainingSum);
                 }
 
                 //更新余额
@@ -175,11 +202,26 @@ public class LoginController {
 
                 tbuserInfoMapper.updateRemainingSumByPrimaryKey(tbUserInfo1);
 
-                return new SysResult(1, token, remainingSumAfter, null);
+                return new SysResult(1,"查询成功", token, remainingSumAfter);
+            }else{
+                return new SysResult(0, "当前登录已失效，请重新登录");
             }
         }
 
         return new SysResult(0, token);
     }
 
+    private Date getInvalidDate() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 1);
+        Date invalidDate = calendar.getTime();
+        String formatDate = DateUtils.format(new Date(), "yyyy-MM-dd 23:59:59");
+        try {
+            invalidDate = DateUtils.parseDate(formatDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return invalidDate;
+    }
 }
