@@ -113,7 +113,7 @@
                     // $("#fileName").val(data.msg);
                     if(data.code==1){
                        msgs = data.msg.split(",");
-                        alert("上传成功,共导入"+msgs[0]+"条数据")
+                        alert("上传成功,共导入"+msgs[1]+"条数据")
                         $("#bathNo").val(msgs[0]);
                     }
                    if(data.code==0){

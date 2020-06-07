@@ -14,7 +14,7 @@ public class TbOrderOriginalInfo {
     private String batchNo;
 
     /**
-     * 订单号 batch_no
+     * 订单号 order_no
      */
     private String orderNo;
 
@@ -104,6 +104,21 @@ public class TbOrderOriginalInfo {
     private Date operationTime;
 
     /**
+     * 同城标识（1同城，0外阜） city_wide_flag
+     */
+    private Integer cityWideFlag;
+
+    /**
+     * 分拣码匹配状态（1已匹配、0未匹配） sorting_status
+     */
+    private Integer sortingStatus;
+
+    /**
+     * 备注 remark
+     */
+    private String remark;
+
+    /**
      * 修改时间 modify_time
      */
     private Date modifyTime;
@@ -117,7 +132,7 @@ public class TbOrderOriginalInfo {
      *
      * @mbggenerated
      */
-    public TbOrderOriginalInfo(Integer id, String batchNo,String orderNo, String senderName, String senderMobileOne, String senderMobileTwo, String senderProvince, String senderCity, String senderCounty, String senderAddress, String reciverName, String reciverMobileOne, String reciverMobileTwo, String reciverProvince, String reciverCity, String reciverCounty, String reciverAddress, String operationNo, String operationName, Date operationTime, Date modifyTime, Date createTime) {
+    public TbOrderOriginalInfo(Integer id, String batchNo, String orderNo, String senderName, String senderMobileOne, String senderMobileTwo, String senderProvince, String senderCity, String senderCounty, String senderAddress, String reciverName, String reciverMobileOne, String reciverMobileTwo, String reciverProvince, String reciverCity, String reciverCounty, String reciverAddress, String operationNo, String operationName, Date operationTime, Integer cityWideFlag, Integer sortingStatus, String remark, Date modifyTime, Date createTime) {
         this.id = id;
         this.batchNo = batchNo;
         this.orderNo = orderNo;
@@ -138,6 +153,9 @@ public class TbOrderOriginalInfo {
         this.operationNo = operationNo;
         this.operationName = operationName;
         this.operationTime = operationTime;
+        this.cityWideFlag = cityWideFlag;
+        this.sortingStatus = sortingStatus;
+        this.remark = remark;
         this.modifyTime = modifyTime;
         this.createTime = createTime;
     }
@@ -188,7 +206,7 @@ public class TbOrderOriginalInfo {
 
     /**
      * 订单号
-
+    
      * @return order_no 订单号
      */
     public String getOrderNo() {
@@ -197,11 +215,11 @@ public class TbOrderOriginalInfo {
 
     /**
      * 订单号
-
+    
      * @param orderNo 订单号
      */
     public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+        this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
     /**
@@ -508,6 +526,60 @@ public class TbOrderOriginalInfo {
      */
     public void setOperationTime(Date operationTime) {
         this.operationTime = operationTime;
+    }
+
+    /**
+     * 同城标识（1同城，0外阜）
+    
+     * @return city_wide_flag 同城标识（1同城，0外阜）
+     */
+    public Integer getCityWideFlag() {
+        return cityWideFlag;
+    }
+
+    /**
+     * 同城标识（1同城，0外阜）
+    
+     * @param cityWideFlag 同城标识（1同城，0外阜）
+     */
+    public void setCityWideFlag(Integer cityWideFlag) {
+        this.cityWideFlag = cityWideFlag;
+    }
+
+    /**
+     * 分拣码匹配状态（1已匹配、0未匹配）
+    
+     * @return sorting_status 分拣码匹配状态（1已匹配、0未匹配）
+     */
+    public Integer getSortingStatus() {
+        return sortingStatus;
+    }
+
+    /**
+     * 分拣码匹配状态（1已匹配、0未匹配）
+    
+     * @param sortingStatus 分拣码匹配状态（1已匹配、0未匹配）
+     */
+    public void setSortingStatus(Integer sortingStatus) {
+        this.sortingStatus = sortingStatus;
+    }
+
+    /**
+     * 备注
+    
+     * @return remark 备注
+     */
+    public String getRemark() {
+        return remark;
+    }
+
+    /**
+     * 备注
+    
+     * @param remark 备注
+     */
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     /**

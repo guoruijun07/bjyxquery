@@ -159,6 +159,21 @@ public class TbSortingMatchingInfo {
     private Date operationTime;
 
     /**
+     * 集散中心匹配状态:1已匹配、0未匹配 matching_distribu_center_status
+     */
+    private Integer matchingDistribuCenterStatus;
+
+    /**
+     * 同城标识:1同城，0外阜 city_wide_flag
+     */
+    private Integer cityWideFlag;
+
+    /**
+     * 备注 remark
+     */
+    private String remark;
+
+    /**
      * 修改时间 modify_time
      */
     private Date modifyTime;
@@ -172,7 +187,7 @@ public class TbSortingMatchingInfo {
      *
      * @mbggenerated
      */
-    public TbSortingMatchingInfo(Integer id, String batchNo, String senderName, String senderMobileOne, String senderMobileTwo, String senderProvince, String senderCity, String senderCounty, String senderAddress, String reciverName, String reciverMobileOne, String reciverMobileTwo, String reciverProvince, String reciverCity, String reciverCounty, String reciverAddress, String datoubi, String datoubiCode, String consolidationName, String consolidationCode, String levelFourSortingName, String sortingName, String marking, String distribuCenter, String dlvNo, String dlvName, String orgNo, String orgName, String operationNo, String operationName, Date operationTime, Date modifyTime, Date createTime) {
+    public TbSortingMatchingInfo(Integer id, String batchNo, String senderName, String senderMobileOne, String senderMobileTwo, String senderProvince, String senderCity, String senderCounty, String senderAddress, String reciverName, String reciverMobileOne, String reciverMobileTwo, String reciverProvince, String reciverCity, String reciverCounty, String reciverAddress, String datoubi, String datoubiCode, String consolidationName, String consolidationCode, String levelFourSortingName, String sortingName, String marking, String distribuCenter, String dlvNo, String dlvName, String orgNo, String orgName, String operationNo, String operationName, Date operationTime, Integer matchingDistribuCenterStatus, Integer cityWideFlag, String remark, Date modifyTime, Date createTime) {
         this.id = id;
         this.batchNo = batchNo;
         this.senderName = senderName;
@@ -204,6 +219,9 @@ public class TbSortingMatchingInfo {
         this.operationNo = operationNo;
         this.operationName = operationName;
         this.operationTime = operationTime;
+        this.matchingDistribuCenterStatus = matchingDistribuCenterStatus;
+        this.cityWideFlag = cityWideFlag;
+        this.remark = remark;
         this.modifyTime = modifyTime;
         this.createTime = createTime;
     }
@@ -772,6 +790,60 @@ public class TbSortingMatchingInfo {
      */
     public void setOperationTime(Date operationTime) {
         this.operationTime = operationTime;
+    }
+
+    /**
+     * 集散中心匹配状态:1已匹配、0未匹配
+    
+     * @return matching_distribu_center_status 集散中心匹配状态:1已匹配、0未匹配
+     */
+    public Integer getMatchingDistribuCenterStatus() {
+        return matchingDistribuCenterStatus;
+    }
+
+    /**
+     * 集散中心匹配状态:1已匹配、0未匹配
+    
+     * @param matchingDistribuCenterStatus 集散中心匹配状态:1已匹配、0未匹配
+     */
+    public void setMatchingDistribuCenterStatus(Integer matchingDistribuCenterStatus) {
+        this.matchingDistribuCenterStatus = matchingDistribuCenterStatus;
+    }
+
+    /**
+     * 同城标识:1同城，0外阜
+    
+     * @return city_wide_flag 同城标识:1同城，0外阜
+     */
+    public Integer getCityWideFlag() {
+        return cityWideFlag;
+    }
+
+    /**
+     * 同城标识:1同城，0外阜
+    
+     * @param cityWideFlag 同城标识:1同城，0外阜
+     */
+    public void setCityWideFlag(Integer cityWideFlag) {
+        this.cityWideFlag = cityWideFlag;
+    }
+
+    /**
+     * 备注
+    
+     * @return remark 备注
+     */
+    public String getRemark() {
+        return remark;
+    }
+
+    /**
+     * 备注
+    
+     * @param remark 备注
+     */
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     /**
