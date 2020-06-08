@@ -4,19 +4,25 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.DateUtils;
 import com.bjyx.common.Constants;
 import com.bjyx.entity.bo.OrderOriginalBO;
+import com.bjyx.entity.po.TbOrderBatchInfo;
 import com.bjyx.entity.po.TbOrderOriginalInfo;
 import com.bjyx.entity.po.TbUserInfo;
 import com.bjyx.listener.OrderOriginalListener;
+import com.bjyx.mapper.TbOrderBatchInfoMapper;
 import com.bjyx.mapper.TbOrderOriginalInfoMapper;
 import com.bjyx.mapper.TbUserInfoMapper;
 import com.bjyx.utils.SysResult;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +46,29 @@ public class OrderSortingMatchingAPI {
     @Autowired(required = false)
     private TbOrderOriginalInfoMapper tbOrderOriginalInfoMapper;
 
+    @Autowired(required = false)
+    private TbOrderBatchInfoMapper tbOrderBatchInfoMapper;
+
+    Random random=new Random();
+
+    @RequestMapping("/getList")
+    public String getList(HttpSession session, Model model, Integer pageNum) {
+
+        TbUserInfo tbUserInfo= (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
+        tbUserInfo = tbuserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
+        model.addAttribute("remainingSum",tbUserInfo.getRemainingSum());
+        System.out.println("当前页为："+pageNum);
+        pageNum = pageNum==null?1:pageNum;
+        PageHelper.startPage(pageNum,10,"create_time desc");
+        List<TbOrderBatchInfo> tbOrderBatchInfos = tbOrderBatchInfoMapper.selectByUserId(tbUserInfo.getId());
+        PageInfo<TbOrderBatchInfo> page = new PageInfo<>(tbOrderBatchInfos);
+        System.out.println("总记录条数为："+page.getTotal());
+        model.addAttribute("page",page);
+
+        return "list";
+    }
+
+
     /**
      * excel文件的上传
      */
@@ -54,9 +83,18 @@ public class OrderSortingMatchingAPI {
         EasyExcel.read(file.getInputStream(), OrderOriginalBO.class, new OrderOriginalListener(orderOriginalBOList)).sheet().doRead();
         int totalNum = orderOriginalBOList.size();
         //生成批次号
+        String batchNo = getBatchNo();
+        TbOrderBatchInfo tbOrderBatchInfo = new TbOrderBatchInfo();
+        tbOrderBatchInfo.setBatchNo(batchNo);
+        tbOrderBatchInfo.setStatus(0);
+        tbOrderBatchInfo.setTotalNum(totalNum);
+        tbOrderBatchInfo.setModifyTime(new Date());
+        tbOrderBatchInfo.setCreateTime(new Date());
+        tbOrderBatchInfoMapper.insert(tbOrderBatchInfo);
+        int batchId = tbOrderBatchInfo.getId();
         //生成批次号
         List<TbOrderOriginalInfo> tbOrderOriginalInfoList = new ArrayList<>();
-        String batchNo = getBatchNo();
+
         for (OrderOriginalBO orderOriginalBO : orderOriginalBOList) {
             TbOrderOriginalInfo tbOrderOriginalInfo = new TbOrderOriginalInfo();
             BeanUtils.copyProperties(orderOriginalBO,tbOrderOriginalInfo);
@@ -74,6 +112,7 @@ public class OrderSortingMatchingAPI {
 
         //批量入库
         tbOrderOriginalInfoMapper.batchInsert(tbOrderOriginalInfoList);
+
         return new SysResult(1, batchNo+","+tbOrderOriginalInfoList.size());
     }
 
@@ -105,17 +144,21 @@ public class OrderSortingMatchingAPI {
 
         return new SysResult(0,"登录失败，请重新登录");
     }
+//    DecimalFormat bathNoDF=new DecimalFormat("0000");//设置格式
+//    DecimalFormat orderNoDF=new DecimalFormat("000000");//设置格式
+//    String str=format1.format(100);//格式转换
+
+
 
     //获取批次号
     private String getBatchNo() {
-
-        return DateUtils.format(new Date(), DateUtils.DATE_FORMAT_14) + System.currentTimeMillis();
+        int number=random.nextInt(900)+1000;
+        return DateUtils.format(new Date(), DateUtils.DATE_FORMAT_14) + number;
     }
 
     //获取订单号
     private String getOrderNo() {
-        Random random=new Random();
-        int number=random.nextInt(90)+10;
-        return DateUtils.format(new Date(), DateUtils.DATE_FORMAT_14) + System.currentTimeMillis()+number;
+        int number=random.nextInt(90000)+100000;
+        return DateUtils.format(new Date(), DateUtils.DATE_FORMAT_14) +number;
     }
 }

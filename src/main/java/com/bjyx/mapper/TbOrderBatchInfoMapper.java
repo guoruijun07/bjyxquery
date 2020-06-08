@@ -6,6 +6,7 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public interface TbOrderBatchInfoMapper {
 
@@ -62,6 +63,31 @@ public interface TbOrderBatchInfoMapper {
         @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
     })
     TbOrderBatchInfo selectByPrimaryKey(Integer id);
+
+
+    /**
+     *
+     * @mbggenerated
+     */
+    @Select({
+            "select",
+            "id, batch_no, file_name, total_num, success_num, money, status, modify_time, ",
+            "create_time",
+            "from tb_order_batch_info",
+            "where id = #{id,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="batch_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="file_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="total_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="success_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="money", javaType=BigDecimal.class, jdbcType=JdbcType.DECIMAL),
+            @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
+    })
+    List<TbOrderBatchInfo> selectByUserId(Integer id);
 
     /**
      *
