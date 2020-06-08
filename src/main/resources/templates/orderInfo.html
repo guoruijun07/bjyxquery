@@ -34,7 +34,7 @@
     </div>
     <div class="panel-heading text-center">
 <!--        <span class="panel-title"><h3>余额:<span id="remainingSum"> [[${session.user.remainingSum}]]</span></h3></span>-->
-        <span class="panel-title"><h3>余额:<span id="remainingSum">[[${remainingSum}]]</span><span>元</span></h3></span>
+<!--        <span class="panel-title"><h3>余额:<span id="remainingSum">[[${remainingSum}]]</span><span>元</span></h3></span>-->
     </div>
     <div class="container-fluid" th:align="center">
 <!--        <form action="/upload" method="POST" enctype="multipart/form-data">-->
@@ -43,7 +43,8 @@
 <!--        </form>-->
         <input  type="file" name="file" id="file">
         <input  class="btn btn-info " type="button" id="uploadButton" value="上传">
-        <input  type="text" readonly name="bathNo" id="bathNo">
+        <span>批次号:</span>
+        <input  type="text" readonly="readonly" name="bathNo" id="bathNo">
 <!--        <button id="dowloadBtn" class="btn btn-info " type="button"><i class="fa fa-trash-o"></i> 当前结果下载</button>-->
     </div>
 <!--    <div class="layui-inline">-->
@@ -52,20 +53,20 @@
 <!--            <input type="text" class="layui-input" id="test10" placeholder=" - ">-->
 <!--        </div>-->
 <!--    </div>-->
-    <div class='layui-form'>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">起始日期：</label>
-                <input type="text" class="layui-input" id="startdatepicker" autocomplete="off" />
+<!--    <div class='layui-form'>-->
+<!--        <div class="layui-form-item">-->
+<!--            <div class="layui-inline">-->
+<!--                <label class="layui-form-label">起始日期：</label>-->
+<!--                <input type="text" class="layui-input" id="startdatepicker" autocomplete="off" />-->
 
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">截止日期：</label>
-                <input type="text" class="layui-input" id="enddatepicker" autocomplete="off" />
-            </div>
-            <button class="layui-btn" data-type="reload">搜索</button>
-        </div>
-    </div>
+<!--            </div>-->
+<!--            <div class="layui-inline">-->
+<!--                <label class="layui-form-label">截止日期：</label>-->
+<!--                <input type="text" class="layui-input" id="enddatepicker" autocomplete="off" />-->
+<!--            </div>-->
+<!--            <button class="layui-btn" data-type="reload">搜索</button>-->
+<!--        </div>-->
+<!--    </div>-->
 
         <br/>
         <br/>
