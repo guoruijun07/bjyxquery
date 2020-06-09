@@ -42,7 +42,7 @@ public class SortingMatchingInfo {
 	@RequestMapping(value = "/query", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean sortingMatchingInfo(String batchNo) {
-		batchNo="1";
+		//batchNo="1";
 		final List<TbOrderOriginalInfo> tbOrderOriginalInfos = tbOrderOriginalInfoMapper.selectByBatchNo(batchNo);
 		final List<TbSortingMatchingInfo> tbSortingMatchingInfos= tbSortingMatchingInfoMapper.selectByBatch(batchNo);
 		logger.info("查询完毕");
