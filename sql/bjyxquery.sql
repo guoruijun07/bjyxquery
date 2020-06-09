@@ -535,6 +535,7 @@ DROP TABLE IF EXISTS `tb_sorting_matching_info`;
 CREATE TABLE `tb_sorting_matching_info`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主建id',
   `batch_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '批次号',
+  `order_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '订单号',
   `sender_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '寄件人姓名',
   `sender_mobile_one` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '寄件人电话1',
   `sender_mobile_two` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '寄件人电话2',
@@ -566,6 +567,7 @@ CREATE TABLE `tb_sorting_matching_info`  (
   `operation_time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
   `matching_distribu_center_status` int(1) NULL DEFAULT NULL COMMENT '集散中心匹配状态:1已匹配、0未匹配',
   `city_wide_flag` int(255) NULL DEFAULT NULL COMMENT '同城标识:1同城，0外阜',
+  `sorting_status` int(255) NULL DEFAULT NULL COMMENT '分拣码匹配状态（1已匹配、0未匹配）',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `modify_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',

@@ -13,6 +13,32 @@ public class TbSortingMatchingInfo {
      */
     private String batchNo;
 
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    /**
+     * order_no
+     */
+    private String orderNo;
+
+    public String getSortingStatus() {
+        return sortingStatus;
+    }
+
+    public void setSortingStatus(String sortingStatus) {
+        this.sortingStatus = sortingStatus;
+    }
+
+    /**
+     * sorting_status
+     */
+    private String sortingStatus;
+
     /**
      * 寄件人姓名 sender_name
      */
