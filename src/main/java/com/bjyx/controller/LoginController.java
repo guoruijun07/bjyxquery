@@ -97,7 +97,7 @@ public class LoginController {
             // 设置session
             session.setAttribute(Constants.SESSION_KEY, tbUserInfo);
             logger.info("==用户 PC登录:{}成功!", tbUserInfo.toString());
-            return "orderInfo.html";
+            return "forward:/getSortingOrderList?id=" + tbUserInfo.getId();
         } else {
             return "redirect:/";
         }

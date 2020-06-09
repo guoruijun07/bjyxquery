@@ -51,8 +51,8 @@ public class OrderSortingMatchingAPI {
 
     Random random=new Random();
 
-    @RequestMapping("/getList")
-    public String getList(HttpSession session, Model model, Integer pageNum) {
+    @RequestMapping("/getSortingOrderList")
+    public String getSortingOrderList(HttpSession session, Model model, Integer pageNum) {
 
         TbUserInfo tbUserInfo= (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
         tbUserInfo = tbuserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
@@ -65,7 +65,7 @@ public class OrderSortingMatchingAPI {
         System.out.println("总记录条数为："+page.getTotal());
         model.addAttribute("page",page);
 
-        return "list";
+        return "orderInfo";
     }
 
 
@@ -88,6 +88,7 @@ public class OrderSortingMatchingAPI {
         tbOrderBatchInfo.setBatchNo(batchNo);
         tbOrderBatchInfo.setStatus(0);
         tbOrderBatchInfo.setTotalNum(totalNum);
+        tbOrderBatchInfo.setUserId(tbUserInfo.getId());
         tbOrderBatchInfo.setModifyTime(new Date());
         tbOrderBatchInfo.setCreateTime(new Date());
         tbOrderBatchInfoMapper.insert(tbOrderBatchInfo);
@@ -103,7 +104,7 @@ public class OrderSortingMatchingAPI {
             tbOrderOriginalInfo.setOperationNo(tbUserInfo.getId().toString());
             tbOrderOriginalInfo.setOperationName(tbUserInfo.getRealName());
             tbOrderOriginalInfo.setOperationTime(new Date());
-            tbOrderOriginalInfo.setCityWideFlag(01);
+            tbOrderOriginalInfo.setCityWideFlag(1); //同城标识（1同城，0外阜）
             tbOrderOriginalInfo.setSortingStatus(0);
             tbOrderOriginalInfo.setModifyTime(new Date());
             tbOrderOriginalInfo.setCreateTime(new Date());
@@ -114,6 +115,14 @@ public class OrderSortingMatchingAPI {
         tbOrderOriginalInfoMapper.batchInsert(tbOrderOriginalInfoList);
 
         return new SysResult(1, batchNo+","+tbOrderOriginalInfoList.size());
+    }
+
+    @RequestMapping("/matchingBatchNo")
+    public String matchingBatchNo(HttpSession session, Model model, String  batchNo) {
+
+logger.info(batchNo);
+
+        return "list";
     }
 
     @PostMapping("/querySortingInfo")

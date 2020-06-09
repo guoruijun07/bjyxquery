@@ -25,15 +25,15 @@ public interface TbOrderBatchInfoMapper {
      * @mbggenerated
      */
     @Insert({
-        "insert into tb_order_batch_info (id, batch_no, ",
+        "insert into tb_order_batch_info (batch_no, ",
         "file_name, total_num, ",
         "success_num, money, ",
-        "status, modify_time, ",
+        "status,user_id, modify_time, ",
         "create_time)",
-        "values (#{id,jdbcType=INTEGER}, #{batchNo,jdbcType=VARCHAR}, ",
+        "values ( #{batchNo,jdbcType=VARCHAR}, ",
         "#{fileName,jdbcType=VARCHAR}, #{totalNum,jdbcType=INTEGER}, ",
         "#{successNum,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, ",
-        "#{status,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, ",
+        "#{status,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{modifyTime,jdbcType=TIMESTAMP}, ",
         "#{createTime,jdbcType=TIMESTAMP})"
     })
     @Options(useGeneratedKeys = true, keyProperty = "id")
@@ -46,7 +46,7 @@ public interface TbOrderBatchInfoMapper {
      */
     @Select({
         "select",
-        "id, batch_no, file_name, total_num, success_num, money, status, modify_time, ",
+        "id, batch_no, file_name, total_num, success_num, money, status,user_id, modify_time, ",
         "create_time",
         "from tb_order_batch_info",
         "where id = #{id,jdbcType=INTEGER}"
@@ -59,6 +59,7 @@ public interface TbOrderBatchInfoMapper {
         @Arg(column="success_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="money", javaType=BigDecimal.class, jdbcType=JdbcType.DECIMAL),
         @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+        @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
         @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
     })
@@ -71,10 +72,10 @@ public interface TbOrderBatchInfoMapper {
      */
     @Select({
             "select",
-            "id, batch_no, file_name, total_num, success_num, money, status, modify_time, ",
+            "id, batch_no, file_name, total_num, success_num, money, status,user_id, modify_time, ",
             "create_time",
             "from tb_order_batch_info",
-            "where id = #{id,jdbcType=INTEGER}"
+            "where user_id = #{userId,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -84,6 +85,7 @@ public interface TbOrderBatchInfoMapper {
             @Arg(column="success_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="money", javaType=BigDecimal.class, jdbcType=JdbcType.DECIMAL),
             @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
     })

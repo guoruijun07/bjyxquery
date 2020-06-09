@@ -40,6 +40,11 @@ public class TbOrderBatchInfo {
     private Integer status;
 
     /**
+     * 用户id user_id
+     */
+    private Integer userId;
+
+    /**
      * 修改时间 modify_time
      */
     private Date modifyTime;
@@ -53,7 +58,7 @@ public class TbOrderBatchInfo {
      *
      * @mbggenerated
      */
-    public TbOrderBatchInfo(Integer id, String batchNo, String fileName, Integer totalNum, Integer successNum, BigDecimal money, Integer status, Date modifyTime, Date createTime) {
+    public TbOrderBatchInfo(Integer id, String batchNo, String fileName, Integer totalNum, Integer successNum, BigDecimal money, Integer status,Integer userId, Date modifyTime, Date createTime) {
         this.id = id;
         this.batchNo = batchNo;
         this.fileName = fileName;
@@ -61,6 +66,7 @@ public class TbOrderBatchInfo {
         this.successNum = successNum;
         this.money = money;
         this.status = status;
+        this.userId = userId;
         this.modifyTime = modifyTime;
         this.createTime = createTime;
     }
@@ -197,6 +203,24 @@ public class TbOrderBatchInfo {
      */
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    /**
+     * 用户id
+
+     * @param userId
+     */
+    public Integer getUserId() {
+        return userId;
+    }
+
+    /**
+     * 用户Id
+
+     * @param userId
+     */
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
