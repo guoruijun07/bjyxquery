@@ -32,7 +32,7 @@ import java.util.*;
 public class ExportController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExportController.class);
-    private final String dirPath = System.getProperty("user.dir") + java.io.File.separator + "exportlog" + java.io.File.separator;
+//    private final String dirPath = System.getProperty("user.dir") + java.io.File.separator + "exportlog" + java.io.File.separator;
 
     @Autowired(required = false)
     private TbSortingInfoMapper tbSortingInfoMapper;
@@ -45,6 +45,11 @@ public class ExportController {
 
     @Value("${perMoney}")
     private String perMoney;
+
+    @Value("${baseDir}")
+    private String baseDir;
+
+    private final String dirPath = baseDir+ java.io.File.separator + "exportMatching" + java.io.File.separator;
 
     /**
      * excel文件的下载
