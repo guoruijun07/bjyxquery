@@ -137,6 +137,51 @@ public interface TbOrderOriginalInfoMapper {
     })
     TbOrderOriginalInfo selectByPrimaryKey(Integer id);
 
+
+    /**
+     *
+     * @mbggenerated
+     */
+    @Select({
+            "select",
+            "id, batch_no, order_no, sender_name, sender_mobile_one, sender_mobile_two, sender_province, ",
+            "sender_city, sender_county, sender_address, reciver_name, reciver_mobile_one, ",
+            "reciver_mobile_two, reciver_province, reciver_city, reciver_county, reciver_address, ",
+            "operation_no, operation_name, operation_time, city_wide_flag, sorting_status, ",
+            "remark, modify_time, create_time",
+            "from tb_order_original_info",
+            "where batch_no = #{batchNo,jdbcType=VARCHAR}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="batch_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="order_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="sender_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="sender_mobile_one", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="sender_mobile_two", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="sender_province", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="sender_city", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="sender_county", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="sender_address", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="reciver_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="reciver_mobile_one", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="reciver_mobile_two", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="reciver_province", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="reciver_city", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="reciver_county", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="reciver_address", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="operation_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="operation_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="operation_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="city_wide_flag", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="sorting_status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="remark", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
+    })
+    List<TbOrderOriginalInfo> selectByBatchNo(String batchNo);
+
+
     /**
      *
      * @mbggenerated

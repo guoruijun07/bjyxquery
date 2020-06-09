@@ -95,6 +95,31 @@ public interface TbOrderBatchInfoMapper {
      *
      * @mbggenerated
      */
+    @Select({
+            "select",
+            "id, batch_no, file_name, total_num, success_num, money, status,user_id, modify_time, ",
+            "create_time",
+            "from tb_order_batch_info",
+            "where batch_no = #{batchNo,jdbcType=VARCHAR}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="batch_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="file_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="total_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="success_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="money", javaType=BigDecimal.class, jdbcType=JdbcType.DECIMAL),
+            @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
+    })
+    TbOrderBatchInfo selectByBatchNo(String batchNo);
+
+    /**
+     *
+     * @mbggenerated
+     */
     @Update({
         "update tb_order_batch_info",
         "set batch_no = #{batchNo,jdbcType=VARCHAR},",
