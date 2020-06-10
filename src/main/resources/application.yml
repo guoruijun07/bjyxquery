@@ -16,7 +16,7 @@ spring:
   datasource:
     mysql:
       driver-class-name: com.mysql.jdbc.Driver
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/bjyxquery?useUnicode=true&characterEncoding=utf-8
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/bjyxquery?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
       username: root
       password: root
 #      password: GuoruiJUN@07

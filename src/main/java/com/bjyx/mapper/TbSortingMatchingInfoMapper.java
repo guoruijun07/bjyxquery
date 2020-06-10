@@ -27,7 +27,7 @@ public interface TbSortingMatchingInfoMapper {
      * @mbggenerated
      */
     @Insert({
-            "insert into tb_sorting_matching_info (id, batch_no, ",
+            "insert into tb_sorting_matching_info (id, batch_no,order_no, ",
             "sender_name, sender_mobile_one, ",
             "sender_mobile_two, sender_province, ",
             "sender_city, sender_county, ",
@@ -43,9 +43,9 @@ public interface TbSortingMatchingInfoMapper {
             "org_no, org_name, ",
             "operation_no, operation_name, ",
             "operation_time, matching_distribu_center_status, ",
-            "city_wide_flag, remark, ",
+            "city_wide_flag,sorting_status,remark, ",
             "modify_time, create_time)",
-            "values (#{id,jdbcType=INTEGER}, #{batchNo,jdbcType=VARCHAR}, ",
+            "values (#{id,jdbcType=INTEGER}, #{batchNo,jdbcType=VARCHAR},#{orderNo,jdbcType=VARCHAR}, ",
             "#{senderName,jdbcType=VARCHAR}, #{senderMobileOne,jdbcType=VARCHAR}, ",
             "#{senderMobileTwo,jdbcType=VARCHAR}, #{senderProvince,jdbcType=VARCHAR}, ",
             "#{senderCity,jdbcType=VARCHAR}, #{senderCounty,jdbcType=VARCHAR}, ",
@@ -61,7 +61,7 @@ public interface TbSortingMatchingInfoMapper {
             "#{orgNo,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, ",
             "#{operationNo,jdbcType=VARCHAR}, #{operationName,jdbcType=VARCHAR}, ",
             "#{operationTime,jdbcType=TIMESTAMP}, #{matchingDistribuCenterStatus,jdbcType=INTEGER}, ",
-            "#{cityWideFlag,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, ",
+            "#{cityWideFlag,jdbcType=INTEGER},#{sortingStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, ",
             "#{modifyTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})"
     })
     int insert(TbSortingMatchingInfo record);
@@ -72,19 +72,20 @@ public interface TbSortingMatchingInfoMapper {
      */
     @Select({
             "select",
-            "id, batch_no, sender_name, sender_mobile_one, sender_mobile_two, sender_province, ",
+            "id, batch_no,order_no, sender_name, sender_mobile_one, sender_mobile_two, sender_province, ",
             "sender_city, sender_county, sender_address, reciver_name, reciver_mobile_one, ",
             "reciver_mobile_two, reciver_province, reciver_city, reciver_county, reciver_address, ",
             "datoubi, datoubi_code, consolidation_name, consolidation_code, level_four_sorting_name, ",
             "sorting_name, marking, distribu_center, dlv_no, dlv_name, org_no, org_name, ",
             "operation_no, operation_name, operation_time, matching_distribu_center_status, ",
-            "city_wide_flag, remark, modify_time, create_time",
+            "city_wide_flag,sorting_status, remark, modify_time, create_time",
             "from tb_sorting_matching_info",
             "where id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
             @Arg(column="batch_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="order_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="sender_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="sender_mobile_one", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="sender_mobile_two", javaType=String.class, jdbcType=JdbcType.VARCHAR),
@@ -116,6 +117,7 @@ public interface TbSortingMatchingInfoMapper {
             @Arg(column="operation_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="matching_distribu_center_status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="city_wide_flag", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="sorting_status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="remark", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
@@ -129,19 +131,20 @@ public interface TbSortingMatchingInfoMapper {
      */
     @Select({
             "select",
-            "id, batch_no, sender_name, sender_mobile_one, sender_mobile_two, sender_province, ",
+            "id, batch_no,order_no, sender_name, sender_mobile_one, sender_mobile_two, sender_province, ",
             "sender_city, sender_county, sender_address, reciver_name, reciver_mobile_one, ",
             "reciver_mobile_two, reciver_province, reciver_city, reciver_county, reciver_address, ",
             "datoubi, datoubi_code, consolidation_name, consolidation_code, level_four_sorting_name, ",
             "sorting_name, marking, distribu_center, dlv_no, dlv_name, org_no, org_name, ",
             "operation_no, operation_name, operation_time, matching_distribu_center_status, ",
-            "city_wide_flag, remark, modify_time, create_time",
+            "city_wide_flag,sorting_status, remark, modify_time, create_time",
             "from tb_sorting_matching_info",
             "where batch_no = #{id,jdbcType=VARCHAR}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
             @Arg(column="batch_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="order_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="sender_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="sender_mobile_one", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="sender_mobile_two", javaType=String.class, jdbcType=JdbcType.VARCHAR),
@@ -173,6 +176,7 @@ public interface TbSortingMatchingInfoMapper {
             @Arg(column="operation_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="matching_distribu_center_status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="city_wide_flag", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="sorting_status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="remark", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
@@ -185,19 +189,20 @@ public interface TbSortingMatchingInfoMapper {
      */
     @Select({
             "select",
-            "id, batch_no, sender_name, sender_mobile_one, sender_mobile_two, sender_province, ",
+            "id, batch_no, order_no,sender_name, sender_mobile_one, sender_mobile_two, sender_province, ",
             "sender_city, sender_county, sender_address, reciver_name, reciver_mobile_one, ",
             "reciver_mobile_two, reciver_province, reciver_city, reciver_county, reciver_address, ",
             "datoubi, datoubi_code, consolidation_name, consolidation_code, level_four_sorting_name, ",
             "sorting_name, marking, distribu_center, dlv_no, dlv_name, org_no, org_name, ",
             "operation_no, operation_name, operation_time, matching_distribu_center_status, ",
-            "city_wide_flag, remark, modify_time, create_time",
+            "city_wide_flag, sorting_status, remark, modify_time, create_time",
             "from tb_sorting_matching_info",
             "where batch_no = #{batchNo,jdbcType=VARCHAR}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
             @Arg(column="batch_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="order_no", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="sender_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="sender_mobile_one", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="sender_mobile_two", javaType=String.class, jdbcType=JdbcType.VARCHAR),
@@ -229,6 +234,7 @@ public interface TbSortingMatchingInfoMapper {
             @Arg(column="operation_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="matching_distribu_center_status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="city_wide_flag", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+            @Arg(column="sorting_status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="remark", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
             @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
@@ -237,11 +243,24 @@ public interface TbSortingMatchingInfoMapper {
 
     /**
      *
+     * 统计成功条数
+     */
+    @Select({
+            "select",
+            "count(1) ",
+            "from tb_sorting_matching_info",
+            "where batch_no = #{batchNo,jdbcType=VARCHAR} and sorting_status = 1"
+    })
+    Integer selectByCountSucessAndBatchNo(String batchNo);
+
+    /**
+     *
      * @mbggenerated
      */
     @Update({
             "update tb_sorting_matching_info",
             "set batch_no = #{batchNo,jdbcType=VARCHAR},",
+            "order_no = #{orderNo,jdbcType=VARCHAR},",
             "sender_name = #{senderName,jdbcType=VARCHAR},",
             "sender_mobile_one = #{senderMobileOne,jdbcType=VARCHAR},",
             "sender_mobile_two = #{senderMobileTwo,jdbcType=VARCHAR},",
@@ -273,6 +292,7 @@ public interface TbSortingMatchingInfoMapper {
             "operation_time = #{operationTime,jdbcType=TIMESTAMP},",
             "matching_distribu_center_status = #{matchingDistribuCenterStatus,jdbcType=INTEGER},",
             "city_wide_flag = #{cityWideFlag,jdbcType=INTEGER},",
+            "sorting_status = #{sortingStatus,jdbcType=INTEGER},",
             "remark = #{remark,jdbcType=VARCHAR},",
             "modify_time = #{modifyTime,jdbcType=TIMESTAMP},",
             "create_time = #{createTime,jdbcType=TIMESTAMP}",
@@ -312,8 +332,8 @@ public interface TbSortingMatchingInfoMapper {
             "#{item.reciverProvince,jdbcType=VARCHAR}, #{item.reciverCity,jdbcType=VARCHAR}, ",
             "#{item.reciverCounty,jdbcType=VARCHAR}, #{item.reciverAddress,jdbcType=VARCHAR}, ",
             "#{item.operationNo,jdbcType=VARCHAR}, #{item.operationName,jdbcType=VARCHAR}, #{item.operationTime,jdbcType=TIMESTAMP},",
-            "#{item.cityWideFlag,jdbcType=INTEGER}, ",
-            "#{item.sortingStatus,jdbcType=INTEGER},",
+            "#{item.cityWideFlag,jdbcType=INTEGER},0, ",
+//            "#{item.sortingStatus,jdbcType=INTEGER},",
             "#{item.remark,jdbcType=VARCHAR}, #{item.modifyTime,jdbcType=TIMESTAMP}, ",
             "#{item.createTime,jdbcType=TIMESTAMP})",
             "</foreach>",
@@ -333,8 +353,33 @@ public interface TbSortingMatchingInfoMapper {
             "consolidation_name = #{consolidationName,jdbcType=VARCHAR},",
             "consolidation_code = #{consolidationCode,jdbcType=VARCHAR},",
             "level_four_sorting_name = #{levelFourSortingName,jdbcType=VARCHAR},",
-            "sorting_status = #{sortingStatus,jdbcType=VARCHAR}",
+            "sorting_status = #{sortingStatus,jdbcType=INTEGER}",
             "where order_no = #{orderNo,jdbcType=VARCHAR}"
     })
     int updateByOrderNo(TbSortingMatchingInfo record);
+
+    /**
+     *
+     * @mbggenerated
+     */
+    @Update({
+            "<script>",
+            "<foreach collection='sortingMatchingInfos' item='item' separator=';'>",
+            "update tb_sorting_matching_info set",
+            "datoubi = #{item.datoubi,jdbcType=VARCHAR},",
+            "datoubi_code = #{item.datoubiCode,jdbcType=VARCHAR},",
+            "consolidation_name = #{item.consolidationName,jdbcType=VARCHAR},",
+            "consolidation_code = #{item.consolidationCode,jdbcType=VARCHAR},",
+            "level_four_sorting_name = #{item.levelFourSortingName,jdbcType=VARCHAR},",
+            "sorting_name = #{sortingName,jdbcType=VARCHAR},",
+            "dlv_no = #{dlvNo,jdbcType=VARCHAR},",
+            "dlv_name = #{dlvName,jdbcType=VARCHAR},",
+            "org_no = #{orgNo,jdbcType=VARCHAR},",
+            "org_name = #{orgName,jdbcType=VARCHAR},",
+            "sorting_status = #{item.sortingStatus,jdbcType=INTEGER}",
+            "where order_no = #{item.orderNo,jdbcType=VARCHAR}",
+            "</foreach>",
+            "</script>",
+    })
+    int batchUpdateByOrderNo(@Param("sortingMatchingInfos") List<TbSortingMatchingInfo> sortingMatchingInfos);
 }

@@ -1,12 +1,16 @@
 package com.bjyx.controller;
 
+import com.alibaba.csb.sdk.HttpCallerException;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.DateUtils;
+import com.alibaba.fastjson.JSON;
 import com.bjyx.common.Constants;
 import com.bjyx.entity.bo.OrderOriginalBO;
 import com.bjyx.entity.po.*;
+import com.bjyx.enumeration.EnumPriceCode;
 import com.bjyx.listener.OrderOriginalListener;
 import com.bjyx.mapper.*;
+import com.bjyx.service.SortingMatchingInfo;
 import com.bjyx.template.SortingMatchiingExportTemplate;
 import com.bjyx.utils.SysResult;
 import com.github.pagehelper.PageHelper;
@@ -45,9 +49,6 @@ public class OrderSortingMatchingAPI {
     private String baseDir;
 
     @Autowired(required = false)
-    private TbUserInfoMapper tbuserInfoMapper;
-
-    @Autowired(required = false)
     private TbUserInfoMapper tbUserInfoMapper;
 
     @Autowired(required = false)
@@ -62,6 +63,9 @@ public class OrderSortingMatchingAPI {
     @Autowired(required = false)
     private TbOrderBatchInfoMapper tbOrderBatchInfoMapper;
 
+    @Autowired(required = false)
+    private SortingMatchingInfo sortingMatchingInfo;
+
     private final String dirPath = baseDir+ java.io.File.separator + "exportSorting" + java.io.File.separator;
     Random random=new Random();
 
@@ -69,7 +73,7 @@ public class OrderSortingMatchingAPI {
     public String getSortingOrderList(HttpSession session, Model model, Integer pageNum) {
 
         TbUserInfo tbUserInfo= (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
-        tbUserInfo = tbuserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
+        tbUserInfo = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
         model.addAttribute("remainingSum",tbUserInfo.getRemainingSum());
         System.out.println("当前页为："+pageNum);
         pageNum = pageNum==null?1:pageNum;
@@ -131,14 +135,6 @@ public class OrderSortingMatchingAPI {
         return new SysResult(1, batchNo+","+tbOrderOriginalInfoList.size());
     }
 
-    @RequestMapping("/matchingBatchNo")
-    public String matchingBatchNo(HttpSession session, Model model, String  batchNo) {
-
-logger.info(batchNo);
-
-        return "list";
-    }
-
     @PostMapping("/querySortingInfo")
     @ResponseBody
     public SysResult querySortingInfo(OrderOriginalBO orderOriginal,String token,String version) {
@@ -148,24 +144,50 @@ logger.info(batchNo);
             return new SysResult(0, "请升级app版本");
         }
         //校验登录方式
-        TbUserInfo tbUserInfo = tbuserInfoMapper.selectByToken(token);
-
-        if (tbUserInfo != null) {
+        TbUserInfo tbUserInfo = tbUserInfoMapper.selectByToken(token);
+        TbOrderOriginalInfo tbOrderOriginalInfo = new TbOrderOriginalInfo();
+        if (tbUserInfo == null) {
+            return new SysResult(0, "用户不存在");
+        }
             if (tbUserInfo.getStatus() == 0) {
                 return new SysResult(0, "本用户已失效，请联系管理员");
             }
 
             Date invalidDate = tbUserInfo.getInvalidDate();
 
-            if (invalidDate != null && new Date().getTime() <= invalidDate.getTime()) {
-                logger.info("==用户 APP 登录:{} 成功!", tbUserInfo.toString());
-                return new SysResult(1, "登录成功",token, tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum());
-            } else {
+            if (invalidDate==null || (invalidDate != null && new Date().getTime() > invalidDate.getTime())) {
                 return new SysResult(0, "当前登录已失效，请重新登录");
             }
+
+
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.APP_PRICE.getCode());
+
+        Double remainingSum = tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum();
+
+        Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
+
+        if (pcPrice > remainingSum) {
+            return new SysResult(2, "当前余额不够支付本次消费金额，请联系管理员充值",token, remainingSum);
         }
 
-        return new SysResult(0,"登录失败，请重新登录");
+        BeanUtils.copyProperties(orderOriginal,tbOrderOriginalInfo);
+        try {
+            TbSortingMatchingInfo tbSortingMatchingInfo = sortingMatchingInfo.sortingMatchingByApp(tbOrderOriginalInfo);
+
+            //更新余额
+            Double remainingSumAfter = remainingSum - pcPrice;
+            TbUserInfo tbUserInfo1 = new TbUserInfo();
+            tbUserInfo1.setId(tbUserInfo.getId());
+            tbUserInfo1.setRemainingSum(remainingSumAfter);
+
+            tbUserInfoMapper.updateRemainingSumByPrimaryKey(tbUserInfo1);
+
+            return new SysResult(1,"查询成功", token, remainingSumAfter, JSON.toJSONString(tbSortingMatchingInfo));
+
+        } catch (HttpCallerException e) {
+            e.printStackTrace();
+        }
+        return new SysResult(0,"匹配失败，请重新匹配");
     }
 //    DecimalFormat bathNoDF=new DecimalFormat("0000");//设置格式
 //    DecimalFormat orderNoDF=new DecimalFormat("000000");//设置格式
@@ -174,7 +196,7 @@ logger.info(batchNo);
     /**
      * 点击匹配按钮，调取实时接口匹配
      */
-    @PostMapping("orderMatching")
+    @PostMapping("/matchingBatchNo")
     public SysResult orderMatching( HttpSession session,String batchNo) throws IOException {
         Long startTime = System.currentTimeMillis();
         TbUserInfo tbUserInfo = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
@@ -200,11 +222,19 @@ logger.info(batchNo);
             return new SysResult(0, "您的余额不够，请联系管理员充值");
         }
 
-        //传入批次号，调取远程接口，返回成功条数，根据匹配状态，生成对应文件导出
-        Integer successMatching = 0;
+        //传入批次号，调取远程接口，根据匹配状态，生成对应文件导出
+        try{
+            //调取接口匹配分拣码
+            sortingMatchingInfo.sortingMatchingInfoByPc(batchNo);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new SysResult(0, "导入数据失败");
+
+        }
 
         List<TbSortingMatchingInfo> tbSortingMatchingInfoList = tbSortingMatchingInfoMapper.selectByBatchNo(batchNo);
-
+        Integer successMatching   = tbSortingMatchingInfoMapper.selectByCountSucessAndBatchNo(batchNo);
 
         //更新余额
         //如果余额不够，直接返回，不生成文件
@@ -229,6 +259,7 @@ logger.info(batchNo);
 
             TbOrderBatchInfo tbOrderBatchInfo = tbOrderBatchInfoMapper.selectByBatchNo(batchNo);
             tbOrderBatchInfo.setFileName(fileName);
+            tbOrderBatchInfo.setTotalNum(totalNum);
             tbOrderBatchInfo.setSuccessNum(successMatching);
             tbOrderBatchInfo.setStatus(1);
             tbOrderBatchInfo.setModifyTime(new Date());

@@ -176,6 +176,38 @@ public interface TbOrderOriginalInfoMapper {
      *
      * @mbggenerated
      */
+    @Update({
+            "update tb_order_original_info",
+            "set ",
+            "city_wide_flag = #{cityWideFlag,jdbcType=INTEGER},",
+            "sorting_status = #{sortingStatus,jdbcType=INTEGER},",
+            "modify_time = #{modifyTime,jdbcType=TIMESTAMP},",
+            "where order_no = #{orderNo,jdbcType=VARCHAR}"
+    })
+    int updateByOrderNo(TbOrderOriginalInfo record);
+
+    /**
+     *
+     * @mbggenerated
+     */
+    @Update({
+            "<script>",
+            "<foreach collection='sortingMatchingInfos' item='item' separator=';'>",
+            "update tb_order_original_info",
+            "set ",
+            "city_wide_flag = #{cityWideFlag,jdbcType=INTEGER},",
+            "sorting_status = #{sortingStatus,jdbcType=INTEGER},",
+            "modify_time = #{modifyTime,jdbcType=TIMESTAMP},",
+            "where order_no = #{orderNo,jdbcType=VARCHAR}",
+            "</foreach>",
+            "</script>",
+    })
+    int batchUpdateByOrderNo(@Param("orderOriginalInfos") List<TbOrderOriginalInfo> orderOriginalInfos);
+
+    /**
+     *
+     * @mbggenerated
+     */
     @Select({
             "select",
             "id, batch_no, order_no, sender_name, sender_mobile_one, sender_mobile_two, sender_province, ",

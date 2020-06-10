@@ -13,31 +13,10 @@ public class TbSortingMatchingInfo {
      */
     private String batchNo;
 
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-    }
-
     /**
      * order_no
      */
     private String orderNo;
-
-    public String getSortingStatus() {
-        return sortingStatus;
-    }
-
-    public void setSortingStatus(String sortingStatus) {
-        this.sortingStatus = sortingStatus;
-    }
-
-    /**
-     * sorting_status
-     */
-    private String sortingStatus;
 
     /**
      * 寄件人姓名 sender_name
@@ -195,6 +174,11 @@ public class TbSortingMatchingInfo {
     private Integer cityWideFlag;
 
     /**
+     * sorting_status
+     */
+    private Integer sortingStatus;
+
+    /**
      * 备注 remark
      */
     private String remark;
@@ -213,9 +197,10 @@ public class TbSortingMatchingInfo {
      *
      * @mbggenerated
      */
-    public TbSortingMatchingInfo(Integer id, String batchNo, String senderName, String senderMobileOne, String senderMobileTwo, String senderProvince, String senderCity, String senderCounty, String senderAddress, String reciverName, String reciverMobileOne, String reciverMobileTwo, String reciverProvince, String reciverCity, String reciverCounty, String reciverAddress, String datoubi, String datoubiCode, String consolidationName, String consolidationCode, String levelFourSortingName, String sortingName, String marking, String distribuCenter, String dlvNo, String dlvName, String orgNo, String orgName, String operationNo, String operationName, Date operationTime, Integer matchingDistribuCenterStatus, Integer cityWideFlag, String remark, Date modifyTime, Date createTime) {
+    public TbSortingMatchingInfo(Integer id, String batchNo,String orderNo, String senderName, String senderMobileOne, String senderMobileTwo, String senderProvince, String senderCity, String senderCounty, String senderAddress, String reciverName, String reciverMobileOne, String reciverMobileTwo, String reciverProvince, String reciverCity, String reciverCounty, String reciverAddress, String datoubi, String datoubiCode, String consolidationName, String consolidationCode, String levelFourSortingName, String sortingName, String marking, String distribuCenter, String dlvNo, String dlvName, String orgNo, String orgName, String operationNo, String operationName, Date operationTime, Integer matchingDistribuCenterStatus, Integer cityWideFlag, Integer sortingStatus ,String remark, Date modifyTime, Date createTime) {
         this.id = id;
         this.batchNo = batchNo;
+        this.orderNo = orderNo;
         this.senderName = senderName;
         this.senderMobileOne = senderMobileOne;
         this.senderMobileTwo = senderMobileTwo;
@@ -247,6 +232,7 @@ public class TbSortingMatchingInfo {
         this.operationTime = operationTime;
         this.matchingDistribuCenterStatus = matchingDistribuCenterStatus;
         this.cityWideFlag = cityWideFlag;
+        this.sortingStatus =sortingStatus;
         this.remark = remark;
         this.modifyTime = modifyTime;
         this.createTime = createTime;
@@ -294,6 +280,24 @@ public class TbSortingMatchingInfo {
      */
     public void setBatchNo(String batchNo) {
         this.batchNo = batchNo == null ? null : batchNo.trim();
+    }
+
+    /**
+     * 订单号
+
+     * @return orderNo 订单号
+     */
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    /**
+     * 订单号
+
+     * @param orderNo
+     */
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
     /**
@@ -852,6 +856,25 @@ public class TbSortingMatchingInfo {
      */
     public void setCityWideFlag(Integer cityWideFlag) {
         this.cityWideFlag = cityWideFlag;
+    }
+
+
+    /**
+     * 匹配状态
+
+     *@return sortingStatus 匹配状态: 0 匹配失败，1 匹配成功
+     */
+    public Integer getSortingStatus() {
+        return sortingStatus;
+    }
+
+    /**
+     * 匹配状态
+
+     * @param sortingStatus 匹配状态: 0 匹配失败，1 匹配成功
+     */
+    public void setSortingStatus(Integer sortingStatus) {
+        this.sortingStatus = sortingStatus;
     }
 
     /**

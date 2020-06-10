@@ -209,9 +209,9 @@
             }
             $.ajax({
                 url:"/matchingBatchNo?batchNo="+batchNo,
-                type:"get",
+                type:"post",
                 success:function (date) {
-                    window.location.href="/download?fileName="+ $("#fileName").val();
+                    window.location.href="/getSortingOrderList";
                 },
                 error:function () {
                     alert("error")
