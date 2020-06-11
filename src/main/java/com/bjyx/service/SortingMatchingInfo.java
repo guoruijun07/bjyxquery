@@ -156,9 +156,11 @@ public class SortingMatchingInfo {
                                     String sortingName = split[3];
                                     tbSortingMatchingInfo.setSortingName(sortingName);
                                     TbSortingInfo tbSortingInfo = mapBasesSortingInfos.get(sortingName);
-                                    tbSortingMatchingInfo.setOrderNo(String.valueOf(tbSortingInfo.getOrgNum()));
-                                    tbSortingMatchingInfo.setOrgName(tbSortingInfo.getOrgName());
-                                    tbSortingMatchingInfo.setDlvName(tbSortingInfo.getDlvName());
+                                    if(tbSortingInfo!=null) {
+                                        tbSortingMatchingInfo.setOrderNo(String.valueOf(tbSortingInfo.getOrgNum()));
+                                        tbSortingMatchingInfo.setOrgName(tbSortingInfo.getOrgName());
+                                        tbSortingMatchingInfo.setDlvName(tbSortingInfo.getDlvName());
+                                    }
                                 }
                             }
                             tbSortingMatchingInfo.setLevelFourSortingName(levelFourSortingName);

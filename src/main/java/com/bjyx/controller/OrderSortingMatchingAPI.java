@@ -170,7 +170,9 @@ public class OrderSortingMatchingAPI {
             return new SysResult(2, "当前余额不够支付本次消费金额，请联系管理员充值",token, remainingSum);
         }
 
+
         BeanUtils.copyProperties(orderOriginal,tbOrderOriginalInfo);
+        tbOrderOriginalInfo.setOrderNo(getOrderNo());
         try {
             TbSortingMatchingInfo tbSortingMatchingInfo = sortingMatchingInfo.sortingMatchingByApp(tbOrderOriginalInfo);
 

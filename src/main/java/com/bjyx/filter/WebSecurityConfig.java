@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
         addInterceptor.excludePathPatterns("/appLogin");
         addInterceptor.excludePathPatterns("/checkToken");
         addInterceptor.excludePathPatterns("/queryWaybillNo");
+        addInterceptor.excludePathPatterns("/querySortingInfo");
         addInterceptor.excludePathPatterns("/baseInfoDownload");
         addInterceptor.excludePathPatterns("/error");
         addInterceptor.excludePathPatterns("/login**");
@@ -46,7 +47,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
 
 
         // 拦截配置
-        addInterceptor.addPathPatterns("/**");
+//        addInterceptor.addPathPatterns("/**");
 
     }
 
