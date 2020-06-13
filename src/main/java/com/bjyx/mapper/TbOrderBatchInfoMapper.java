@@ -4,7 +4,6 @@ import com.bjyx.entity.po.TbOrderBatchInfo;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public interface TbOrderBatchInfoMapper {
         "create_time)",
         "values ( #{batchNo,jdbcType=VARCHAR}, ",
         "#{fileName,jdbcType=VARCHAR}, #{totalNum,jdbcType=INTEGER}, ",
-        "#{successNum,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, ",
+        "#{successNum,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, ",
         "#{status,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},#{modifyTime,jdbcType=TIMESTAMP}, ",
         "#{createTime,jdbcType=TIMESTAMP})"
     })
@@ -57,7 +56,7 @@ public interface TbOrderBatchInfoMapper {
         @Arg(column="file_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="total_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="success_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-        @Arg(column="money", javaType=BigDecimal.class, jdbcType=JdbcType.DECIMAL),
+        @Arg(column="money", javaType=Double.class, jdbcType=JdbcType.DOUBLE),
         @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
         @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
@@ -83,7 +82,7 @@ public interface TbOrderBatchInfoMapper {
             @Arg(column="file_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="total_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="success_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="money", javaType=BigDecimal.class, jdbcType=JdbcType.DECIMAL),
+            @Arg(column="money", javaType=Double.class, jdbcType=JdbcType.DOUBLE),
             @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
@@ -108,7 +107,7 @@ public interface TbOrderBatchInfoMapper {
             @Arg(column="file_name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
             @Arg(column="total_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="success_num", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="money", javaType=BigDecimal.class, jdbcType=JdbcType.DECIMAL),
+            @Arg(column="money", javaType=Double.class, jdbcType=JdbcType.DOUBLE),
             @Arg(column="status", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="modify_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
@@ -126,7 +125,7 @@ public interface TbOrderBatchInfoMapper {
           "file_name = #{fileName,jdbcType=VARCHAR},",
           "total_num = #{totalNum,jdbcType=INTEGER},",
           "success_num = #{successNum,jdbcType=INTEGER},",
-          "money = #{money,jdbcType=DECIMAL},",
+          "money = #{money,jdbcType=DOUBLE},",
           "status = #{status,jdbcType=INTEGER},",
           "modify_time = #{modifyTime,jdbcType=TIMESTAMP},",
           "create_time = #{createTime,jdbcType=TIMESTAMP}",

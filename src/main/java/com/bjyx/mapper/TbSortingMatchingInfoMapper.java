@@ -353,8 +353,13 @@ public interface TbSortingMatchingInfoMapper {
             "consolidation_name = #{consolidationName,jdbcType=VARCHAR},",
             "consolidation_code = #{consolidationCode,jdbcType=VARCHAR},",
             "level_four_sorting_name = #{levelFourSortingName,jdbcType=VARCHAR},",
+            "sorting_name = #{sortingName,jdbcType=VARCHAR},",
+            "dlv_no = #{dlvNo,jdbcType=VARCHAR},",
+            "dlv_name = #{dlvName,jdbcType=VARCHAR},",
+            "org_no = #{orgNo,jdbcType=VARCHAR},",
+            "org_name = #{orgName,jdbcType=VARCHAR},",
             "sorting_status = #{sortingStatus,jdbcType=INTEGER}",
-            "where order_no = #{orderNo,jdbcType=VARCHAR}"
+            "where order_no = #{orderNo,jdbcType=VARCHAR}",
     })
     int updateByOrderNo(TbSortingMatchingInfo record);
 

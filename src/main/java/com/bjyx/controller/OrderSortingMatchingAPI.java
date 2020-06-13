@@ -1,13 +1,10 @@
 package com.bjyx.controller;
 
-import com.alibaba.csb.sdk.HttpCallerException;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.DateUtils;
-import com.alibaba.fastjson.JSON;
 import com.bjyx.common.Constants;
 import com.bjyx.entity.bo.OrderOriginalBO;
 import com.bjyx.entity.po.*;
-import com.bjyx.enumeration.EnumPriceCode;
 import com.bjyx.listener.OrderOriginalListener;
 import com.bjyx.mapper.*;
 import com.bjyx.service.SortingMatchingInfo;
@@ -66,7 +63,8 @@ public class OrderSortingMatchingAPI {
     @Autowired(required = false)
     private SortingMatchingInfo sortingMatchingInfo;
 
-    private final String dirPath = baseDir+ java.io.File.separator + "exportSorting" + java.io.File.separator;
+    private  String dirPath = "/home/code"+ java.io.File.separator + "exportSorting" + java.io.File.separator;
+
     Random random=new Random();
 
     @RequestMapping("/getSortingOrderList")
@@ -135,62 +133,7 @@ public class OrderSortingMatchingAPI {
         return new SysResult(1, batchNo+","+tbOrderOriginalInfoList.size());
     }
 
-    @PostMapping("/querySortingInfo")
-    @ResponseBody
-    public SysResult querySortingInfo(OrderOriginalBO orderOriginal,String token,String version) {
-        logger.info("app 校验token:{}", token);
-        if (!currentVersion.equals(version)) {
-            logger.info("token为{}当前版本为:{}", token, version);
-            return new SysResult(0, "请升级app版本");
-        }
-        //校验登录方式
-        TbUserInfo tbUserInfo = tbUserInfoMapper.selectByToken(token);
-        TbOrderOriginalInfo tbOrderOriginalInfo = new TbOrderOriginalInfo();
-        if (tbUserInfo == null) {
-            return new SysResult(0, "用户不存在");
-        }
-            if (tbUserInfo.getStatus() == 0) {
-                return new SysResult(0, "本用户已失效，请联系管理员");
-            }
 
-            Date invalidDate = tbUserInfo.getInvalidDate();
-
-            if (invalidDate==null || (invalidDate != null && new Date().getTime() > invalidDate.getTime())) {
-                return new SysResult(0, "当前登录已失效，请重新登录");
-            }
-
-
-        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.APP_PRICE.getCode());
-
-        Double remainingSum = tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum();
-
-        Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
-
-        if (pcPrice > remainingSum) {
-            return new SysResult(2, "当前余额不够支付本次消费金额，请联系管理员充值",token, remainingSum);
-        }
-
-
-        BeanUtils.copyProperties(orderOriginal,tbOrderOriginalInfo);
-        tbOrderOriginalInfo.setOrderNo(getOrderNo());
-        try {
-            TbSortingMatchingInfo tbSortingMatchingInfo = sortingMatchingInfo.sortingMatchingByApp(tbOrderOriginalInfo);
-
-            //更新余额
-            Double remainingSumAfter = remainingSum - pcPrice;
-            TbUserInfo tbUserInfo1 = new TbUserInfo();
-            tbUserInfo1.setId(tbUserInfo.getId());
-            tbUserInfo1.setRemainingSum(remainingSumAfter);
-
-            tbUserInfoMapper.updateRemainingSumByPrimaryKey(tbUserInfo1);
-
-            return new SysResult(1,"查询成功", token, remainingSumAfter, JSON.toJSONString(tbSortingMatchingInfo));
-
-        } catch (HttpCallerException e) {
-            e.printStackTrace();
-        }
-        return new SysResult(0,"匹配失败，请重新匹配");
-    }
 //    DecimalFormat bathNoDF=new DecimalFormat("0000");//设置格式
 //    DecimalFormat orderNoDF=new DecimalFormat("000000");//设置格式
 //    String str=format1.format(100);//格式转换
@@ -199,6 +142,7 @@ public class OrderSortingMatchingAPI {
      * 点击匹配按钮，调取实时接口匹配
      */
     @PostMapping("/matchingBatchNo")
+    @ResponseBody
     public SysResult orderMatching( HttpSession session,String batchNo) throws IOException {
         Long startTime = System.currentTimeMillis();
         TbUserInfo tbUserInfo = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
@@ -263,6 +207,7 @@ public class OrderSortingMatchingAPI {
             tbOrderBatchInfo.setFileName(fileName);
             tbOrderBatchInfo.setTotalNum(totalNum);
             tbOrderBatchInfo.setSuccessNum(successMatching);
+            tbOrderBatchInfo.setMoney(matchingCost);
             tbOrderBatchInfo.setStatus(1);
             tbOrderBatchInfo.setModifyTime(new Date());
             tbOrderBatchInfoMapper.updateByPrimaryKey(tbOrderBatchInfo);

@@ -73,6 +73,13 @@ public class SortingMatchingInfo {
 
         getMatchingData(logisticsInterfaces, sortingMatchingInfos, orderOriginalInfos);
 
+//        for (TbSortingMatchingInfo sortingMatchingInfo : sortingMatchingInfos) {
+//            tbSortingMatchingInfoMapper.updateByOrderNo(sortingMatchingInfo);
+//        }
+//        for (TbOrderOriginalInfo orderOriginalInfo : orderOriginalInfos) {
+//            tbOrderOriginalInfoMapper.updateByOrderNo(orderOriginalInfo);
+//        }
+
         tbSortingMatchingInfoMapper.batchUpdateByOrderNo(sortingMatchingInfos);
         tbOrderOriginalInfoMapper.batchUpdateByOrderNo(orderOriginalInfos);
 
@@ -157,6 +164,7 @@ public class SortingMatchingInfo {
                                     tbSortingMatchingInfo.setSortingName(sortingName);
                                     TbSortingInfo tbSortingInfo = mapBasesSortingInfos.get(sortingName);
                                     if(tbSortingInfo!=null) {
+                                        tbSortingMatchingInfo.setDistribuCenter(tbSortingInfo.getDistribuCenter());
                                         tbSortingMatchingInfo.setOrderNo(String.valueOf(tbSortingInfo.getOrgNum()));
                                         tbSortingMatchingInfo.setOrgName(tbSortingInfo.getOrgName());
                                         tbSortingMatchingInfo.setDlvName(tbSortingInfo.getDlvName());
