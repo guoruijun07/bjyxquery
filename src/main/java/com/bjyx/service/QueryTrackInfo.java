@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-/*四级分拣码 通过CSB调用 */
+/*邮件轨迹查询 通过HTTP POST调用 */
 @Service
 public class QueryTrackInfo {
 
@@ -70,7 +70,7 @@ public class QueryTrackInfo {
         CloseableHttpResponse response = null;
         try {
             // 创建POST请求对象
-            HttpPost httpPost = new HttpPost("http://211.156.195.29/querypush-twswn/mailTrack/queryMailTrackWn/plus");
+            HttpPost httpPost = new HttpPost("http://211.156.195.35/querypush-twswn/mailTrack/queryMailTrackWn/plus");
 
             // 创建请求参数
             List<NameValuePair> list = new LinkedList<>();
@@ -120,8 +120,10 @@ public class QueryTrackInfo {
                 for(JSONObject json:dates){
                     conList.add(JSON.parseObject(json.toString(),TbDetailTrajectoryOutsideInfo.class));
                 }
-                tbDetailTrajectoryOutsideInfoMapper.deleteByMailNo(mailNo);
-                tbDetailTrajectoryOutsideInfoMapper.batchInsert(conList);
+                if(dates.size()>0) {
+                    tbDetailTrajectoryOutsideInfoMapper.deleteByMailNo(mailNo);
+                    tbDetailTrajectoryOutsideInfoMapper.batchInsert(conList);
+                }
 
             }
 
