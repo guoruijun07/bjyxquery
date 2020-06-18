@@ -199,8 +199,40 @@ public class OrderSortingMatchingAPI {
 
             OutputStream outputStream = new FileOutputStream(exportFile);
 
+            List<SortingMatchiingExportTemplate>  sortingMatchiingExports = new ArrayList<>();
+
+            for (TbSortingMatchingInfo tbSortingMatchingInfo : tbSortingMatchingInfoList) {
+                SortingMatchiingExportTemplate sortingMatchiingExportTemplate = new SortingMatchiingExportTemplate();
+                sortingMatchiingExportTemplate.setSenderName(tbSortingMatchingInfo.getSenderName());
+                sortingMatchiingExportTemplate.setSender_mobile_one(tbSortingMatchingInfo.getSenderMobileOne());
+                sortingMatchiingExportTemplate.setSender_mobile_two(tbSortingMatchingInfo.getSenderMobileTwo());
+                sortingMatchiingExportTemplate.setSenderProvince(tbSortingMatchingInfo.getSenderProvince());
+                sortingMatchiingExportTemplate.setSenderCity(tbSortingMatchingInfo.getSenderCity());
+                sortingMatchiingExportTemplate.setSenderCounty(tbSortingMatchingInfo.getSenderCounty());
+                sortingMatchiingExportTemplate.setSenderAddress(tbSortingMatchingInfo.getSenderAddress());
+
+                sortingMatchiingExportTemplate.setReciverName(tbSortingMatchingInfo.getReciverName());
+                sortingMatchiingExportTemplate.setReciverMobileOne(tbSortingMatchingInfo.getReciverMobileOne());
+                sortingMatchiingExportTemplate.setReciverMobileTwo(tbSortingMatchingInfo.getReciverMobileTwo());
+                sortingMatchiingExportTemplate.setReciverProvince(tbSortingMatchingInfo.getReciverProvince());
+                sortingMatchiingExportTemplate.setReciverCity(tbSortingMatchingInfo.getReciverCity());
+                sortingMatchiingExportTemplate.setReciverAddress(tbSortingMatchingInfo.getReciverAddress());
+
+                sortingMatchiingExportTemplate.setCityWideFlag(tbSortingMatchingInfo.getCityWideFlag()==1?"是":"否");
+                sortingMatchiingExportTemplate.setLevelFourSortingName(tbSortingMatchingInfo.getLevelFourSortingName());
+                sortingMatchiingExportTemplate.setSortingName(tbSortingMatchingInfo.getSortingName());
+                sortingMatchiingExportTemplate.setMarking(tbSortingMatchingInfo.getMarking());
+                sortingMatchiingExportTemplate.setDistribuCenter(tbSortingMatchingInfo.getDistribuCenter());
+                sortingMatchiingExportTemplate.setDlvName(tbSortingMatchingInfo.getDlvName());
+                sortingMatchiingExportTemplate.setAreaNum(tbSortingMatchingInfo.getDlvNo());
+                sortingMatchiingExportTemplate.setOrgNum(tbSortingMatchingInfo.getOrgNo());
+                sortingMatchiingExportTemplate.setOrgName(tbSortingMatchingInfo.getOrgName());
+
+                sortingMatchiingExports.add(sortingMatchiingExportTemplate);
+            }
+
             //把数据封装为对象
-            EasyExcel.write(outputStream, SortingMatchiingExportTemplate.class).sheet("订单数据").doWrite(tbSortingMatchingInfoList);
+            EasyExcel.write(outputStream, SortingMatchiingExportTemplate.class).sheet("订单数据").doWrite(sortingMatchiingExports);
 
 
             TbOrderBatchInfo tbOrderBatchInfo = tbOrderBatchInfoMapper.selectByBatchNo(batchNo);

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:text-align="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>北京生产业务辅助系统</title>
+    <title>北京生鲜业务系统</title>
     <!--    <title>北京生鲜业务系统</title>-->
     <!-- <meta http-equiv="refresh" content="60">-->
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -33,14 +33,14 @@
         <span class="panel-title"><h3>您好:[[${session.user.username}]]</h3></span>
     </div>
     <div class="panel-heading text-center">
-        <!--        <span class="panel-title"><h3>余额:<span id="remainingSum"> [[${session.user.remainingSum}]]</span></h3></span>-->
-        <!--        <span class="panel-title"><h3>余额:<span id="remainingSum">[[${remainingSum}]]</span><span>元</span></h3></span>-->
+<!--                <span class="panel-title"><h3>余额:<span id="remainingSum"> [[${session.user.remainingSum}]]</span></h3></span>-->
+                <span class="panel-title"><h3>余额:<span id="remainingSum">[[${remainingSum}]]</span><span>元</span></h3></span>
     </div>
     <div class="container-fluid" th:align="center">
         <input type="file" name="file" id="file">
         <input class="btn btn-info " type="button" id="uploadButton" value="上传">
-        <span>批次号:</span>
-        <input type="text" readonly="readonly" name="bathNo" id="bathNo">
+<!--        <span>批次号:</span>-->
+<!--        <input type="text" readonly="readonly" name="bathNo" id="bathNo">-->
     </div>
     <div class='layui-form text-center'>
         <div class="layui-form-item">
@@ -171,13 +171,19 @@
 <script src="layui/layui.all.js"></script>
 
 <script type="text/javascript">
+    var uploadFlag = false;
     $(function () {
         $("#uploadButton").click(function () {
+            if(uploadFlag){
+                alert("正在导入，请别重复点击");
+                return;
+            }
             var file = $("#file").val();
             if (file == null || file == "") {
                 alert("请选择导入文件");
                 return;
             }
+            $(this).attr({"disabled":"disabled"});
             alert("正在导入，请别重复点击");
             var formData = new FormData();
             formData.append('file', $('#file')[0].files[0]);
@@ -192,6 +198,7 @@
                     // alert(data.msg);
                     // $("#fileName").val(data.msg);
                     if (data.code == 1) {
+                        uploadFlag = false;
                         msgs = data.msg.split(",");
                         alert("上传成功,共导入" + msgs[1] + "条数据")
                         $("#bathNo").val(msgs[0]);
@@ -218,25 +225,32 @@
         window.location.href = "/download?fileName=" + $("#fileName").val();
     });
 
-
+    var matchingFlag = false;
     function matchingOrder(batchNo, status) {
 
-        if (status == 1) {
-            alert("该批次号已匹配过，不能再匹配！");
+        // if (status == 1) {
+        //     alert("该批次号已匹配过，不能再匹配！");
+        //     return;
+        // }
+
+        if(matchingFlag){
+            alert("正在匹配，请别重复点击");
             return;
         }
-
         if (batchNo == null || batchNo == "") {
             alert("批次号为空！");
             return;
         }
+        $(this).attr({"disabled":"disabled"});
         alert("正在匹配，请别重复点击");
+
         $.ajax({
             url: "/matchingBatchNo?batchNo=" + batchNo,
             type: "POST",
             ataType: 'json',//数据类型
             success: function (date) {
                 alert("匹配成功！");
+                matchingFlag = false;
                 window.location.href = "/getSortingOrderList";
             },
             error: function () {

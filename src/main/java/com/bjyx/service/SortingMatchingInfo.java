@@ -165,9 +165,10 @@ public class SortingMatchingInfo {
                                     TbSortingInfo tbSortingInfo = mapBasesSortingInfos.get(sortingName);
                                     if(tbSortingInfo!=null) {
                                         tbSortingMatchingInfo.setDistribuCenter(tbSortingInfo.getDistribuCenter());
-                                        tbSortingMatchingInfo.setOrderNo(String.valueOf(tbSortingInfo.getOrgNum()));
+                                        tbSortingMatchingInfo.setOrgNo(String.valueOf(tbSortingInfo.getOrgNum()));
                                         tbSortingMatchingInfo.setOrgName(tbSortingInfo.getOrgName());
                                         tbSortingMatchingInfo.setDlvName(tbSortingInfo.getDlvName());
+                                        tbSortingMatchingInfo.setDlvNo(tbSortingInfo.getAreaNum());
                                     }
                                 }
                             }
