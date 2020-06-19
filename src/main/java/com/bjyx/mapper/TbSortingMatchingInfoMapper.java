@@ -377,6 +377,8 @@ public interface TbSortingMatchingInfoMapper {
             "consolidation_code = #{item.consolidationCode,jdbcType=VARCHAR},",
             "level_four_sorting_name = #{item.levelFourSortingName,jdbcType=VARCHAR},",
             "sorting_name = #{item.sortingName,jdbcType=VARCHAR},",
+            "marking = #{item.marking,jdbcType=VARCHAR},",
+            "distribu_center = #{item.distribuCenter,jdbcType=VARCHAR},",
             "dlv_no = #{item.dlvNo,jdbcType=VARCHAR},",
             "dlv_name = #{item.dlvName,jdbcType=VARCHAR},",
             "org_no = #{item.orgNo,jdbcType=VARCHAR},",

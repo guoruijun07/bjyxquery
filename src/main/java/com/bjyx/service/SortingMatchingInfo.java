@@ -158,19 +158,25 @@ public class SortingMatchingInfo {
                             //四级分拣码，得到分拣码
                             String levelFourSortingName = parseString(resultMap.get("routeCode"));
                             if (StringUtils.isNotBlank(levelFourSortingName)) {
-                                String[] split = levelFourSortingName.split("-");
-                                if (split.length > 3) {
-                                    String sortingName = split[3];
+
+                                String substringTmp = levelFourSortingName.substring(0,levelFourSortingName.lastIndexOf("-"));
+
+                                String sortingName = substringTmp.substring(substringTmp.lastIndexOf("-")+1);
+
+//                                String[] split = levelFourSortingName.split("-");
+//                                if (split.length > 3) {
+//                                    String sortingName = split[3];
                                     tbSortingMatchingInfo.setSortingName(sortingName);
                                     TbSortingInfo tbSortingInfo = mapBasesSortingInfos.get(sortingName);
                                     if(tbSortingInfo!=null) {
                                         tbSortingMatchingInfo.setDistribuCenter(tbSortingInfo.getDistribuCenter());
+                                        tbSortingMatchingInfo.setMarking(tbSortingInfo.getMarking());
                                         tbSortingMatchingInfo.setOrgNo(String.valueOf(tbSortingInfo.getOrgNum()));
                                         tbSortingMatchingInfo.setOrgName(tbSortingInfo.getOrgName());
                                         tbSortingMatchingInfo.setDlvName(tbSortingInfo.getDlvName());
                                         tbSortingMatchingInfo.setDlvNo(tbSortingInfo.getAreaNum());
                                     }
-                                }
+//                                }
                             }
                             tbSortingMatchingInfo.setLevelFourSortingName(levelFourSortingName);
                             if (resultMap.get("consolidationList") != null) {
@@ -212,4 +218,5 @@ public class SortingMatchingInfo {
             return obj.toString();
         }
     }
+
 }

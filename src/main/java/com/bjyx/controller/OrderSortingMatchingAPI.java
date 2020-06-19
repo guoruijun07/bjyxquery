@@ -5,6 +5,7 @@ import com.alibaba.excel.util.DateUtils;
 import com.bjyx.common.Constants;
 import com.bjyx.entity.bo.OrderOriginalBO;
 import com.bjyx.entity.po.*;
+import com.bjyx.enumeration.EnumPriceCode;
 import com.bjyx.listener.OrderOriginalListener;
 import com.bjyx.mapper.*;
 import com.bjyx.service.SortingMatchingInfo;
@@ -150,7 +151,7 @@ public class OrderSortingMatchingAPI {
         //取出用户的余额
         TbUserInfo tbUserInfo2 = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
         Double totalSum = tbUserInfo2.getRemainingSum() == null ? 0.0 : tbUserInfo2.getRemainingSum();
-        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPcPriceByUserId(tbUserInfo.getId());
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.PC_PRICE.getCode(),2);
         if(tbPriceInfo ==  null){
             return new SysResult(0, "请先设置该用户pc功能单价");
         }
@@ -216,6 +217,7 @@ public class OrderSortingMatchingAPI {
                 sortingMatchiingExportTemplate.setReciverMobileTwo(tbSortingMatchingInfo.getReciverMobileTwo());
                 sortingMatchiingExportTemplate.setReciverProvince(tbSortingMatchingInfo.getReciverProvince());
                 sortingMatchiingExportTemplate.setReciverCity(tbSortingMatchingInfo.getReciverCity());
+                sortingMatchiingExportTemplate.setReciverCounty(tbSortingMatchingInfo.getReciverCounty());
                 sortingMatchiingExportTemplate.setReciverAddress(tbSortingMatchingInfo.getReciverAddress());
 
                 sortingMatchiingExportTemplate.setCityWideFlag(tbSortingMatchingInfo.getCityWideFlag()==1?"是":"否");
