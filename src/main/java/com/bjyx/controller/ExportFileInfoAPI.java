@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
+@RequestMapping("/sorting")
 public class ExportFileInfoAPI {
 
     @Autowired(required = false)
@@ -24,13 +25,21 @@ public class ExportFileInfoAPI {
     @Autowired(required = false)
     private TbUserInfoMapper tbuserInfoMapper;
 
+    /**
+     * 分拣码查询
+     * @param session
+     * @param tbUserInfo
+     * @param model
+     * @param pageNum
+     * @return
+     */
     @RequestMapping("/getList")
     public String getList(HttpSession session,TbUserInfo tbUserInfo, Model model,Integer pageNum) {
 
 //        PageHelper.startPage(queryVo.getPage(), queryVo.getLimit());
         TbUserInfo tbUserInfo1 = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
         TbUserInfo tbUserInfo2 = tbuserInfoMapper.selectByPrimaryKey(tbUserInfo1.getId());
-        model.addAttribute("remainingSum",tbUserInfo2.getRemainingSum());
+        session.setAttribute("remainingSum",tbUserInfo2.getRemainingSum());
         System.out.println("当前页为："+pageNum);
         pageNum = pageNum==null?1:pageNum;
         PageHelper.startPage(pageNum,10,"create_time desc");
@@ -39,7 +48,7 @@ public class ExportFileInfoAPI {
         System.out.println("总记录条数为："+page.getTotal());
         model.addAttribute("page",page);
 
-        return "list";
+        return "sorting/sortinglist";
 
 
 //        tbUserInfo = tbuserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());

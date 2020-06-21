@@ -73,7 +73,7 @@ public class OrderSortingMatchingAPI {
 
         TbUserInfo tbUserInfo= (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
         tbUserInfo = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
-        model.addAttribute("remainingSum",tbUserInfo.getRemainingSum());
+        session.setAttribute("remainingSum",tbUserInfo.getRemainingSum());
         System.out.println("当前页为："+pageNum);
         pageNum = pageNum==null?1:pageNum;
         PageHelper.startPage(pageNum,10,"create_time desc");
@@ -82,7 +82,7 @@ public class OrderSortingMatchingAPI {
         System.out.println("总记录条数为："+page.getTotal());
         model.addAttribute("page",page);
 
-        return "orderInfo";
+        return "sorting/addresslist";
     }
 
 
@@ -176,7 +176,7 @@ public class OrderSortingMatchingAPI {
 
         }catch (Exception e){
             e.printStackTrace();
-            return new SysResult(0, "导入数据失败");
+            return new SysResult(0, "匹配数据失败");
 
         }
 

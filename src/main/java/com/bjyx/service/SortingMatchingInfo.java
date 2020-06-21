@@ -79,9 +79,10 @@ public class SortingMatchingInfo {
 //        for (TbOrderOriginalInfo orderOriginalInfo : orderOriginalInfos) {
 //            tbOrderOriginalInfoMapper.updateByOrderNo(orderOriginalInfo);
 //        }
-
-        tbSortingMatchingInfoMapper.batchUpdateByOrderNo(sortingMatchingInfos);
-        tbOrderOriginalInfoMapper.batchUpdateByOrderNo(orderOriginalInfos);
+        if (sortingMatchingInfos.size() > 0) {
+            tbSortingMatchingInfoMapper.batchUpdateByOrderNo(sortingMatchingInfos);
+            tbOrderOriginalInfoMapper.batchUpdateByOrderNo(orderOriginalInfos);
+        }
 
     }
 
@@ -159,27 +160,27 @@ public class SortingMatchingInfo {
                             String levelFourSortingName = parseString(resultMap.get("routeCode"));
                             if (StringUtils.isNotBlank(levelFourSortingName)) {
 
-                                String substringTmp = levelFourSortingName.substring(0,levelFourSortingName.lastIndexOf("-"));
+                                String substringTmp = levelFourSortingName.substring(0, levelFourSortingName.lastIndexOf("-"));
 
-                                String sortingName = substringTmp.substring(substringTmp.lastIndexOf("-")+1);
+                                String sortingName = substringTmp.substring(substringTmp.lastIndexOf("-") + 1);
 
 //                                String[] split = levelFourSortingName.split("-");
 //                                if (split.length > 3) {
 //                                    String sortingName = split[3];
-                                    tbSortingMatchingInfo.setSortingName(sortingName);
-                                    TbSortingInfo tbSortingInfo = mapBasesSortingInfos.get(sortingName);
-                                    if(tbSortingInfo!=null) {
-                                        tbSortingMatchingInfo.setDistribuCenter(tbSortingInfo.getDistribuCenter());
-                                        tbSortingMatchingInfo.setMarking(tbSortingInfo.getMarking());
-                                        String orgNo = "";
-                                        if(tbSortingInfo.getOrgNum()!=null){
-                                            orgNo = String.valueOf(tbSortingInfo.getOrgNum());
-                                        }
-                                        tbSortingMatchingInfo.setOrgNo(orgNo);
-                                        tbSortingMatchingInfo.setOrgName(tbSortingInfo.getOrgName());
-                                        tbSortingMatchingInfo.setDlvName(tbSortingInfo.getDlvName());
-                                        tbSortingMatchingInfo.setDlvNo(tbSortingInfo.getAreaNum());
+                                tbSortingMatchingInfo.setSortingName(sortingName);
+                                TbSortingInfo tbSortingInfo = mapBasesSortingInfos.get(sortingName);
+                                if (tbSortingInfo != null) {
+                                    tbSortingMatchingInfo.setDistribuCenter(tbSortingInfo.getDistribuCenter());
+                                    tbSortingMatchingInfo.setMarking(tbSortingInfo.getMarking());
+                                    String orgNo = "";
+                                    if (tbSortingInfo.getOrgNum() != null) {
+                                        orgNo = String.valueOf(tbSortingInfo.getOrgNum());
                                     }
+                                    tbSortingMatchingInfo.setOrgNo(orgNo);
+                                    tbSortingMatchingInfo.setOrgName(tbSortingInfo.getOrgName());
+                                    tbSortingMatchingInfo.setDlvName(tbSortingInfo.getDlvName());
+                                    tbSortingMatchingInfo.setDlvNo(tbSortingInfo.getAreaNum());
+                                }
 //                                }
                             }
                             tbSortingMatchingInfo.setLevelFourSortingName(levelFourSortingName);
@@ -202,6 +203,7 @@ public class SortingMatchingInfo {
                             orderOriginalInfos.add(updateOrderOriginalInfo);
                         }
                     }
+
                 }
 
             } else {

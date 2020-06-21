@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>北京生鲜业务系统</title>
+	<!-- Bootstrap core CSS -->
+	<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+
+	<style type="text/css">
+		/* Chart.js */
+
+		@-webkit-keyframes chartjs-render-animation {
+			from {
+				opacity: 0.99
+			}
+			to {
+				opacity: 1
+			}
+		}
+
+		@keyframes chartjs-render-animation {
+			from {
+				opacity: 0.99
+			}
+			to {
+				opacity: 1
+			}
+		}
+
+		.chartjs-render-monitor {
+			-webkit-animation: chartjs-render-animation 0.001s;
+			animation: chartjs-render-animation 0.001s;
+		}
+	</style>
+</head>
+
+<body>
+<!--引入抽取的topbar-->
+<!--模板名：会使用thymeleaf的前后缀配置规则进行解析-->
+<div th:replace="commons/bar::topbar"></div>
+
+<div class="container-fluid">
+	<div class="row">
+		<!--引入侧边栏-->
+		<div th:replace="commons/bar::#sidebar(activeUri='getSortingOrderList')"></div>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+<!--					<h2><a class="btn btn-sm btn-success" href="emp" th:href="@{/emp}">员工添加</a></h2>-->
+					<div class="container-fluid" th:align="center">
+						<input  type="file" name="file" id="file">
+						<input  class="btn btn-info " type="button" id="uploadButton" value="上传">
+					</div>
+					<br/>
+					<br/>
+					<div class="table-responsive">
+						<table class="table table-striped table-sm">
+							<thead>
+								<tr>
+									<th class="text-center">编号</th>
+									<th class="text-center">批次号</th>
+									<th class="text-center" width="10%">文件名</th>
+									<th class="text-center">总条数</th>
+									<th class="text-center">成功数</th>
+									<th class="text-center">失败数</th>
+									<th class="text-center">扣减次数</th>
+									<th class="text-center">状态</th>
+									<th class="text-center">生成时间</th>
+									<th class="text-center">匹配</th>
+									<th class="text-center">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="exportInfo,itemStat:${page.list}">
+									<td class="text-center" th:text="${itemStat.count}"></td>
+									<td class="text-center" th:text="${exportInfo.batchNo}"></td>
+									<td class="text-center" th:text="${exportInfo.fileName}"></td>
+									<td class="text-center" th:text="${exportInfo.totalNum}"></td>
+									<td class="text-center" th:text="${exportInfo.successNum}"></td>
+									<td class="text-center" th:switch="${exportInfo.totalNum !=null && exportInfo.successNum != null}">
+										<div class="text-center"  th:case="true" th:text="${exportInfo.totalNum - exportInfo.successNum}"></div>
+									</td>
+									<td class="text-center" th:text="${exportInfo.money}"></td>
+									<td class="text-center" th:switch="${exportInfo.status}">
+										<div class="text-center"  th:case="0" th:text="未匹配"></div>
+										<div class="text-center" th:case="1" th:text="已匹配"></div>
+									</td>
+									<td class="text-center" th:text="${#dates.format(exportInfo.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+									<td class="text-center">
+										<button id="matchingBtn"
+												th:onclick="matchingOrder([[${exportInfo.batchNo}]],[[${exportInfo.status}]])"
+												class="btn btn-info " type="button">匹配
+										</button>
+									</td>
+									<td class="text-center">
+										<button id="dowloadBtn1" th:onclick="downloadFile([[${exportInfo.fileName}]]);"
+												class="btn btn-info " type="button">下载
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div align="center">
+						<ul class="pagination dataTables_info">
+
+							<!-- 首页 -->
+							<li>
+								<a th:href="@{'/getSortingOrderList?pageNum=1'}">首页</a>
+							</li>
+
+							<!-- 上一页 -->
+							<li th:if="${page.hasPreviousPage}">
+								<a th:href="@{'/getSortingOrderList?pageNum=' + ${page.prePage}}" th:text="上一页"></a>
+							</li>
+
+							<!-- 中间页 -->
+							<li th:each="pageNum:${#numbers.sequence(1, page.pages)}">
+								<a th:href="@{'/getSortingOrderList?pageNum=' + ${pageNum}}" th:text="${pageNum}"
+								   th:if="${pageNum ne page.pageNum}"></a>
+								<a th:href="@{'/getSortingOrderList?pageNum=' + ${pageNum}}" th:text="${pageNum}"
+								   th:if="${pageNum eq page.pageNum}" th:style="'font-weight:bold;background: #6faed9;'"></a>
+							</li>
+
+							<!-- 下一页 -->
+							<li th:if="${page.hasNextPage}">
+								<a th:href="@{'/getSortingOrderList?pageNum=' + ${page.nextPage}}" th:text="下一页"></a>
+							</li>
+
+							<!-- 尾页 -->
+							<li>
+								<a th:href="@{'/getSortingOrderList?pageNum=' + ${page.pages}}">尾页</a>
+							</li>
+
+						</ul>
+					</div>
+<!--					<div th:replace="commons/foot::#footbar"></div>-->
+				</main>
+				<form id="deleteEmpForm"  method="post">
+					<input type="hidden" name="_method" value="delete"/>
+				</form>
+		</div>
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
+		<script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/webjars/popper.js/1.16.0/popper.js}"></script>
+		<script type="text/javascript" src="asserts/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
+
+		<!-- Icons -->
+		<script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
+		<script>
+			feather.replace()
+		</script>
+		<script>
+			var uploadFlag = false;
+			$(function () {
+				$("#uploadButton").click(function () {
+					if(uploadFlag){
+						alert("正在导入，请别重复点击");
+						return;
+					}
+					var file = $("#file").val();
+					if (file == null || file == "") {
+						alert("请选择导入文件");
+						return;
+					}
+					$(this).attr({"disabled":"disabled"});
+					alert("正在导入，请别重复点击");
+					var formData = new FormData();
+					formData.append('file', $('#file')[0].files[0]);
+					$.ajax({
+						dataType: "json",
+						type: "POST",
+						url: '/uploadOrderOriginal',
+						data: formData,
+						contentType: false,//必须false才会自closeLoading();动加上正确的Content-Type
+						processData: false,//必须false才会避开jQuery对 formdata 的默认处理XMLHttpRequest会对 formdata 进行正确的处理
+						success: function (data) {
+							// alert(data.msg);
+							// $("#fileName").val(data.msg);
+							if (data.code == 1) {
+								uploadFlag = false;
+								msgs = data.msg.split(",");
+								alert("上传成功,共导入" + msgs[1] + "条数据")
+								$("#bathNo").val(msgs[0]);
+								window.location.href = "/getSortingOrderList";
+							}
+							if (data.code == 0) {
+								alert(data.msg)
+							}
+						},
+						error: function (er) {          //失败，回调函数
+							alert("eer" + data.msg);
+						}
+					});
+				});
+			});
+
+			$("#dowloadBtn").on("click", function () {
+
+				var fileName = $("#fileName").val();
+				if (fileName == null || fileName == "") {
+					alert("没有当前正在导入的数据！");
+					return;
+				}
+				window.location.href = "/download?fileName=" + $("#fileName").val();
+			});
+
+			var matchingFlag = false;
+			function matchingOrder(batchNo, status) {
+
+				// if (status == 1) {
+				//     alert("该批次号已匹配过，不能再匹配！");
+				//     return;
+				// }
+
+				if(matchingFlag){
+					alert("正在匹配，请别重复点击");
+					return;
+				}
+				if (batchNo == null || batchNo == "") {
+					alert("批次号为空！");
+					return;
+				}
+				$(this).attr({"disabled":"disabled"});
+				alert("正在匹配，请别重复点击");
+
+				$.ajax({
+					url: "/matchingBatchNo?batchNo=" + batchNo,
+					type: "POST",
+					ataType: 'json',//数据类型
+					success: function (date) {
+						alert("匹配成功！");
+						matchingFlag = false;
+						window.location.href = "/getSortingOrderList";
+					},
+					error: function () {
+						alert("匹配失败，请重新匹配");
+					}
+				})
+			}
+
+			function downloadFile(fileName) {
+
+				window.location.href = "/sortingResultDownload?fileName=" + fileName;
+			}
+		</script>
+	</body>
+</html>

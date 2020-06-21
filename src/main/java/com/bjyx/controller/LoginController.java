@@ -25,7 +25,7 @@ public class LoginController {
     @PostMapping(value = "/user/login")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
-                        Map<String,Object> map, HttpSession session){
+                        Map<String,Object> map, HttpSession session,Model model){
 
         String mac = "11";
         //判断是PC登录还是手机登录
@@ -42,6 +42,8 @@ public class LoginController {
             tbUserInfo.setRemainingSum(tbUserInfo.getRemainingSum() == null ? 0.0 : tbUserInfo.getRemainingSum());
             // 设置session
             session.setAttribute(Constants.SESSION_KEY, tbUserInfo);
+            session.setAttribute("remainingSum", tbUserInfo.getRemainingSum());
+
             logger.info("==用户 PC登录:{}成功!", tbUserInfo.toString());
             return "redirect:/main.html";
         } else {
