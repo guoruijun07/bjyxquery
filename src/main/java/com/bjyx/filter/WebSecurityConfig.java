@@ -2,7 +2,6 @@ package com.bjyx.filter;
 
 import com.bjyx.common.Constants;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpSession;
  *
  * “WebSecurityConfig”类继承“WebMvcConfigurerAdapter”，重新“addInterceptors”方法，其目的是设置拦截规则，excludePathPatterns为需要排除的规则，addPathPatterns为需要拦截的规则。
  */
-@Configuration
 public class WebSecurityConfig extends WebMvcConfigurerAdapter {
 
     @Bean

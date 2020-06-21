@@ -3,16 +3,15 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
-thymeleaf:
-  cache: false
-  mode: LEGACYHTML5
-
 logging:
   level:
     com:
       bjyx: debug
 
 spring:
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
   datasource:
     mysql:
       driver-class-name: com.mysql.jdbc.Driver

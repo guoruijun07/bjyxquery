@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Controller
 public class LoginController {
@@ -21,11 +22,35 @@ public class LoginController {
     @Autowired(required = false)
     private TbUserInfoMapper tbuserInfoMapper;
 
-    @RequestMapping("/")
-    public String login(Model model) {
-        model.addAttribute("userInfo", new TbUserInfo());
-        return "login";
+    @PostMapping(value = "/user/login")
+    public String login(@RequestParam("username") String username,
+                        @RequestParam("password") String password,
+                        Map<String,Object> map, HttpSession session){
+
+        String mac = "11";
+        //判断是PC登录还是手机登录
+        boolean pcLogin = StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && StringUtils.isNotBlank(mac);
+        TbUserInfo tbUserInfo = new TbUserInfo();
+        tbUserInfo.setUsername(username);
+        tbUserInfo.setPassword(password);
+        if (pcLogin) {
+            tbUserInfo = tbuserInfoMapper.selectByUserInfo(tbUserInfo);
+            if (tbUserInfo == null) {
+                map.put("msg","用户名或密码错误");
+                return "login";
+            }
+            tbUserInfo.setRemainingSum(tbUserInfo.getRemainingSum() == null ? 0.0 : tbUserInfo.getRemainingSum());
+            // 设置session
+            session.setAttribute(Constants.SESSION_KEY, tbUserInfo);
+            logger.info("==用户 PC登录:{}成功!", tbUserInfo.toString());
+            return "redirect:/main.html";
+        } else {
+            map.put("msg","用户名或密码错误");
+            return "login";
+        }
     }
+
+
 
     @PostMapping("/pcLogin")
     public String pcLogin(TbUserInfo tbUserInfo, Model model, HttpSession session) {

@@ -48,7 +48,7 @@ public class ExportController {
     @Value("${perMoney}")
     private String perMoney;
 
-    String dirPath = "/home/code"+ java.io.File.separator + "exportMatching" + java.io.File.separator;
+    String dirPath = "/home/code" + java.io.File.separator + "exportMatching" + java.io.File.separator;
 
     /**
      * excel文件的下载
@@ -72,8 +72,8 @@ public class ExportController {
         //取出用户的余额
         TbUserInfo tbUserInfo2 = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
         Double totalSum = tbUserInfo2.getRemainingSum() == null ? 0.0 : tbUserInfo2.getRemainingSum();
-        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.PC_PRICE.getCode(),1);
-        if(tbPriceInfo ==  null){
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.PC_PRICE.getCode(), 1);
+        if (tbPriceInfo == null) {
             return new SysResult(0, "请先设置该用户pc功能单价");
         }
         Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
@@ -106,7 +106,12 @@ public class ExportController {
                 sortingExport.setDistribuCenter(tbSortingInfo.getDistribuCenter());
                 sortingExport.setDlvName(tbSortingInfo.getDlvName());
                 sortingExport.setAreaNum(tbSortingInfo.getAreaNum());
-                sortingExport.setOrgNum(tbSortingInfo.getOrgNum().toString());
+
+                String orgNo = "";
+                if (tbSortingInfo.getOrgNum() != null) {
+                    orgNo = String.valueOf(tbSortingInfo.getOrgNum());
+                }
+                sortingExport.setOrgNum(orgNo);
                 sortingExport.setOrgName(tbSortingInfo.getOrgName());
             }
 
@@ -129,7 +134,7 @@ public class ExportController {
         String fileName = new String((fileNameOriginal + "_" + DateUtils.format(new Date(), "yyyyMMddHHmmss") + ".xlsx").getBytes(), "UTF-8");
         try {
 
-            File exportFile = CommomUtils.MakeLogDir(dirPath,fileName, tbUserInfo.getMobile());
+            File exportFile = CommomUtils.MakeLogDir(dirPath, fileName, tbUserInfo.getMobile());
 
             OutputStream outputStream = new FileOutputStream(exportFile);
 
@@ -150,7 +155,7 @@ public class ExportController {
         }
 
         List<TbExportInfo> tbExportInfos = tbExportInfoMapper.selectAll();
-        return new SysResult(1, "导入数据成功","",remainingSum, tbExportInfos);
+        return new SysResult(1, "导入数据成功", "", remainingSum, tbExportInfos);
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
@@ -202,7 +207,6 @@ public class ExportController {
         }
         return "此文件已丢失";
     }
-
 
 
 }

@@ -30,11 +30,11 @@
 <h3 align="center">北京生鲜业务系统</h3>
 <div id="wrapData" width="90%">
     <div class="panel-heading text-center">
-        <span class="panel-title"><h3>您好:[[${session.user.username}]]</h3></span>
+        <span class="panel-title"><h3>您好:[[${session.user.realName}]]</h3></span>
     </div>
     <div class="panel-heading text-center">
 <!--        <span class="panel-title"><h3>余额:<span id="remainingSum"> [[${session.user.remainingSum}]]</span></h3></span>-->
-        <span class="panel-title"><h3>余额:<span id="remainingSum">[[${remainingSum}]]</span><span>元</span></h3></span>
+        <span class="panel-title"><h3>剩余次数:<span id="remainingSum">[[${remainingSum}]]</span><span></span></h3></span>
     </div>
     <div class="container-fluid" th:align="center">
 <!--        <form action="/upload" method="POST" enctype="multipart/form-data">-->
@@ -82,7 +82,7 @@
                             <th class="text-center">总条数</th>
                             <th class="text-center">成功数</th>
                             <th class="text-center">失败数</th>
-                            <th class="text-center">金额</th>
+                            <th class="text-center">扣减次数</th>
                             <th class="text-center">生成时间</th>
                             <th class="text-center">操作</th>
                         </tr>

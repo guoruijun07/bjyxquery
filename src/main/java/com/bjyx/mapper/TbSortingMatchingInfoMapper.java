@@ -249,7 +249,7 @@ public interface TbSortingMatchingInfoMapper {
             "select",
             "count(1) ",
             "from tb_sorting_matching_info",
-            "where batch_no = #{batchNo,jdbcType=VARCHAR} and sorting_status = 1"
+            "where batch_no = #{batchNo,jdbcType=VARCHAR} and sorting_status = 1 and (distribu_center != null or trim(distribu_center) != '')"
     })
     Integer selectByCountSucessAndBatchNo(String batchNo);
 

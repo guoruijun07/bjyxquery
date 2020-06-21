@@ -171,7 +171,11 @@ public class SortingMatchingInfo {
                                     if(tbSortingInfo!=null) {
                                         tbSortingMatchingInfo.setDistribuCenter(tbSortingInfo.getDistribuCenter());
                                         tbSortingMatchingInfo.setMarking(tbSortingInfo.getMarking());
-                                        tbSortingMatchingInfo.setOrgNo(String.valueOf(tbSortingInfo.getOrgNum()));
+                                        String orgNo = "";
+                                        if(tbSortingInfo.getOrgNum()!=null){
+                                            orgNo = String.valueOf(tbSortingInfo.getOrgNum());
+                                        }
+                                        tbSortingMatchingInfo.setOrgNo(orgNo);
                                         tbSortingMatchingInfo.setOrgName(tbSortingInfo.getOrgName());
                                         tbSortingMatchingInfo.setDlvName(tbSortingInfo.getDlvName());
                                         tbSortingMatchingInfo.setDlvNo(tbSortingInfo.getAreaNum());
