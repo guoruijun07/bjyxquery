@@ -55,7 +55,7 @@ public interface TbPriceInfoMapper {
             "select",
             "id, user_id, menu, source, price",
             "from tb_price_info",
-            "where user_id = #{userId,jdbcType=INTEGER} and source = #{device,jdbcType=INTEGER}"
+            "where user_id = #{userId,jdbcType=INTEGER} and menu = #{device,jdbcType=INTEGER} and source = #{device,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
             @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
@@ -64,44 +64,8 @@ public interface TbPriceInfoMapper {
             @Arg(column="source", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
             @Arg(column="price", javaType=Double.class, jdbcType=JdbcType.DOUBLE)
     })
-    TbPriceInfo selectPriceByUserId(Integer userId,Integer device);
+    TbPriceInfo selectPriceByUserId(Integer userId,Integer device,Integer meunu);
 
-    /**
-     *
-     * @mbggenerated
-     */
-    @Select({
-            "select",
-            "id, user_id, menu, source, price",
-            "from tb_price_info",
-            "where user_id = #{userId,jdbcType=INTEGER} and source = 1"
-    })
-    @ConstructorArgs({
-            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
-            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="menu", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="source", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="price", javaType=Double.class, jdbcType=JdbcType.DOUBLE)
-    })
-    TbPriceInfo selectPcPriceByUserId(Integer userId);
-    /**
-     *
-     * @mbggenerated
-     */
-    @Select({
-            "select",
-            "id, user_id, menu, source, price",
-            "from tb_price_info",
-            "where user_id = #{userId,jdbcType=INTEGER} and source = 2"
-    })
-    @ConstructorArgs({
-            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
-            @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="menu", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="source", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
-            @Arg(column="price", javaType=Double.class, jdbcType=JdbcType.DOUBLE)
-    })
-    TbPriceInfo selectAppPriceByUserId(Integer userId);
 
     /**
      *

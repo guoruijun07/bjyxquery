@@ -8,12 +8,14 @@ import com.bjyx.entity.po.TbExportInfo;
 import com.bjyx.entity.po.TbPriceInfo;
 import com.bjyx.entity.po.TbSortingInfo;
 import com.bjyx.entity.po.TbUserInfo;
+import com.bjyx.enumeration.EnumPriceCode;
 import com.bjyx.listener.DemoDataListener;
 import com.bjyx.mapper.TbExportInfoMapper;
 import com.bjyx.mapper.TbPriceInfoMapper;
 import com.bjyx.mapper.TbSortingInfoMapper;
 import com.bjyx.mapper.TbUserInfoMapper;
 import com.bjyx.template.SortingExportTemplate;
+import com.bjyx.utils.CommomUtils;
 import com.bjyx.utils.SysResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,10 +48,7 @@ public class ExportController {
     @Value("${perMoney}")
     private String perMoney;
 
-    @Value("${baseDir}")
-    private String baseDir;
-
-    private final String dirPath = baseDir+ java.io.File.separator + "exportMatching" + java.io.File.separator;
+    String dirPath = "/home/code" + java.io.File.separator + "exportMatching" + java.io.File.separator;
 
     /**
      * excel文件的下载
@@ -73,8 +72,8 @@ public class ExportController {
         //取出用户的余额
         TbUserInfo tbUserInfo2 = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
         Double totalSum = tbUserInfo2.getRemainingSum() == null ? 0.0 : tbUserInfo2.getRemainingSum();
-        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPcPriceByUserId(tbUserInfo.getId());
-        if(tbPriceInfo ==  null){
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.PC_PRICE.getCode(), 1);
+        if (tbPriceInfo == null) {
             return new SysResult(0, "请先设置该用户pc功能单价");
         }
         Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
@@ -107,7 +106,12 @@ public class ExportController {
                 sortingExport.setDistribuCenter(tbSortingInfo.getDistribuCenter());
                 sortingExport.setDlvName(tbSortingInfo.getDlvName());
                 sortingExport.setAreaNum(tbSortingInfo.getAreaNum());
-                sortingExport.setOrgNum(tbSortingInfo.getOrgNum().toString());
+
+                String orgNo = "";
+                if (tbSortingInfo.getOrgNum() != null) {
+                    orgNo = String.valueOf(tbSortingInfo.getOrgNum());
+                }
+                sortingExport.setOrgNum(orgNo);
                 sortingExport.setOrgName(tbSortingInfo.getOrgName());
             }
 
@@ -130,7 +134,7 @@ public class ExportController {
         String fileName = new String((fileNameOriginal + "_" + DateUtils.format(new Date(), "yyyyMMddHHmmss") + ".xlsx").getBytes(), "UTF-8");
         try {
 
-            File exportFile = MakeLogDir(fileName, tbUserInfo.getMobile());
+            File exportFile = CommomUtils.MakeLogDir(dirPath, fileName, tbUserInfo.getMobile());
 
             OutputStream outputStream = new FileOutputStream(exportFile);
 
@@ -151,7 +155,7 @@ public class ExportController {
         }
 
         List<TbExportInfo> tbExportInfos = tbExportInfoMapper.selectAll();
-        return new SysResult(1, "导入数据成功","",remainingSum, tbExportInfos);
+        return new SysResult(1, "导入数据成功", "", remainingSum, tbExportInfos);
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
@@ -204,56 +208,5 @@ public class ExportController {
         return "此文件已丢失";
     }
 
-    @RequestMapping(value = "/baseInfoDownload")
-    @ResponseBody
-    public List<TbSortingInfo> exportBaseInfoExcel(HttpServletResponse response, HttpSession session) {
 
-        List<TbSortingInfo> tbSortingInfos = tbSortingInfoMapper.selectAllData();
-        logger.info("数据总条数:"+tbSortingInfos.size());
-        for (TbSortingInfo tbSortingInfo : tbSortingInfos) {
-            logger.info("数据为:"+tbSortingInfo.toString());
-        }
-        return tbSortingInfos;
-//        OutputStream outputStream = null;
-//
-//        List<BaseInfoExportTemplate> list = new ArrayList<>();
-//        for (TbSortingInfo tbSortingInfo : tbSortingInfos) {
-//            BaseInfoExportTemplate baseInfoExportTemplate = new BaseInfoExportTemplate();
-//            BeanUtils.copyProperties(tbSortingInfo,baseInfoExportTemplate);
-//            list.add(baseInfoExportTemplate);
-//        }
-//        try{
-//            String baseFileName = "基础数据_" + DateUtils.format(new Date(), "yyyyMMddHHmmss");
-//            outputStream = response.getOutputStream();
-//            response.setContentType("application/vnd.ms-excel");
-//            response.setCharacterEncoding("utf-8");
-//            String utf8fileName = URLEncoder.encode(baseFileName, "UTF-8");
-//            response.setHeader("Content-disposition", "attachment;filename=" + utf8fileName + ".xlsx");
-//            EasyExcel.write(outputStream, BaseInfoExportTemplate.class).sheet("基础数据").doWrite(list);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (outputStream != null) {
-//                try {
-//                    outputStream.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        return new SysResult(1, "");
-    }
-
-    private File MakeLogDir(String fileName, String mobile) {
-        File folder = new File(dirPath + mobile);
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-        File file = new File(dirPath + mobile + java.io.File.separator + fileName);
-        if (file.exists()) {
-            file.delete();
-        }
-        return file;
-    }
 }

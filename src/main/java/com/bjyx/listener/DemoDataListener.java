@@ -30,10 +30,15 @@ public class DemoDataListener extends AnalysisEventListener<ReadySortingData> {
 
 
         String threeSorting = data.getThreeSorting();
-        String[] split = threeSorting.split("-");
-        if(split.length>2){
-            data.setThreeSortingSimple(split[2]);
-        }
+        String substringTmp = threeSorting.substring(0,threeSorting.lastIndexOf("-"));
+
+        String sortingName = substringTmp.substring(substringTmp.lastIndexOf("-")+1);
+        data.setThreeSortingSimple(sortingName);
+
+//        String[] split = threeSorting.split("-");
+//        if(split.length>2){
+//            data.setThreeSortingSimple(split[2]);
+//        }
 //        System.out.println("解析到一条数据:{}"+ JSON.toJSONString(data));
         list.add(data);
     }

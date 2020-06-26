@@ -3,20 +3,19 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
-thymeleaf:
-  cache: false
-  mode: LEGACYHTML5
-
 logging:
   level:
     com:
       bjyx: debug
 
 spring:
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
   datasource:
     mysql:
       driver-class-name: com.mysql.jdbc.Driver
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/bjyxquery?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/bjyxquery?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&&allowMultiQueries=true
       username: root
       password: root
 #      password: GuoruiJUN@07
@@ -28,7 +27,7 @@ http:
 
 perMoney: 0.5
 
-currentVersion: 1.0.1
+currentVersion: 1.02
 
 baseDir: /home/code
 

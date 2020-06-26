@@ -1,9 +1,7 @@
 package com.bjyx.controller;
 
-import com.alibaba.csb.sdk.HttpCallerException;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.DateUtils;
-import com.alibaba.fastjson.JSON;
 import com.bjyx.common.Constants;
 import com.bjyx.entity.bo.OrderOriginalBO;
 import com.bjyx.entity.po.*;
@@ -66,7 +64,8 @@ public class OrderSortingMatchingAPI {
     @Autowired(required = false)
     private SortingMatchingInfo sortingMatchingInfo;
 
-    private final String dirPath = baseDir+ java.io.File.separator + "exportSorting" + java.io.File.separator;
+    private  String dirPath = "/home/code"+ java.io.File.separator + "exportSorting" + java.io.File.separator;
+
     Random random=new Random();
 
     @RequestMapping("/getSortingOrderList")
@@ -74,7 +73,7 @@ public class OrderSortingMatchingAPI {
 
         TbUserInfo tbUserInfo= (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
         tbUserInfo = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
-        model.addAttribute("remainingSum",tbUserInfo.getRemainingSum());
+        session.setAttribute("remainingSum",tbUserInfo.getRemainingSum());
         System.out.println("当前页为："+pageNum);
         pageNum = pageNum==null?1:pageNum;
         PageHelper.startPage(pageNum,10,"create_time desc");
@@ -83,7 +82,7 @@ public class OrderSortingMatchingAPI {
         System.out.println("总记录条数为："+page.getTotal());
         model.addAttribute("page",page);
 
-        return "orderInfo";
+        return "sorting/addresslist";
     }
 
 
@@ -135,62 +134,7 @@ public class OrderSortingMatchingAPI {
         return new SysResult(1, batchNo+","+tbOrderOriginalInfoList.size());
     }
 
-    @PostMapping("/querySortingInfo")
-    @ResponseBody
-    public SysResult querySortingInfo(OrderOriginalBO orderOriginal,String token,String version) {
-        logger.info("app 校验token:{}", token);
-        if (!currentVersion.equals(version)) {
-            logger.info("token为{}当前版本为:{}", token, version);
-            return new SysResult(0, "请升级app版本");
-        }
-        //校验登录方式
-        TbUserInfo tbUserInfo = tbUserInfoMapper.selectByToken(token);
-        TbOrderOriginalInfo tbOrderOriginalInfo = new TbOrderOriginalInfo();
-        if (tbUserInfo == null) {
-            return new SysResult(0, "用户不存在");
-        }
-            if (tbUserInfo.getStatus() == 0) {
-                return new SysResult(0, "本用户已失效，请联系管理员");
-            }
 
-            Date invalidDate = tbUserInfo.getInvalidDate();
-
-            if (invalidDate==null || (invalidDate != null && new Date().getTime() > invalidDate.getTime())) {
-                return new SysResult(0, "当前登录已失效，请重新登录");
-            }
-
-
-        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.APP_PRICE.getCode());
-
-        Double remainingSum = tbUserInfo.getRemainingSum() == null ? 0.00 : tbUserInfo.getRemainingSum();
-
-        Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
-
-        if (pcPrice > remainingSum) {
-            return new SysResult(2, "当前余额不够支付本次消费金额，请联系管理员充值",token, remainingSum);
-        }
-
-
-        BeanUtils.copyProperties(orderOriginal,tbOrderOriginalInfo);
-        tbOrderOriginalInfo.setOrderNo(getOrderNo());
-        try {
-            TbSortingMatchingInfo tbSortingMatchingInfo = sortingMatchingInfo.sortingMatchingByApp(tbOrderOriginalInfo);
-
-            //更新余额
-            Double remainingSumAfter = remainingSum - pcPrice;
-            TbUserInfo tbUserInfo1 = new TbUserInfo();
-            tbUserInfo1.setId(tbUserInfo.getId());
-            tbUserInfo1.setRemainingSum(remainingSumAfter);
-
-            tbUserInfoMapper.updateRemainingSumByPrimaryKey(tbUserInfo1);
-
-            return new SysResult(1,"查询成功", token, remainingSumAfter, JSON.toJSONString(tbSortingMatchingInfo));
-
-        } catch (HttpCallerException e) {
-            e.printStackTrace();
-        }
-        return new SysResult(0,"匹配失败，请重新匹配");
-    }
 //    DecimalFormat bathNoDF=new DecimalFormat("0000");//设置格式
 //    DecimalFormat orderNoDF=new DecimalFormat("000000");//设置格式
 //    String str=format1.format(100);//格式转换
@@ -199,6 +143,7 @@ public class OrderSortingMatchingAPI {
      * 点击匹配按钮，调取实时接口匹配
      */
     @PostMapping("/matchingBatchNo")
+    @ResponseBody
     public SysResult orderMatching( HttpSession session,String batchNo) throws IOException {
         Long startTime = System.currentTimeMillis();
         TbUserInfo tbUserInfo = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
@@ -206,7 +151,7 @@ public class OrderSortingMatchingAPI {
         //取出用户的余额
         TbUserInfo tbUserInfo2 = tbUserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
         Double totalSum = tbUserInfo2.getRemainingSum() == null ? 0.0 : tbUserInfo2.getRemainingSum();
-        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPcPriceByUserId(tbUserInfo.getId());
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(tbUserInfo.getId(), EnumPriceCode.PC_PRICE.getCode(),2);
         if(tbPriceInfo ==  null){
             return new SysResult(0, "请先设置该用户pc功能单价");
         }
@@ -231,7 +176,7 @@ public class OrderSortingMatchingAPI {
 
         }catch (Exception e){
             e.printStackTrace();
-            return new SysResult(0, "导入数据失败");
+            return new SysResult(0, "匹配数据失败");
 
         }
 
@@ -255,14 +200,48 @@ public class OrderSortingMatchingAPI {
 
             OutputStream outputStream = new FileOutputStream(exportFile);
 
+            List<SortingMatchiingExportTemplate>  sortingMatchiingExports = new ArrayList<>();
+
+            for (TbSortingMatchingInfo tbSortingMatchingInfo : tbSortingMatchingInfoList) {
+                SortingMatchiingExportTemplate sortingMatchiingExportTemplate = new SortingMatchiingExportTemplate();
+                sortingMatchiingExportTemplate.setSenderName(tbSortingMatchingInfo.getSenderName());
+                sortingMatchiingExportTemplate.setSender_mobile_one(tbSortingMatchingInfo.getSenderMobileOne());
+                sortingMatchiingExportTemplate.setSender_mobile_two(tbSortingMatchingInfo.getSenderMobileTwo());
+                sortingMatchiingExportTemplate.setSenderProvince(tbSortingMatchingInfo.getSenderProvince());
+                sortingMatchiingExportTemplate.setSenderCity(tbSortingMatchingInfo.getSenderCity());
+                sortingMatchiingExportTemplate.setSenderCounty(tbSortingMatchingInfo.getSenderCounty());
+                sortingMatchiingExportTemplate.setSenderAddress(tbSortingMatchingInfo.getSenderAddress());
+
+                sortingMatchiingExportTemplate.setReciverName(tbSortingMatchingInfo.getReciverName());
+                sortingMatchiingExportTemplate.setReciverMobileOne(tbSortingMatchingInfo.getReciverMobileOne());
+                sortingMatchiingExportTemplate.setReciverMobileTwo(tbSortingMatchingInfo.getReciverMobileTwo());
+                sortingMatchiingExportTemplate.setReciverProvince(tbSortingMatchingInfo.getReciverProvince());
+                sortingMatchiingExportTemplate.setReciverCity(tbSortingMatchingInfo.getReciverCity());
+                sortingMatchiingExportTemplate.setReciverCounty(tbSortingMatchingInfo.getReciverCounty());
+                sortingMatchiingExportTemplate.setReciverAddress(tbSortingMatchingInfo.getReciverAddress());
+
+                sortingMatchiingExportTemplate.setCityWideFlag(tbSortingMatchingInfo.getCityWideFlag()==1?"是":"否");
+                sortingMatchiingExportTemplate.setLevelFourSortingName(tbSortingMatchingInfo.getLevelFourSortingName());
+                sortingMatchiingExportTemplate.setSortingName(tbSortingMatchingInfo.getSortingName());
+                sortingMatchiingExportTemplate.setMarking(tbSortingMatchingInfo.getMarking());
+                sortingMatchiingExportTemplate.setDistribuCenter(tbSortingMatchingInfo.getDistribuCenter());
+                sortingMatchiingExportTemplate.setDlvName(tbSortingMatchingInfo.getDlvName());
+                sortingMatchiingExportTemplate.setAreaNum(tbSortingMatchingInfo.getDlvNo());
+                sortingMatchiingExportTemplate.setOrgNum(tbSortingMatchingInfo.getOrgNo());
+                sortingMatchiingExportTemplate.setOrgName(tbSortingMatchingInfo.getOrgName());
+
+                sortingMatchiingExports.add(sortingMatchiingExportTemplate);
+            }
+
             //把数据封装为对象
-            EasyExcel.write(outputStream, SortingMatchiingExportTemplate.class).sheet("订单数据").doWrite(tbSortingMatchingInfoList);
+            EasyExcel.write(outputStream, SortingMatchiingExportTemplate.class).sheet("订单数据").doWrite(sortingMatchiingExports);
 
 
             TbOrderBatchInfo tbOrderBatchInfo = tbOrderBatchInfoMapper.selectByBatchNo(batchNo);
             tbOrderBatchInfo.setFileName(fileName);
             tbOrderBatchInfo.setTotalNum(totalNum);
             tbOrderBatchInfo.setSuccessNum(successMatching);
+            tbOrderBatchInfo.setMoney(matchingCost);
             tbOrderBatchInfo.setStatus(1);
             tbOrderBatchInfo.setModifyTime(new Date());
             tbOrderBatchInfoMapper.updateByPrimaryKey(tbOrderBatchInfo);

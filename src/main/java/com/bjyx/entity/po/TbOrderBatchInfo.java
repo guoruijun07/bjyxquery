@@ -1,6 +1,5 @@
 package com.bjyx.entity.po;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class TbOrderBatchInfo {
@@ -32,7 +31,7 @@ public class TbOrderBatchInfo {
     /**
      * 金额 money
      */
-    private BigDecimal money;
+    private Double money;
 
     /**
      * 匹配状态:0,未匹配1,已匹配 status
@@ -58,7 +57,7 @@ public class TbOrderBatchInfo {
      *
      * @mbggenerated
      */
-    public TbOrderBatchInfo(Integer id, String batchNo, String fileName, Integer totalNum, Integer successNum, BigDecimal money, Integer status,Integer userId, Date modifyTime, Date createTime) {
+    public TbOrderBatchInfo(Integer id, String batchNo, String fileName, Integer totalNum, Integer successNum, Double money, Integer status,Integer userId, Date modifyTime, Date createTime) {
         this.id = id;
         this.batchNo = batchNo;
         this.fileName = fileName;
@@ -174,7 +173,7 @@ public class TbOrderBatchInfo {
     
      * @return money 金额
      */
-    public BigDecimal getMoney() {
+    public Double getMoney() {
         return money;
     }
 
@@ -183,7 +182,7 @@ public class TbOrderBatchInfo {
     
      * @param money 金额
      */
-    public void setMoney(BigDecimal money) {
+    public void setMoney(Double money) {
         this.money = money;
     }
 
@@ -207,8 +206,6 @@ public class TbOrderBatchInfo {
 
     /**
      * 用户id
-
-     * @param userId
      */
     public Integer getUserId() {
         return userId;

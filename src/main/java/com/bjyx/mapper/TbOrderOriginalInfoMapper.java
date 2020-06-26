@@ -181,8 +181,8 @@ public interface TbOrderOriginalInfoMapper {
             "set ",
             "city_wide_flag = #{cityWideFlag,jdbcType=INTEGER},",
             "sorting_status = #{sortingStatus,jdbcType=INTEGER},",
-            "modify_time = #{modifyTime,jdbcType=TIMESTAMP},",
-            "where order_no = #{orderNo,jdbcType=VARCHAR}"
+            "modify_time = #{modifyTime,jdbcType=TIMESTAMP}",
+            "where order_no = #{orderNo,jdbcType=VARCHAR}",
     })
     int updateByOrderNo(TbOrderOriginalInfo record);
 
@@ -192,13 +192,12 @@ public interface TbOrderOriginalInfoMapper {
      */
     @Update({
             "<script>",
-            "<foreach collection=\"orderOriginalInfos\" item=\"item\" separator=\";\">" ,
-//            "<foreach collection='orderOriginalInfos' item='item' separator=';'>",
+            "<foreach collection='orderOriginalInfos' item='item' separator=';'>",
             "update tb_order_original_info",
             "set ",
             "city_wide_flag = #{item.cityWideFlag,jdbcType=INTEGER},",
             "sorting_status = #{item.sortingStatus,jdbcType=INTEGER},",
-            "modify_time = #{item.modifyTime,jdbcType=TIMESTAMP},",
+            "modify_time = #{item.modifyTime,jdbcType=TIMESTAMP}",
             "where order_no = #{item.orderNo,jdbcType=VARCHAR}",
             "</foreach>",
             "</script>",

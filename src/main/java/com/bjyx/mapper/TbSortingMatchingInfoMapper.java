@@ -249,7 +249,7 @@ public interface TbSortingMatchingInfoMapper {
             "select",
             "count(1) ",
             "from tb_sorting_matching_info",
-            "where batch_no = #{batchNo,jdbcType=VARCHAR} and sorting_status = 1"
+            "where batch_no = #{batchNo,jdbcType=VARCHAR} and sorting_status = 1 and (distribu_center != null or trim(distribu_center) != '')"
     })
     Integer selectByCountSucessAndBatchNo(String batchNo);
 
@@ -353,8 +353,13 @@ public interface TbSortingMatchingInfoMapper {
             "consolidation_name = #{consolidationName,jdbcType=VARCHAR},",
             "consolidation_code = #{consolidationCode,jdbcType=VARCHAR},",
             "level_four_sorting_name = #{levelFourSortingName,jdbcType=VARCHAR},",
+            "sorting_name = #{sortingName,jdbcType=VARCHAR},",
+            "dlv_no = #{dlvNo,jdbcType=VARCHAR},",
+            "dlv_name = #{dlvName,jdbcType=VARCHAR},",
+            "org_no = #{orgNo,jdbcType=VARCHAR},",
+            "org_name = #{orgName,jdbcType=VARCHAR},",
             "sorting_status = #{sortingStatus,jdbcType=INTEGER}",
-            "where order_no = #{orderNo,jdbcType=VARCHAR}"
+            "where order_no = #{orderNo,jdbcType=VARCHAR}",
     })
     int updateByOrderNo(TbSortingMatchingInfo record);
 
@@ -372,6 +377,8 @@ public interface TbSortingMatchingInfoMapper {
             "consolidation_code = #{item.consolidationCode,jdbcType=VARCHAR},",
             "level_four_sorting_name = #{item.levelFourSortingName,jdbcType=VARCHAR},",
             "sorting_name = #{item.sortingName,jdbcType=VARCHAR},",
+            "marking = #{item.marking,jdbcType=VARCHAR},",
+            "distribu_center = #{item.distribuCenter,jdbcType=VARCHAR},",
             "dlv_no = #{item.dlvNo,jdbcType=VARCHAR},",
             "dlv_name = #{item.dlvName,jdbcType=VARCHAR},",
             "org_no = #{item.orgNo,jdbcType=VARCHAR},",

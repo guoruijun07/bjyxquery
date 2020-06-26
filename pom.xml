@@ -59,6 +59,8 @@
             <artifactId>quartz</artifactId>
             <version>${quartz.version}</version>
         </dependency>
+
+        <!--webjars start-->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
@@ -74,6 +76,12 @@
             <artifactId>layui</artifactId>
             <version>2.5.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>popper.js</artifactId>
+            <version>1.16.0</version>
+        </dependency>
+        <!--webjars end-->
         <!-- Apache工具组件 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
