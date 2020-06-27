@@ -62,7 +62,7 @@ public class BindingRemoveRalationController {
     }
 
     //根据邮件号解绑
-    @RequestMapping("/remove")
+    @RequestMapping("/removeBinding")
     @ResponseBody
     public TbBindingRemoveRalation remove( String mailNo) throws IOException {
         TbBindingRemoveRalation params=new TbBindingRemoveRalation();
