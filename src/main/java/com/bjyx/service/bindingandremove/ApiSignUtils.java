@@ -1,7 +1,6 @@
 package com.bjyx.service.bindingandremove;
 
-import org.apache.commons.lang.StringUtils;
-
+import org.apache.commons.lang3.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -9,7 +8,9 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @decription ApiSignUtils
