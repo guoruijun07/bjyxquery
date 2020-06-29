@@ -1,7 +1,9 @@
 package com.bjyx.controller;
 
+import com.bjyx.common.Constants;
 import com.bjyx.entity.po.TbBindingRemoveRalation;
 import com.bjyx.entity.po.TbSortingInfo;
+import com.bjyx.entity.po.TbUserInfo;
 import com.bjyx.mapper.TbBindingRmoveRalationMapper;
 import com.bjyx.mapper.TbSortingInfoMapper;
 import com.bjyx.service.bindingandremove.BindingRalation;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -38,7 +41,7 @@ public class BindingRemoveRalationController {
     //根据邮件号绑定
     @RequestMapping("/binding")
     @ResponseBody
-    public TbBindingRemoveRalation binding(String phone, String mailNo) throws IOException {
+    public TbBindingRemoveRalation binding(HttpSession session,String phone, String mailNo) throws IOException {
         TbBindingRemoveRalation params=new TbBindingRemoveRalation();
         TbBindingRemoveRalation out=new TbBindingRemoveRalation();
         if(StringUtils.isBlank(phone)){
@@ -50,7 +53,9 @@ public class BindingRemoveRalationController {
             return  out;
         }
         //获取用户
-
+        TbUserInfo tbUserInfo= (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
+        params.setUsername(tbUserInfo.getUsername());
+        params.setUserid(tbUserInfo.getId());
         //获取菜单
 
         //获取合作伙伴编码
@@ -64,16 +69,13 @@ public class BindingRemoveRalationController {
     //根据邮件号解绑
     @RequestMapping("/removeBinding")
     @ResponseBody
-    public TbBindingRemoveRalation remove( String mailNo) throws IOException {
+    public TbBindingRemoveRalation remove( HttpSession session,String mailNo) throws IOException {
         TbBindingRemoveRalation params=new TbBindingRemoveRalation();
         TbBindingRemoveRalation out=new TbBindingRemoveRalation();
         if(StringUtils.isBlank(mailNo)){
             out.setResult("邮件号不能为空");
             return  out;
         }
-        //获取用户
-
-        //获取菜单
 
         //获取合作伙伴编码
         params.setUnitID("10000000034");
