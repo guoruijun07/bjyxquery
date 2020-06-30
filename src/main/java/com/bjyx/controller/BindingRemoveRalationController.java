@@ -103,21 +103,31 @@ public class BindingRemoveRalationController {
     @ResponseBody
     public  Map<String,Object> queryBinding(String phone, String Xphone, String mailNo, String beginDate, String endDate) throws IOException, ParseException {
         TbBindingRemoveRalation params = new TbBindingRemoveRalation();
+        Map<String,Object> outPut=new HashMap<>();
         if (StringUtils.isBlank(phone) && StringUtils.isBlank(Xphone) && StringUtils.isBlank(mailNo)) {
-            return null;
+            outPut.put("code","-1");
+            outPut.put("msg","查询条件不正确");
+            return outPut;
         }
+        if("".equals(phone))
+            phone=null;
+        if("".equals(Xphone))
+            Xphone=null;
+        if("".equals(mailNo))
+            mailNo=null;
         params.setPrtms(phone);
         params.setSmbms(Xphone);
         params.setUuidinpartner(mailNo);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
-        if (StringUtils.isNotBlank(beginDate) )
+        if (StringUtils.isNotBlank(beginDate) ) {
             params.setBeginDate(simpleDateFormat.parse(beginDate));
-        if (StringUtils.isNotBlank(endDate) )
+        }
+        if (StringUtils.isNotBlank(endDate) ) {
             params.setEndDate(simpleDateFormat.parse(endDate));
+        }
         params.setUuidinpartner(mailNo);
         List<TbBindingRemoveRalation> out = tbBindingRmoveRalationMapper.select(params);
 
-        Map<String,Object> outPut=new HashMap<>();
         outPut.put("code","0");
         outPut.put("msg","查询成功");
         outPut.put("data",out);
