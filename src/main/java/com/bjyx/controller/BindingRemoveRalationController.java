@@ -110,9 +110,9 @@ public class BindingRemoveRalationController {
         params.setSmbms(Xphone);
         params.setUuidinpartner(mailNo);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
-        if (beginDate != null)
+        if (StringUtils.isNotBlank(beginDate) )
             params.setBeginDate(simpleDateFormat.parse(beginDate));
-        if (endDate != null)
+        if (StringUtils.isNotBlank(endDate) )
             params.setEndDate(simpleDateFormat.parse(endDate));
         params.setUuidinpartner(mailNo);
         List<TbBindingRemoveRalation> out = tbBindingRmoveRalationMapper.select(params);

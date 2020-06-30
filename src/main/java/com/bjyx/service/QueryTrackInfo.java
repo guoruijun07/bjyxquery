@@ -41,7 +41,7 @@ public class QueryTrackInfo {
 
 
 
-    public void queryTrackInfo(String mailNo) {
+    public List<TbDetailTrajectoryOutsideInfo> queryTrackInfo(String mailNo) {
 
         //mailNo="9892019112608";
 
@@ -124,6 +124,7 @@ public class QueryTrackInfo {
                     tbDetailTrajectoryOutsideInfoMapper.deleteByMailNo(mailNo);
                     tbDetailTrajectoryOutsideInfoMapper.batchInsert(conList);
                 }
+                return conList;
 
             }
 
@@ -148,6 +149,7 @@ public class QueryTrackInfo {
                 }
             }
         }
+        return null;
     }
 
 
