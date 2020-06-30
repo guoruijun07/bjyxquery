@@ -131,6 +131,7 @@ public class RemoveRalation {
                     if (err != null) {
                         errMsg = parseString(err.get("sub_msg"));
                         result.setResult(errMsg);
+                        result.setCode( parseString(err.get("code")));
                         System.out.println(errMsg);
                         return result;
                     }
@@ -159,6 +160,7 @@ public class RemoveRalation {
                                 tbBindingRmoveRalation.update(updateBo);
 
                             }
+                            result.setCode("0");
                             result.setResult("解绑成功");
                             return result;
                         }
