@@ -46,6 +46,12 @@ public class OrderImportController {
             outPut.put("msg","收件人姓名、收件人手机、邮件号三者不能同时为空");
             return outPut;
         }
+        if("".equals(tbOrderImport.getReciverName()))
+            tbOrderImport.setReciverName(null);
+        if("".equals(tbOrderImport.getMailNo()))
+            tbOrderImport.setMailNo(null);
+        if("".equals(tbOrderImport.getReciverMobileOne()))
+            tbOrderImport.setReciverMobileOne(null);
         List<TbOrderImport> datas=orderImportMapper.select(tbOrderImport);
         outPut.put("code","0");
         outPut.put("msg","查询成功");
