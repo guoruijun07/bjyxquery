@@ -17,9 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class BindingRemoveRalationController {
@@ -101,14 +99,9 @@ public class BindingRemoveRalationController {
     //根据邮件号解绑
     @RequestMapping("/queryBinding")
     @ResponseBody
-    public  Map<String,Object> queryBinding(String phone, String Xphone, String mailNo, String beginDate, String endDate) throws IOException, ParseException {
+    public  Map<String,Object> queryBinding(String phone, String Xphone, String mailNo, String beginDate, String endDate,String userMobile) throws IOException, ParseException {
         TbBindingRemoveRalation params = new TbBindingRemoveRalation();
         Map<String,Object> outPut=new HashMap<>();
-        if (StringUtils.isBlank(phone) && StringUtils.isBlank(Xphone) && StringUtils.isBlank(mailNo)) {
-            outPut.put("code","-1");
-            outPut.put("msg","查询条件不正确");
-            return outPut;
-        }
         if("".equals(phone))
             phone=null;
         if("".equals(Xphone))
@@ -119,13 +112,32 @@ public class BindingRemoveRalationController {
         params.setSmbms(Xphone);
         params.setUuidinpartner(mailNo);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
+
+
         if (StringUtils.isNotBlank(beginDate) ) {
             params.setBeginDate(simpleDateFormat.parse(beginDate));
+        }else{
+            outPut.put("code","-1");
+            outPut.put("msg","时间为必填项");
+            return  outPut;
         }
         if (StringUtils.isNotBlank(endDate) ) {
             params.setEndDate(simpleDateFormat.parse(endDate));
+        }else{
+            outPut.put("code","-1");
+            outPut.put("msg","时间为必填项");
+            return  outPut;
         }
         params.setUuidinpartner(mailNo);
+        TbUserInfoVO tbUserInfoParam = new TbUserInfoVO();
+        tbUserInfoParam.setMobile(userMobile);
+        TbUserInfo tbUserInfo = tbuserInfoMapper.selectByMobile(tbUserInfoParam);
+        if(null==tbUserInfo){
+            outPut.put("code","-1");
+            outPut.put("msg","未查询到本设备用户信息");
+            return outPut;
+        }
+        params.setUserid(tbUserInfo.getId());
         List<TbBindingRemoveRalation> out = tbBindingRmoveRalationMapper.select(params);
 
         outPut.put("code","0");
@@ -133,4 +145,5 @@ public class BindingRemoveRalationController {
         outPut.put("data",out);
         return outPut;
     }
+
 }
