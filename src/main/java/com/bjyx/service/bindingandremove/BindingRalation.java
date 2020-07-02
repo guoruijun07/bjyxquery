@@ -166,6 +166,7 @@ public class BindingRalation {
                     if (err != null) {
                         errMsg = parseString(err.get("sub_msg"));
                         result.setResult(errMsg);
+                        result.setCode(parseString(err.get("code")));
                         System.out.println(errMsg);
                         return result;
                     }
@@ -184,6 +185,7 @@ public class BindingRalation {
                 saveBo.setCreateTime(new Date());
                 saveBo.setModifyTime(new Date());
                 tbBindingRmoveRalation.insert(saveBo);
+                result.setCode("0");
                 result.setResult("绑定成功");
                 return result;
             }

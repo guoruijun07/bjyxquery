@@ -62,7 +62,7 @@ public interface TbBindingRmoveRalationMapper {
             "menu, userid, ",
             "username,  ",
             " create_time as createTime, modify_time as modifyTime from tb_binding_remove_ralation ",
-            "where 1=1 and status='1' and validitytime> now()",
+            "where 1=1 and userid= #{userid,jdbcType=BIGINT}",
             "<if test='id!=0'>",
             "and id = #{id,jdbcType=INTEGER} ",
             "</if>",
@@ -76,12 +76,13 @@ public interface TbBindingRmoveRalationMapper {
             "and uuidinpartner = #{uuidinpartner,jdbcType=VARCHAR} ",
             "</if>",
             "<if test='beginDate!=null'>",
-            "and subts <![CDATA[>= ]]>  #{beginDate,jdbcType=TIMESTAMP} ",
+            "and subts <![CDATA[>= ]]>  #{beginDate,jdbcType=DATE} ",
             "</if>",
             "<if test='endDate!=null'>",
-            "and subts  <![CDATA[<= ]]>  #{endDate,jdbcType=TIMESTAMP}  ",
+            "and date_format(subts, '%Y-%m-%d')  <![CDATA[<= ]]>  #{endDate,jdbcType=DATE}  ",
             "</if>",
-            " limit 20",
+           // " order by subts desc ",
+           // " limit 100",
             "</script>"
 
 

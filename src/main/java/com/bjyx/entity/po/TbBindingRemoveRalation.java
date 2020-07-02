@@ -20,12 +20,21 @@ public class TbBindingRemoveRalation {
     private String regphone;
     private String source;
     private String menu;
-    private String userid;
+    private Integer userid;
     private String username;
     private Date createTime;
     private Date modifyTime;
     private Date beginDate;
     private Date endDate;
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public Date getEndDate() {
         return endDate;
@@ -192,11 +201,11 @@ public class TbBindingRemoveRalation {
         this.menu = menu;
     }
 
-    public String getUserid() {
+    public Integer getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
+    public void setUserid(Integer userid) {
         this.userid = userid;
     }
 
