@@ -45,7 +45,7 @@ public class BindingRemoveRalationController {
         String version=request.getParameter("version");
         String menu=request.getParameter("menu");
         SysResult sysResult=commonVerifyService.verifyUser(token,version,menu);
-        if(!"1".equals(sysResult.getCode())){
+        if(1!=sysResult.getCode()){
             outPut.put("code",sysResult.getCode());
             outPut.put("msg",sysResult.getMsg());
             return outPut;
@@ -103,7 +103,7 @@ public class BindingRemoveRalationController {
         String version=request.getParameter("version");
         String menu=request.getParameter("menu");
         SysResult sysResult=commonVerifyService.verifyUser(token,version,menu);
-        if(!"1".equals(sysResult.getCode())){
+        if(1!=sysResult.getCode()){
             outPut.put("code",sysResult.getCode());
             outPut.put("msg",sysResult.getMsg());
             return outPut;
@@ -140,7 +140,7 @@ public class BindingRemoveRalationController {
         String version=request.getParameter("version");
         String menu=request.getParameter("menu");
         SysResult sysResult=commonVerifyService.verifyUser(token,version,menu);
-        if(!"1".equals(sysResult.getCode())){
+        if(1!=sysResult.getCode()){
             outPut.put("code",sysResult.getCode());
             outPut.put("msg",sysResult.getMsg());
             return outPut;
