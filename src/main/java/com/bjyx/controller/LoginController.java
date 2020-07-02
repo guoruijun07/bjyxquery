@@ -7,6 +7,7 @@ import com.bjyx.mapper.TbUserInfoMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -116,12 +117,12 @@ public class LoginController {
         }
     }
 
-//    @RequestMapping("/login")
-    public String login(User user) {
+    @RequestMapping("/login")
+    public String login(User user,Model model) {
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
-                user.getUserName(),
+                user.getUsername(),
                 user.getPassword()
         );
         try {
@@ -129,14 +130,21 @@ public class LoginController {
             subject.login(usernamePasswordToken);
 //            subject.checkRole("admin");
 //            subject.checkPermissions("query", "add");
+
+        } catch (UnknownAccountException e) {
+            e.printStackTrace();
+            model.addAttribute("msg","账号或密码错误！");
+            return "login";
         } catch (AuthenticationException e) {
             e.printStackTrace();
-            return "账号或密码错误！";
+            model.addAttribute("msg","账号或密码错误！");
+            return "login";
         } catch (AuthorizationException e) {
             e.printStackTrace();
-            return "没有权限";
+            model.addAttribute("msg","没有权限！");
+            return "login";
         }
-        return "login success";
+        return "/dashboard";
     }
     //注解验角色和权限
     @RequiresRoles("admin")
@@ -144,6 +152,18 @@ public class LoginController {
     @RequestMapping("/index")
     public String index() {
         return "index!";
+    }
+
+
+
+//    @RequestMapping("/dashboard")
+//    public String dashboard() {
+//        return "dashboard";
+//    }
+
+    @RequestMapping("/")
+    public String initLogin() {
+        return "login";
     }
 
 }

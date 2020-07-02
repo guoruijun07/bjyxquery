@@ -11,39 +11,9 @@
 		<!-- Custom styles for this template -->
 		<link href="asserts/css/signin.css" th:href="@{/asserts/css/signin.css}" rel="stylesheet">
 		<script th:href="@{/webjars/jquery/3.4.1/jquery.js}" type='text/javascript'></script>
-		<script>
-			// $(function () {
-			// 	var locator = new ActiveXObject ("WbemScripting.SWbemLocator");
-			// 	var service = locator.ConnectServer(".");
-			// 	var userAgent = navigator.userAgent;
-			// 	var properties = service.ExecQuery("SELECT * FROM Win32_Processor");
-			// 	var e = new Enumerator (properties);
-			// 	var p = e.item ();
-			// 	alert(p.ProcessorID);
-			// });
-
-			// window.onload = function(){
-			// 	var locator = new ActiveXObject ("WbemScripting.SWbemLocator");
-			// 	var service = locator.ConnectServer(".");
-			// 	var userAgent = navigator.userAgent;
-			// 	var properties = service.ExecQuery("SELECT * FROM Win32_Processor");
-			// 	var e = new Enumerator (properties);
-			// 	var p = e.item ();
-			// 	alert(p.ProcessorID);
-			// }
-			function getinfo() {
-				var locator = new ActiveXObject ("WbemScripting.SWbemLocator");
-				var service = locator.ConnectServer(".");
-				var userAgent = navigator.userAgent;
-				var properties = service.ExecQuery("SELECT * FROM Win32_Processor");
-				var e = new Enumerator (properties);
-				var p = e.item ();
-				alert(p.ProcessorID);
-			}
-		</script>
 	</head>
 	<body class="text-center">
-		<form class="form-signin" action="dashboard.html" th:action="@{/user/login}" method="post">
+		<form class="form-signin" action="dashboard.html" th:action="@{/login}" method="post">
 			<img class="mb-4" th:src="@{/asserts/img/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt="" width="72" height="72">
 			<h1 class="h3 mb-3 font-weight-normal" >北京生鲜业务系统</h1>
 			<br/>

@@ -9,16 +9,16 @@ import java.util.Set;
 public class User {
 
     private String id;
-    private String userName;
+    private String username;
     private String password;
     /**
      * 用户对应的角色集合
      */
     private Set<Role> roles;
 
-    public User(String id, String userName, String password, Set<Role> roles) {
+    public User(String id, String username, String password, Set<Role> roles) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.roles = roles;
     }
@@ -31,12 +31,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

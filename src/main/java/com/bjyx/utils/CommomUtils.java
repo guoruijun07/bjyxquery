@@ -11,8 +11,6 @@ import java.util.Random;
 
 public class CommomUtils {
 
-
-
     public static Date getInvalidDate() {
 
         Calendar calendar = Calendar.getInstance();

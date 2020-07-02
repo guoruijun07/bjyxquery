@@ -9,6 +9,9 @@ logging:
       bjyx: debug
 
 spring:
+#  mvc:
+#    static-path-pattern: /static/**
+  resources: static-locations=classpath:/static/
   thymeleaf:
     cache: false
     mode: LEGACYHTML5
@@ -18,7 +21,12 @@ spring:
       jdbc-url: jdbc:mysql://127.0.0.1:3306/bjyxquery?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&&allowMultiQueries=true
       username: root
       password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+
 #      password: GuoruiJUN@07
+mybatis:
+  type-aliases-package: com.bjyx
+
 http:
   encoding:
     charset: UTF-8
