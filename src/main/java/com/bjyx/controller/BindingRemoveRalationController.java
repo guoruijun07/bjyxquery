@@ -5,14 +5,17 @@ import com.bjyx.entity.po.TbUserInfo;
 import com.bjyx.entity.vo.TbUserInfoVO;
 import com.bjyx.mapper.TbBindingRmoveRalationMapper;
 import com.bjyx.mapper.TbUserInfoMapper;
+import com.bjyx.service.CommonVerifyService;
 import com.bjyx.service.bindingandremove.BindingRalation;
 import com.bjyx.service.bindingandremove.RemoveRalation;
+import com.bjyx.utils.SysResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
@@ -29,22 +32,34 @@ public class BindingRemoveRalationController {
     private TbBindingRmoveRalationMapper tbBindingRmoveRalationMapper;
     @Autowired(required = false)
     private TbUserInfoMapper tbuserInfoMapper;
+    @Autowired(required = false)
+    private CommonVerifyService commonVerifyService;
 
 
     //根据邮件号绑定
     @RequestMapping("/binding")
     @ResponseBody
-    public Map<String,Object> binding(HttpSession session, String phone, String mailNo, String userMobile) throws IOException {
+    public Map<String,Object> binding(HttpServletRequest request, HttpSession session, String phone, String mailNo, String userMobile) throws IOException {
+        Map<String,Object> outPut=new HashMap<>();
+        String token=request.getParameter("token");
+        String version=request.getParameter("version");
+        String menu=request.getParameter("menu");
+        SysResult sysResult=commonVerifyService.verifyUser(token,version,menu);
+        if(!"1".equals(sysResult.getCode())){
+            outPut.put("code",sysResult.getCode());
+            outPut.put("msg",sysResult.getMsg());
+            return outPut;
+        }
+
         TbBindingRemoveRalation params = new TbBindingRemoveRalation();
         TbBindingRemoveRalation out = new TbBindingRemoveRalation();
-        Map<String,Object> outPut=new HashMap<>();
         if (StringUtils.isBlank(phone)) {
-            outPut.put("code","-1");
+            outPut.put("code","2");
             outPut.put("msg","电话不能为空");
             return outPut;
         }
         if (StringUtils.isBlank(mailNo)) {
-            outPut.put("code","-1");
+            outPut.put("code","2");
             outPut.put("msg","邮件号不能为空");
             return outPut;
         }
@@ -64,6 +79,11 @@ public class BindingRemoveRalationController {
         params.setUnitID("10000000034");
         params.setUuidinpartner(mailNo);
         out = bindingRalation.bindingRalation(params);
+        if("0".equals(out.getCode())){
+            out.setCode("1");
+        }else{
+            out.setCode("2");
+        }
         outPut.put("code",out.getCode());
         outPut.put("msg",out.getResult());
         Map<String,String> data=new HashMap<>();
@@ -77,10 +97,19 @@ public class BindingRemoveRalationController {
     //根据邮件号解绑
     @RequestMapping("/removeBinding")
     @ResponseBody
-    public Map<String,Object> remove(HttpSession session, String mailNo) throws IOException {
+    public Map<String,Object> remove(HttpServletRequest request,HttpSession session, String mailNo) throws IOException {
+        Map<String,Object> outPut=new HashMap<>();
+        String token=request.getParameter("token");
+        String version=request.getParameter("version");
+        String menu=request.getParameter("menu");
+        SysResult sysResult=commonVerifyService.verifyUser(token,version,menu);
+        if(!"1".equals(sysResult.getCode())){
+            outPut.put("code",sysResult.getCode());
+            outPut.put("msg",sysResult.getMsg());
+            return outPut;
+        }
         TbBindingRemoveRalation params = new TbBindingRemoveRalation();
         TbBindingRemoveRalation out = new TbBindingRemoveRalation();
-        Map<String,Object> outPut=new HashMap<>();
         if (StringUtils.isBlank(mailNo)) {
             outPut.put("code","-1");
             outPut.put("msg","邮件号不能为空");
@@ -90,6 +119,11 @@ public class BindingRemoveRalationController {
         params.setUnitID("10000000034");
         params.setUuidinpartner(mailNo);
         out = removeRalation.removeRalation(params);
+        if("0".equals(out.getCode())){
+            out.setCode("1");
+        }else{
+            out.setCode("2");
+        }
         outPut.put("code",out.getCode());
         outPut.put("msg",out.getResult());
         return outPut;
@@ -99,9 +133,18 @@ public class BindingRemoveRalationController {
     //根据邮件号解绑
     @RequestMapping("/queryBinding")
     @ResponseBody
-    public  Map<String,Object> queryBinding(String phone, String Xphone, String mailNo, String beginDate, String endDate,String userMobile) throws IOException, ParseException {
+    public  Map<String,Object> queryBinding(HttpServletRequest request,String phone, String Xphone, String mailNo, String beginDate, String endDate,String userMobile) throws IOException, ParseException {
         TbBindingRemoveRalation params = new TbBindingRemoveRalation();
         Map<String,Object> outPut=new HashMap<>();
+        String token=request.getParameter("token");
+        String version=request.getParameter("version");
+        String menu=request.getParameter("menu");
+        SysResult sysResult=commonVerifyService.verifyUser(token,version,menu);
+        if(!"1".equals(sysResult.getCode())){
+            outPut.put("code",sysResult.getCode());
+            outPut.put("msg",sysResult.getMsg());
+            return outPut;
+        }
         if("".equals(phone))
             phone=null;
         if("".equals(Xphone))
@@ -140,7 +183,7 @@ public class BindingRemoveRalationController {
         params.setUserid(tbUserInfo.getId());
         List<TbBindingRemoveRalation> out = tbBindingRmoveRalationMapper.select(params);
 
-        outPut.put("code","0");
+        outPut.put("code","1");
         outPut.put("msg","查询成功");
         outPut.put("data",out);
         return outPut;
