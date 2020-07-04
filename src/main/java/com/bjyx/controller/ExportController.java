@@ -51,20 +51,9 @@ public class ExportController {
     String dirPath = "/home/code" + java.io.File.separator + "exportMatching" + java.io.File.separator;
 
     /**
-     * excel文件的下载
-     */
-    @GetMapping("download1")
-    public void download(HttpServletResponse response) throws IOException {
-        response.setContentType("application/vnd.ms-excel");
-        response.setCharacterEncoding("utf-8");
-        response.setHeader("Content-disposition", "attachment;filename=demo.xlsx");
-//        EasyExcel.write(response.getOutputStream(), DownloadData.class).sheet("模板").doWrite(data());
-    }
-
-    /**
      * excel文件的上传
      */
-    @PostMapping("upload")
+//    @PostMapping("upload")
     public SysResult upload(MultipartFile file, HttpSession session) throws IOException {
         Long startTime = System.currentTimeMillis();
         TbUserInfo tbUserInfo = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
@@ -158,7 +147,7 @@ public class ExportController {
         return new SysResult(1, "导入数据成功", "", remainingSum, tbExportInfos);
     }
 
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
+//    @RequestMapping(value = "/download", method = RequestMethod.GET)
     public String exportDownExcel(HttpServletResponse response, HttpSession session, String fileName) {
         logger.info("文件名为:" + fileName);
         TbUserInfo tbUserInfo = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);

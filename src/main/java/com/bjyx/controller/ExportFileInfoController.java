@@ -10,14 +10,15 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * 分拣码批量查询
+ */
 @Controller
-@RequestMapping("/sorting")
-public class ExportFileInfoAPI {
+public class ExportFileInfoController {
 
     @Autowired(required = false)
     private TbExportInfoMapper tbExportInfoMapper;
@@ -33,7 +34,7 @@ public class ExportFileInfoAPI {
      * @param pageNum
      * @return
      */
-    @RequestMapping("/getList")
+//    @RequestMapping("/getList")
     public String getList(HttpSession session,TbUserInfo tbUserInfo, Model model,Integer pageNum) {
 
 //        PageHelper.startPage(queryVo.getPage(), queryVo.getLimit());
@@ -52,7 +53,7 @@ public class ExportFileInfoAPI {
 
 
 //        tbUserInfo = tbuserInfoMapper.selectByPrimaryKey(tbUserInfo.getId());
-//        model.addAttribute("exportInfos", tbExportInfos);
+//        model.addAttribute("exportInfos", tbExportInfos);4R
 //        session.setAttribute(Constants.SESSION_KEY, tbUserInfo);
 //        Page<Article> articles = articleService.findWithBLOBsByPage(pageNum, pageSize);
         // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInfo

@@ -31,17 +31,17 @@ public class LoginServiceImpl implements LoginService {
     private User getMapByName(String userName){
         //共添加两个用户，两个用户都是admin一个角色，
         //wsl有query和add权限，zhangsan只有一个query权限
-        Permissions permissions1 = new Permissions("1","query");
-        Permissions permissions2 = new Permissions("2","add");
+        Permissions permissions1 = new Permissions("1","sorting:getList");
+        Permissions permissions2 = new Permissions("2","getSortingOrderList");
         Set<Permissions> permissionsSet = new HashSet<>();
         permissionsSet.add(permissions1);
         permissionsSet.add(permissions2);
         Role role = new Role("1","admin",permissionsSet);
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(role);
-        User user = new User("1","wsl","123456",roleSet);
+        User user = new User("1","grj","123456",roleSet);
         Map<String ,User> map = new HashMap<>();
-        map.put(user.getUserName(), user);
+        map.put(user.getUsername(), user);
 
         Permissions permissions3 = new Permissions("3","query");
         Set<Permissions> permissionsSet1 = new HashSet<>();
@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
         Set<Role> roleSet1 = new HashSet<>();
         roleSet1.add(role1);
         User user1 = new User("2","zhangsan","123456",roleSet1);
-        map.put(user1.getUserName(), user1);
+        map.put(user1.getUsername(), user1);
         return map.get(userName);
     }
 }

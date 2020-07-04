@@ -62,61 +62,6 @@ public class LoginController {
         }
     }
 
-
-
-    @PostMapping("/pcLogin")
-    public String pcLogin(TbUserInfo tbUserInfo, Model model, HttpSession session) {
-
-        //校验登录方式
-        String username = tbUserInfo.getUsername();
-        String password = tbUserInfo.getPassword();
-        String realName = tbUserInfo.getRealName();
-        String mac = "11";
-        //判断是PC登录还是手机登录
-        boolean pcLogin = StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && StringUtils.isNotBlank(mac);
-
-        if (pcLogin) {
-            tbUserInfo = tbuserInfoMapper.selectByUserInfo(tbUserInfo);
-            if (tbUserInfo == null) {
-                return "redirect:/";
-            }
-            tbUserInfo.setRemainingSum(tbUserInfo.getRemainingSum() == null ? 0.0 : tbUserInfo.getRemainingSum());
-            // 设置session
-            session.setAttribute(Constants.SESSION_KEY, tbUserInfo);
-            logger.info("==用户 PC登录:{}成功!", tbUserInfo.toString());
-            return "forward:/getList?id=" + tbUserInfo.getId();
-        } else {
-            return "redirect:/";
-        }
-    }
-
-    @PostMapping("/pcLogin2")
-    public String pcLogin2(TbUserInfo tbUserInfo, Model model, HttpSession session) {
-
-        //校验登录方式
-        String username = tbUserInfo.getUsername();
-        String password = tbUserInfo.getPassword();
-        String realName = tbUserInfo.getRealName();
-        String mac = "11";
-        //判断是PC登录还是手机登录
-        boolean pcLogin = StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && StringUtils.isNotBlank(mac);
-
-        if (pcLogin) {
-            tbUserInfo = tbuserInfoMapper.selectByUserInfo(tbUserInfo);
-            if (tbUserInfo == null) {
-                return "redirect:/";
-            }
-            tbUserInfo.setRemainingSum(tbUserInfo.getRemainingSum() == null ? 0.0 : tbUserInfo.getRemainingSum());
-            // 设置session
-            session.setAttribute(Constants.SESSION_KEY, tbUserInfo);
-            logger.info("==用户 PC登录:{}成功!", tbUserInfo.toString());
-//            return "index";
-            return "forward:/getSortingOrderList?id=" + tbUserInfo.getId();
-        } else {
-            return "redirect:/";
-        }
-    }
-
     @RequestMapping("/login")
     public String login(User user,Model model) {
         //添加用户认证信息
@@ -130,7 +75,6 @@ public class LoginController {
             subject.login(usernamePasswordToken);
 //            subject.checkRole("admin");
 //            subject.checkPermissions("query", "add");
-
         } catch (UnknownAccountException e) {
             e.printStackTrace();
             model.addAttribute("msg","账号或密码错误！");
@@ -144,8 +88,10 @@ public class LoginController {
             model.addAttribute("msg","没有权限！");
             return "login";
         }
-        return "/dashboard";
+        return "index";
     }
+
+
     //注解验角色和权限
     @RequiresRoles("admin")
     @RequiresPermissions("add")
