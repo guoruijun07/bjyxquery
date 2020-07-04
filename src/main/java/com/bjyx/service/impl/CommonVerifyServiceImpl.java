@@ -6,6 +6,7 @@ import com.bjyx.enums.EnumPriceCode;
 import com.bjyx.mapper.TbPriceInfoMapper;
 import com.bjyx.mapper.TbSortingInfoMapper;
 import com.bjyx.mapper.TbUserInfoMapper;
+import com.bjyx.service.CommonVerifyService;
 import com.bjyx.service.SortingMatchingService;
 import com.bjyx.utils.CommomUtils;
 import com.bjyx.utils.SysResult;
@@ -20,7 +21,7 @@ import java.util.Date;
  * @author GuoRJ
  * @date 2020/7/4 13:29
  */
-public class CommonVerifyServiceImpl implements CommonVerifyService{
+public class CommonVerifyServiceImpl implements CommonVerifyService {
     private static final Logger logger = LoggerFactory.getLogger(CommonVerifyServiceImpl.class);
 
     @Autowired(required = false)
