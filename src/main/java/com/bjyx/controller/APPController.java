@@ -5,11 +5,11 @@ import com.alibaba.fastjson.JSON;
 import com.bjyx.entity.bo.OrderOriginalBO;
 import com.bjyx.entity.po.*;
 import com.bjyx.entity.vo.TbUserInfoVO;
-import com.bjyx.enumeration.EnumPriceCode;
+import com.bjyx.enums.EnumPriceCode;
 import com.bjyx.mapper.TbPriceInfoMapper;
 import com.bjyx.mapper.TbSortingInfoMapper;
 import com.bjyx.mapper.TbUserInfoMapper;
-import com.bjyx.service.SortingMatchingInfo;
+import com.bjyx.service.SortingMatchingService;
 import com.bjyx.utils.CommomUtils;
 import com.bjyx.utils.SysResult;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +44,7 @@ public class APPController {
     private TbSortingInfoMapper tbSortingInfoMapper;
 
     @Autowired(required = false)
-    private SortingMatchingInfo sortingMatchingInfo;
+    private SortingMatchingService sortingMatchingService;
 
     DecimalFormat df = new DecimalFormat("#.00");
 
@@ -269,7 +269,7 @@ public class APPController {
         BeanUtils.copyProperties(orderOriginal,tbOrderOriginalInfo);
         tbOrderOriginalInfo.setOrderNo(CommomUtils.getOrderNo());
         try {
-            TbSortingMatchingInfo tbSortingMatchingInfo = sortingMatchingInfo.sortingMatchingByApp(tbOrderOriginalInfo);
+            TbSortingMatchingInfo tbSortingMatchingInfo = sortingMatchingService.sortingMatchingByApp(tbOrderOriginalInfo);
             Double remainingSumAfter = remainingSum;
            if(!tbSortingMatchingInfo.getSortingName().contains("*")) {
                //更新余额

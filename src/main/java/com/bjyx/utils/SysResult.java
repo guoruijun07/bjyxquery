@@ -1,6 +1,6 @@
 package com.bjyx.utils;
 
-import com.bjyx.enumeration.EnumReasultCode;
+import com.bjyx.enums.EnumReasultCode;
 
 import java.util.HashMap;
 import java.util.List;
