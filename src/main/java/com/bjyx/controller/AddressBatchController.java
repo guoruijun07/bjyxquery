@@ -90,7 +90,7 @@ public class AddressBatchController {
     /**
      * excel文件的上传
      */
-    @PostMapping("uploadOrderOriginal")
+    @PostMapping("/uploadOrderOriginal")
     @ResponseBody
     public SysResult upload(MultipartFile file, HttpSession session) throws IOException {
         Long startTime = System.currentTimeMillis();
@@ -256,7 +256,7 @@ public class AddressBatchController {
     }
 
 
-    @RequestMapping(value = "/sortingResultDownload", method = RequestMethod.GET)
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
     public String exportDownExcel(HttpServletResponse response, HttpSession session, String fileName) {
         logger.info("文件名为:" + fileName);
         TbUserInfo tbUserInfo = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
