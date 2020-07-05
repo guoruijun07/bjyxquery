@@ -1,11 +1,10 @@
 package com.bjyx.mapper;
 
-import com.bjyx.entity.po.sysUserRoleRef;
+import com.bjyx.entity.po.SysUserRoleRef;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
-public interface sysUserRoleRefMapper {
-
+public interface SysUserRoleRefMapper {
 
     /**
      *
@@ -13,9 +12,9 @@ public interface sysUserRoleRefMapper {
      */
     @Delete({
         "delete from sys_user_role_ref",
-        "where id = #{id,jdbcType=BIGINT}"
+        "where id = #{id,jdbcType=INTEGER}"
     })
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     /**
      *
@@ -24,10 +23,10 @@ public interface sysUserRoleRefMapper {
     @Insert({
         "insert into sys_user_role_ref (id, user_id, ",
         "role_id)",
-        "values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, ",
-        "#{roleId,jdbcType=BIGINT})"
+        "values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, ",
+        "#{roleId,jdbcType=INTEGER})"
     })
-    int insert(sysUserRoleRef record);
+    int insert(SysUserRoleRef record);
 
     /**
      *
@@ -37,14 +36,14 @@ public interface sysUserRoleRefMapper {
         "select",
         "id, user_id, role_id",
         "from sys_user_role_ref",
-        "where id = #{id,jdbcType=BIGINT}"
+        "where id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
-        @Arg(column="id", javaType=Long.class, jdbcType=JdbcType.BIGINT, id=true),
-        @Arg(column="user_id", javaType=Long.class, jdbcType=JdbcType.BIGINT),
-        @Arg(column="role_id", javaType=Long.class, jdbcType=JdbcType.BIGINT)
+        @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+        @Arg(column="user_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER),
+        @Arg(column="role_id", javaType=Integer.class, jdbcType=JdbcType.INTEGER)
     })
-    sysUserRoleRef selectByPrimaryKey(Long id);
+    SysUserRoleRef selectByPrimaryKey(Integer id);
 
     /**
      *
@@ -52,9 +51,11 @@ public interface sysUserRoleRefMapper {
      */
     @Update({
         "update sys_user_role_ref",
-        "set user_id = #{userId,jdbcType=BIGINT},",
-          "role_id = #{roleId,jdbcType=BIGINT}",
-        "where id = #{id,jdbcType=BIGINT}"
+        "set user_id = #{userId,jdbcType=INTEGER},",
+          "role_id = #{roleId,jdbcType=INTEGER}",
+        "where id = #{id,jdbcType=INTEGER}"
     })
-    int updateByPrimaryKey(sysUserRoleRef record);
+    int updateByPrimaryKey(SysUserRoleRef record);
+
+
 }

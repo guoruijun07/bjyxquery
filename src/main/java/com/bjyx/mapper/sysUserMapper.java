@@ -1,12 +1,12 @@
 package com.bjyx.mapper;
 
-import com.bjyx.entity.po.sysUser;
+import com.bjyx.entity.po.SysUser;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.Date;
 
-public interface sysUserMapper {
+public interface SysUserMapper {
 
     /**
      *
@@ -36,7 +36,7 @@ public interface sysUserMapper {
         "#{updateUser,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, ",
         "#{ts,jdbcType=TIMESTAMP})"
     })
-    int insert(sysUser record);
+    int insert(SysUser record);
 
 
     /**
@@ -64,7 +64,7 @@ public interface sysUserMapper {
         @Arg(column="update_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
         @Arg(column="ts", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
     })
-    sysUser selectByPrimaryKey(Long id);
+    SysUser selectByPrimaryKey(Long id);
 
     /**
      *
@@ -85,5 +85,5 @@ public interface sysUserMapper {
           "ts = #{ts,jdbcType=TIMESTAMP}",
         "where id = #{id,jdbcType=BIGINT}"
     })
-    int updateByPrimaryKey(sysUser record);
+    int updateByPrimaryKey(SysUser record);
 }

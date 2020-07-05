@@ -1,12 +1,12 @@
 package com.bjyx.mapper;
 
-import com.bjyx.entity.po.sysRole;
+import com.bjyx.entity.po.SysRole;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 import java.util.Date;
 
-public interface sysRoleMapper {
+public interface SysRoleMapper {
 
     /**
      *
@@ -14,9 +14,9 @@ public interface sysRoleMapper {
      */
     @Delete({
         "delete from sys_role",
-        "where id = #{id,jdbcType=BIGINT}"
+        "where id = #{id,jdbcType=INTEGER}"
     })
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     /**
      *
@@ -28,14 +28,13 @@ public interface sysRoleMapper {
         "create_time, create_user, ",
         "update_time, update_user, ",
         "ts)",
-        "values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, ",
+        "values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, ",
         "#{name,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, #{mark,jdbcType=VARCHAR}, ",
         "#{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, ",
         "#{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, ",
         "#{ts,jdbcType=TIMESTAMP})"
     })
-    int insert(sysRole record);
-
+    int insert(SysRole record);
 
     /**
      *
@@ -46,10 +45,10 @@ public interface sysRoleMapper {
         "id, code, name, is_delete, mark, create_time, create_user, update_time, update_user, ",
         "ts",
         "from sys_role",
-        "where id = #{id,jdbcType=BIGINT}"
+        "where id = #{id,jdbcType=INTEGER}"
     })
     @ConstructorArgs({
-        @Arg(column="id", javaType=Long.class, jdbcType=JdbcType.BIGINT, id=true),
+        @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
         @Arg(column="code", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="is_delete", javaType=Boolean.class, jdbcType=JdbcType.BIT),
@@ -60,7 +59,8 @@ public interface sysRoleMapper {
         @Arg(column="update_user", javaType=String.class, jdbcType=JdbcType.VARCHAR),
         @Arg(column="ts", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
     })
-    sysRole selectByPrimaryKey(Long id);
+    SysRole selectByPrimaryKey(Integer id);
+
 
     /**
      *
@@ -77,7 +77,30 @@ public interface sysRoleMapper {
           "update_time = #{updateTime,jdbcType=TIMESTAMP},",
           "update_user = #{updateUser,jdbcType=VARCHAR},",
           "ts = #{ts,jdbcType=TIMESTAMP}",
-        "where id = #{id,jdbcType=BIGINT}"
+        "where id = #{id,jdbcType=INTEGER}"
     })
-    int updateByPrimaryKey(sysRole record);
+    int updateByPrimaryKey(SysRole record);
+
+    /**
+     *
+     * @mbggenerated
+     */
+    @Select({
+            "SELECT b.id, code, name, is_delete, mark, create_time, create_user, update_time, update_user, ts FROM sys_user_role_ref a",
+            "LEFT JOIN sys_role b ON a.role_id=b.id AND b.is_delete=0 ",
+            "where a.user_id = #{userId,jdbcType=INTEGER}"
+    })
+    @ConstructorArgs({
+            @Arg(column="id", javaType=Integer.class, jdbcType=JdbcType.INTEGER, id=true),
+            @Arg(column="code", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="name", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="is_delete", javaType=Boolean.class, jdbcType=JdbcType.BIT),
+            @Arg(column="mark", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="create_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="create_user", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="update_time", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP),
+            @Arg(column="update_user", javaType=String.class, jdbcType=JdbcType.VARCHAR),
+            @Arg(column="ts", javaType=Date.class, jdbcType=JdbcType.TIMESTAMP)
+    })
+    SysRole selectByUserId(Integer userId);
 }
