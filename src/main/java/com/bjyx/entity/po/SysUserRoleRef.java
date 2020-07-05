@@ -1,28 +1,28 @@
 package com.bjyx.entity.po;
 
-public class sysRolePermissionsRef {
+public class SysUserRoleRef {
     /**
      * 用户角色关联 id
      */
-    private Long id;
+    private Integer id;
 
     /**
-     * 用户主键 permission_id
+     * 用户主键 user_id
      */
-    private Long permissionId;
+    private Integer userId;
 
     /**
      * 角色主键 role_id
      */
-    private Long roleId;
+    private Integer roleId;
 
     /**
      *
      * @mbggenerated
      */
-    public sysRolePermissionsRef(Long id, Long permissionId, Long roleId) {
+    public SysUserRoleRef(Integer id, Integer userId, Integer roleId) {
         this.id = id;
-        this.permissionId = permissionId;
+        this.userId = userId;
         this.roleId = roleId;
     }
 
@@ -30,7 +30,7 @@ public class sysRolePermissionsRef {
      *
      * @mbggenerated
      */
-    public sysRolePermissionsRef() {
+    public SysUserRoleRef() {
         super();
     }
 
@@ -39,7 +39,7 @@ public class sysRolePermissionsRef {
     
      * @return id 用户角色关联
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -48,26 +48,26 @@ public class sysRolePermissionsRef {
     
      * @param id 用户角色关联
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     /**
      * 用户主键
     
-     * @return permission_id 用户主键
+     * @return user_id 用户主键
      */
-    public Long getPermissionId() {
-        return permissionId;
+    public Integer getUserId() {
+        return userId;
     }
 
     /**
      * 用户主键
     
-     * @param permissionId 用户主键
+     * @param userId 用户主键
      */
-    public void setPermissionId(Long permissionId) {
-        this.permissionId = permissionId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
@@ -75,7 +75,7 @@ public class sysRolePermissionsRef {
     
      * @return role_id 角色主键
      */
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
@@ -84,7 +84,7 @@ public class sysRolePermissionsRef {
     
      * @param roleId 角色主键
      */
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 }

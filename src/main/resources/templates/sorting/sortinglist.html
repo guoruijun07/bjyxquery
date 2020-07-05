@@ -131,7 +131,7 @@
     ================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/webjars/jquery/3.4.1/jquery.js}"></script>
-		<script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/webjars/popper.js/1.16.0/popper.js}"></script>
+		<script type="text/javascript" src="asserts/js/popper.min.js" th:src="@{/webjars/popper.js/1.14.3/popper.js}"></script>
 		<script type="text/javascript" src="asserts/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
 
 		<!-- Icons -->
@@ -158,7 +158,7 @@
 					$.ajax({
 						dataType: "json",
 						type: "POST",
-						url: '/upload',
+						url: '/sorting/upload',
 						data: formData,
 						contentType: false,//必须false才会自closeLoading();动加上正确的Content-Type
 						processData: false,//必须false才会避开jQuery对 formdata 的默认处理XMLHttpRequest会对 formdata 进行正确的处理
@@ -187,7 +187,7 @@
 					alert("没有当前正在导入的数据！");
 					return;
 				}
-				window.location.href="/download?fileName="+ $("#fileName").val();
+				window.location.href="/sorting/download?fileName="+ $("#fileName").val();
 				// $.ajax({
 				//     url:"/download?fileName="+ $("#fileName").val(),
 				//     type:"get",
@@ -202,7 +202,7 @@
 
 			function downloadFile(fileName) {
 
-				window.location.href="/download?fileName="+ fileName;
+				window.location.href="/sorting/download?fileName="+ fileName;
 			}
 
 			// layui.use('laydate', function(){

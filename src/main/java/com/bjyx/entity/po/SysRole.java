@@ -2,11 +2,11 @@ package com.bjyx.entity.po;
 
 import java.util.Date;
 
-public class sysRole {
+public class SysRole {
     /**
      * 角色主键 id
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 角色编码 code
@@ -57,7 +57,7 @@ public class sysRole {
      *
      * @mbggenerated
      */
-    public sysRole(Long id, String code, String name, Boolean isDelete, String mark, Date createTime, String createUser, Date updateTime, String updateUser, Date ts) {
+    public SysRole(Integer id, String code, String name, Boolean isDelete, String mark, Date createTime, String createUser, Date updateTime, String updateUser, Date ts) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -74,7 +74,7 @@ public class sysRole {
      *
      * @mbggenerated
      */
-    public sysRole() {
+    public SysRole() {
         super();
     }
 
@@ -83,7 +83,7 @@ public class sysRole {
     
      * @return id 角色主键
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -92,7 +92,7 @@ public class sysRole {
     
      * @param id 角色主键
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

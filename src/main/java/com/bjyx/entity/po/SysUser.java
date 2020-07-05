@@ -2,7 +2,7 @@ package com.bjyx.entity.po;
 
 import java.util.Date;
 
-public class sysUser {
+public class SysUser {
     /**
      * 用户主键 id
      */
@@ -67,7 +67,7 @@ public class sysUser {
      *
      * @mbggenerated
      */
-    public sysUser(Long id, String username, String password, String secretkey, Boolean locked, String realName, Boolean isDelete, Date createTime, String createUser, Date updateUser, Date updateTime, Date ts) {
+    public SysUser(Long id, String username, String password, String secretkey, Boolean locked, String realName, Boolean isDelete, Date createTime, String createUser, Date updateUser, Date updateTime, Date ts) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -86,7 +86,7 @@ public class sysUser {
      *
      * @mbggenerated
      */
-    public sysUser() {
+    public SysUser() {
         super();
     }
 

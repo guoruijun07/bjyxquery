@@ -4,7 +4,6 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.DateUtils;
 import com.bjyx.common.Constants;
 import com.bjyx.entity.bo.ReadySortingData;
-import com.bjyx.entity.bo.User;
 import com.bjyx.entity.po.TbExportInfo;
 import com.bjyx.entity.po.TbPriceInfo;
 import com.bjyx.entity.po.TbSortingInfo;
@@ -79,7 +78,7 @@ public class SortingBatchController {
     public String getList(HttpSession session, Model model, Integer pageNum) {
 
 //        PageHelper.startPage(queryVo.getPage(), queryVo.getLimit());
-        User user = (User)SecurityUtils.getSubject().getSession().getAttribute(Constants.SESSION_KEY);
+        TbUserInfo user = (TbUserInfo)SecurityUtils.getSubject().getSession().getAttribute(Constants.SESSION_KEY);
         TbUserInfo tbUserInfo1 = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
         TbUserInfo tbUserInfo2 = userInfoMapper.selectByPrimaryKey(tbUserInfo1.getId());
         session.setAttribute("remainingSum",tbUserInfo2.getRemainingSum());
@@ -99,6 +98,7 @@ public class SortingBatchController {
      * excel文件的上传
      */
     @PostMapping("/upload")
+    @ResponseBody
     public SysResult upload(MultipartFile file, HttpSession session) throws IOException {
         Long startTime = System.currentTimeMillis();
         TbUserInfo tbUserInfo = (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);

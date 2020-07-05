@@ -1,28 +1,28 @@
 package com.bjyx.entity.po;
 
-public class sysUserRoleRef {
+public class SysRoleMenusRef {
     /**
      * 用户角色关联 id
      */
-    private Long id;
+    private Integer id;
 
     /**
-     * 用户主键 user_id
+     * 用户主键 permission_id
      */
-    private Long userId;
+    private Integer permissionId;
 
     /**
      * 角色主键 role_id
      */
-    private Long roleId;
+    private Integer roleId;
 
     /**
      *
      * @mbggenerated
      */
-    public sysUserRoleRef(Long id, Long userId, Long roleId) {
+    public SysRoleMenusRef(Integer id, Integer permissionId, Integer roleId) {
         this.id = id;
-        this.userId = userId;
+        this.permissionId = permissionId;
         this.roleId = roleId;
     }
 
@@ -30,7 +30,7 @@ public class sysUserRoleRef {
      *
      * @mbggenerated
      */
-    public sysUserRoleRef() {
+    public SysRoleMenusRef() {
         super();
     }
 
@@ -39,7 +39,7 @@ public class sysUserRoleRef {
     
      * @return id 用户角色关联
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -48,26 +48,26 @@ public class sysUserRoleRef {
     
      * @param id 用户角色关联
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     /**
      * 用户主键
     
-     * @return user_id 用户主键
+     * @return permission_id 用户主键
      */
-    public Long getUserId() {
-        return userId;
+    public Integer getPermissionId() {
+        return permissionId;
     }
 
     /**
      * 用户主键
     
-     * @param userId 用户主键
+     * @param permissionId 用户主键
      */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setPermissionId(Integer permissionId) {
+        this.permissionId = permissionId;
     }
 
     /**
@@ -75,7 +75,7 @@ public class sysUserRoleRef {
     
      * @return role_id 角色主键
      */
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
@@ -84,7 +84,7 @@ public class sysUserRoleRef {
     
      * @param roleId 角色主键
      */
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 }

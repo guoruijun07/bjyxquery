@@ -72,14 +72,22 @@ public class shiroConfig {
         filterMap.put("/login", "anon");
         filterMap.put("/toLogin", "anon");
         filterMap.put("/dashboard", "anon");
+
         filterMap.put("/sorting/getList","perms[sorting:getList]");
-        filterMap.put("/getSortingOrderList","perms[getSortingOrderList]");
+        filterMap.put("/sorting/upload","perms[sorting:upload]");
+        filterMap.put("/sorting/download","perms[sorting:download]");
+
+        filterMap.put("/address/getList","perms[address:getList]");
+        filterMap.put("/address/matchingBatchNo","perms[address:matchingBatchNo]");
+        filterMap.put("/address/uploadOrderOriginal","perms[address:uploadOrderOriginal]");
+        filterMap.put("/address/download","perms[address:download]");
+
         filterMap.put("/**", "authc");
 
         //登录
         shiroFilterFactoryBean.setLoginUrl("/");
         //首页
-        shiroFilterFactoryBean.setSuccessUrl("/dashboard");
+        shiroFilterFactoryBean.setSuccessUrl("/index");
         //错误页面，认证不通过跳转
         shiroFilterFactoryBean.setUnauthorizedUrl("/error");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);

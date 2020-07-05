@@ -2,21 +2,36 @@ package com.bjyx.entity.po;
 
 import java.util.Date;
 
-public class sysPermissions {
+public class SysPermissions {
     /**
      * 功能主键 id
      */
-    private Long id;
+    private Integer id;
+
+    /**
+     * 菜单id menu_id
+     */
+    private Integer menuId;
 
     /**
      * 父级主键 parent_id
      */
-    private Long parentId;
+    private Integer parentId;
 
     /**
      * 编码 code
      */
     private String code;
+
+    /**
+     * url地址 url
+     */
+    private String url;
+
+    /**
+     * 权限名称 perms
+     */
+    private String perms;
 
     /**
      * 名称 name
@@ -32,11 +47,6 @@ public class sysPermissions {
      * 项目类型:1-菜单2-按钮3-链接4-表单 type
      */
     private Boolean type;
-
-    /**
-     * url地址 url
-     */
-    private String url;
 
     /**
      * 删除标记:0未删除，1删除 is_delete
@@ -72,14 +82,16 @@ public class sysPermissions {
      *
      * @mbggenerated
      */
-    public sysPermissions(Long id, Long parentId, String code, String name, String icon, Boolean type, String url, Boolean isDelete, Date createTime, String createUserId, Date updateTime, String updateUser, Date ts) {
+    public SysPermissions(Integer id, Integer menuId, Integer parentId, String code, String url, String perms, String name, String icon, Boolean type, Boolean isDelete, Date createTime, String createUserId, Date updateTime, String updateUser, Date ts) {
         this.id = id;
+        this.menuId = menuId;
         this.parentId = parentId;
         this.code = code;
+        this.url = url;
+        this.perms = perms;
         this.name = name;
         this.icon = icon;
         this.type = type;
-        this.url = url;
         this.isDelete = isDelete;
         this.createTime = createTime;
         this.createUserId = createUserId;
@@ -92,49 +104,67 @@ public class sysPermissions {
      *
      * @mbggenerated
      */
-    public sysPermissions() {
+    public SysPermissions() {
         super();
     }
 
     /**
      * 功能主键
-    
+
      * @return id 功能主键
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
      * 功能主键
-    
+
      * @param id 功能主键
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     /**
+     * 菜单id
+
+     * @return menu_id 菜单id
+     */
+    public Integer getMenuId() {
+        return menuId;
+    }
+
+    /**
+     * 菜单id
+
+     * @param menuId 菜单id
+     */
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
+    }
+
+    /**
      * 父级主键
-    
+
      * @return parent_id 父级主键
      */
-    public Long getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
     /**
      * 父级主键
-    
+
      * @param parentId 父级主键
      */
-    public void setParentId(Long parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
     /**
      * 编码
-    
+
      * @return code 编码
      */
     public String getCode() {
@@ -143,7 +173,7 @@ public class sysPermissions {
 
     /**
      * 编码
-    
+
      * @param code 编码
      */
     public void setCode(String code) {
@@ -151,62 +181,8 @@ public class sysPermissions {
     }
 
     /**
-     * 名称
-    
-     * @return name 名称
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * 名称
-    
-     * @param name 名称
-     */
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    /**
-     * 图标
-    
-     * @return icon 图标
-     */
-    public String getIcon() {
-        return icon;
-    }
-
-    /**
-     * 图标
-    
-     * @param icon 图标
-     */
-    public void setIcon(String icon) {
-        this.icon = icon == null ? null : icon.trim();
-    }
-
-    /**
-     * 项目类型:1-菜单2-按钮3-链接4-表单
-    
-     * @return type 项目类型:1-菜单2-按钮3-链接4-表单
-     */
-    public Boolean getType() {
-        return type;
-    }
-
-    /**
-     * 项目类型:1-菜单2-按钮3-链接4-表单
-    
-     * @param type 项目类型:1-菜单2-按钮3-链接4-表单
-     */
-    public void setType(Boolean type) {
-        this.type = type;
-    }
-
-    /**
      * url地址
-    
+
      * @return url url地址
      */
     public String getUrl() {
@@ -215,7 +191,7 @@ public class sysPermissions {
 
     /**
      * url地址
-    
+
      * @param url url地址
      */
     public void setUrl(String url) {
@@ -223,8 +199,80 @@ public class sysPermissions {
     }
 
     /**
+     * 权限名称
+
+     * @return perms 权限名称
+     */
+    public String getPerms() {
+        return perms;
+    }
+
+    /**
+     * 权限名称
+
+     * @param perms 权限名称
+     */
+    public void setPerms(String perms) {
+        this.perms = perms == null ? null : perms.trim();
+    }
+
+    /**
+     * 名称
+
+     * @return name 名称
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 名称
+
+     * @param name 名称
+     */
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    /**
+     * 图标
+
+     * @return icon 图标
+     */
+    public String getIcon() {
+        return icon;
+    }
+
+    /**
+     * 图标
+
+     * @param icon 图标
+     */
+    public void setIcon(String icon) {
+        this.icon = icon == null ? null : icon.trim();
+    }
+
+    /**
+     * 项目类型:1-菜单2-按钮3-链接4-表单
+
+     * @return type 项目类型:1-菜单2-按钮3-链接4-表单
+     */
+    public Boolean getType() {
+        return type;
+    }
+
+    /**
+     * 项目类型:1-菜单2-按钮3-链接4-表单
+
+     * @param type 项目类型:1-菜单2-按钮3-链接4-表单
+     */
+    public void setType(Boolean type) {
+        this.type = type;
+    }
+
+    /**
      * 删除标记:0未删除，1删除
-    
+
      * @return is_delete 删除标记:0未删除，1删除
      */
     public Boolean getIsDelete() {
@@ -233,7 +281,7 @@ public class sysPermissions {
 
     /**
      * 删除标记:0未删除，1删除
-    
+
      * @param isDelete 删除标记:0未删除，1删除
      */
     public void setIsDelete(Boolean isDelete) {
@@ -242,7 +290,7 @@ public class sysPermissions {
 
     /**
      * 创建日期
-    
+
      * @return create_time 创建日期
      */
     public Date getCreateTime() {
@@ -251,7 +299,7 @@ public class sysPermissions {
 
     /**
      * 创建日期
-    
+
      * @param createTime 创建日期
      */
     public void setCreateTime(Date createTime) {
@@ -260,7 +308,7 @@ public class sysPermissions {
 
     /**
      * 创建用户
-    
+
      * @return create_user_id 创建用户
      */
     public String getCreateUserId() {
@@ -269,7 +317,7 @@ public class sysPermissions {
 
     /**
      * 创建用户
-    
+
      * @param createUserId 创建用户
      */
     public void setCreateUserId(String createUserId) {
@@ -278,7 +326,7 @@ public class sysPermissions {
 
     /**
      * 修改日期
-    
+
      * @return update_time 修改日期
      */
     public Date getUpdateTime() {
@@ -287,7 +335,7 @@ public class sysPermissions {
 
     /**
      * 修改日期
-    
+
      * @param updateTime 修改日期
      */
     public void setUpdateTime(Date updateTime) {
@@ -296,7 +344,7 @@ public class sysPermissions {
 
     /**
      * 修改用户
-    
+
      * @return update_user 修改用户
      */
     public String getUpdateUser() {
@@ -305,7 +353,7 @@ public class sysPermissions {
 
     /**
      * 修改用户
-    
+
      * @param updateUser 修改用户
      */
     public void setUpdateUser(String updateUser) {
@@ -314,7 +362,7 @@ public class sysPermissions {
 
     /**
      * 时间戳
-    
+
      * @return ts 时间戳
      */
     public Date getTs() {
@@ -323,7 +371,7 @@ public class sysPermissions {
 
     /**
      * 时间戳
-    
+
      * @param ts 时间戳
      */
     public void setTs(Date ts) {
