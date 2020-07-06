@@ -234,8 +234,9 @@ public class APPController {
     @ResponseBody
     public SysResult querySortingInfo(OrderOriginalBO orderOriginal, String token, String version,String menu) {
         logger.info("app 校验token:{}", token);
-        if (!CommomUtils.isValidVersion(version,currentVersion)) {
-            logger.info("token为{}当前版本为:{}", token, version);
+
+        if (!CommomUtils.isValidVersion(CommomUtils.getAppVersion(),currentVersion)) {
+            logger.info("token为{}当前版本为:{}", token, CommomUtils.getAppVersion());
             return new SysResult(0, "请升级app版本");
         }
         //校验登录方式

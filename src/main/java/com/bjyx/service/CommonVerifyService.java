@@ -1,5 +1,6 @@
 package com.bjyx.service;
 
+import com.bjyx.entity.po.TbUserInfo;
 import com.bjyx.utils.SysResult;
 
 /**
@@ -9,4 +10,23 @@ import com.bjyx.utils.SysResult;
  */
 public interface CommonVerifyService {
     SysResult verifyUser(String token, String version,String menu);
+
+    /**
+     * 根据token校验用户
+     * @param token
+     * @return
+     */
+    SysResult verifyAppUser(String token);
+
+    /**
+     * 校验用户余额
+     * @param userInfo
+     * @param token
+     * @param device
+     * @param meunu
+     * @return
+     */
+    SysResult verifyAppUserBalance(TbUserInfo userInfo,String token, String device, Integer meunu);
+
+    SysResult AppUserCost(TbUserInfo userInfo, String device, Integer meunu);
 }

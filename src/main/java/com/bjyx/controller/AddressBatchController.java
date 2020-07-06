@@ -252,7 +252,7 @@ public class AddressBatchController {
             e.printStackTrace();
         }
 
-        return new SysResult(1, "导入数据成功","",remainingSum, "");
+        return new SysResult(1, "匹配数据成功","",remainingSum, "");
     }
 
 

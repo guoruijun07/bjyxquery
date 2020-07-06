@@ -2,7 +2,12 @@ package com.bjyx.utils;
 
 import com.alibaba.excel.util.DateUtils;
 import com.alibaba.excel.util.StringUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -67,5 +72,25 @@ public class CommomUtils {
 
         int number=random.nextInt(90000)+100000;
         return DateUtils.format(new Date(), DateUtils.DATE_FORMAT_14) +number;
+    }
+
+    public static String getAppVersion(){
+
+        String version = getHeader("version");
+        return version;
+    }
+
+    public static String getHeader(String headerName) {
+        return getRequest().getHeader(headerName);
+    }
+
+    public static HttpServletRequest getRequest() {
+        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+        return ((ServletRequestAttributes) ra).getRequest();
+    }
+
+    public static HttpServletResponse getResponse(){
+        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+        return ((ServletRequestAttributes) ra).getResponse();
     }
 }

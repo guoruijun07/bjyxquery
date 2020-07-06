@@ -1,5 +1,6 @@
 package com.bjyx.service.impl;
 
+import com.bjyx.entity.po.TbOrderOriginalInfo;
 import com.bjyx.entity.po.TbPriceInfo;
 import com.bjyx.entity.po.TbUserInfo;
 import com.bjyx.enums.EnumPriceCode;
@@ -75,6 +76,63 @@ public class CommonVerifyServiceImpl implements CommonVerifyService {
             }
         }
         return new SysResult(0, "当前登录已失效，请重新登录");
+    }
+
+    @Override
+    public SysResult verifyAppUser(String token) {
+
+        if (!CommomUtils.isValidVersion(CommomUtils.getAppVersion(),currentVersion)) {
+            logger.info("token为{}当前版本为:{}", token, CommomUtils.getAppVersion());
+            return new SysResult(0, "请升级app版本");
+        }
+        //校验登录方式
+        TbUserInfo tbUserInfo = tbUserInfoMapper.selectByToken(token);
+        TbOrderOriginalInfo tbOrderOriginalInfo = new TbOrderOriginalInfo();
+        if (tbUserInfo == null) {
+            return new SysResult(0, "用户不存在");
+        }
+        if (tbUserInfo.getStatus() == 0) {
+            return new SysResult(0, "本用户已失效，请联系管理员");
+        }
+
+        return new SysResult(1, "用户状态正常");
+    }
+
+    @Override
+    public SysResult verifyAppUserBalance(TbUserInfo userInfo, String token, String device, Integer meunu) {
+
+        Date invalidDate = userInfo.getInvalidDate();
+
+        if (invalidDate==null || (invalidDate != null && new Date().getTime() > invalidDate.getTime())) {
+            return new SysResult(0, "当前登录已失效，请重新登录");
+        }
+
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(userInfo.getId(), EnumPriceCode.APP_PRICE.getCode(),meunu);
+
+        Double remainingSum = userInfo.getRemainingSum() == null ? 0.00 : userInfo.getRemainingSum();
+
+        Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
+
+        if (pcPrice > remainingSum) {
+            return new SysResult(2, "当前余额不够支付本次消费金额，请联系管理员充值",token, remainingSum);
+        }
+        return new SysResult(1, "用户状态正常");
+    }
+
+    @Override
+    public SysResult AppUserCost(TbUserInfo userInfo, String device, Integer meunu) {
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(userInfo.getId(), EnumPriceCode.APP_PRICE.getCode(),meunu);
+
+        Double remainingSum = userInfo.getRemainingSum() == null ? 0.00 : userInfo.getRemainingSum();
+
+        Double pcPrice = tbPriceInfo.getPrice() == null ? 0.0 : tbPriceInfo.getPrice();
+        //更新余额
+        Double remainingSumAfter = remainingSum - pcPrice;
+        userInfo.setRemainingSum(remainingSumAfter);
+
+        tbUserInfoMapper.updateRemainingSumByPrimaryKey(userInfo);
+
+        return new SysResult(1, "扣费成功");
     }
 
 }

@@ -202,14 +202,14 @@
                         msgs = data.msg.split(",");
                         alert("上传成功,共导入" + msgs[1] + "条数据")
                         $("#bathNo").val(msgs[0]);
-                        window.location.href = "/getSortingOrderList";
+                        window.location.href = "/address/getList";
                     }
                     if (data.code == 0) {
                         alert(data.msg)
                     }
                 },
                 error: function (er) {          //失败，回调函数
-                    alert("eer" + data.msg);
+                    alert("eer" + er);
                 }
             });
         });
@@ -249,9 +249,16 @@
             type: "POST",
             ataType: 'json',//数据类型
             success: function (date) {
-                alert("匹配成功！");
-                matchingFlag = false;
-                window.location.href = "/getSortingOrderList";
+
+                if (date.code==0){
+                    alert(date.msg)
+                    return;
+                }
+                if (date.code==1){
+                    alert(date.msg)
+                    matchingFlag = false;
+                    window.location.href = "/getList";
+                }
             },
             error: function () {
                 alert("匹配失败，请重新匹配");

@@ -114,30 +114,30 @@
 
 							<!-- 首页 -->
 							<li>
-								<a th:href="@{'/getSortingOrderList?pageNum=1'}">首页</a>
+								<a th:href="@{'/address/getList?pageNum=1'}">首页</a>
 							</li>
 
 							<!-- 上一页 -->
 							<li th:if="${page.hasPreviousPage}">
-								<a th:href="@{'/getSortingOrderList?pageNum=' + ${page.prePage}}" th:text="上一页"></a>
+								<a th:href="@{'/address/getList?pageNum=' + ${page.prePage}}" th:text="上一页"></a>
 							</li>
 
 							<!-- 中间页 -->
 							<li th:each="pageNum:${#numbers.sequence(1, page.pages)}">
-								<a th:href="@{'/getSortingOrderList?pageNum=' + ${pageNum}}" th:text="${pageNum}"
+								<a th:href="@{'/address/getList?pageNum=' + ${pageNum}}" th:text="${pageNum}"
 								   th:if="${pageNum ne page.pageNum}"></a>
-								<a th:href="@{'/getSortingOrderList?pageNum=' + ${pageNum}}" th:text="${pageNum}"
+								<a th:href="@{'/address/getList?pageNum=' + ${pageNum}}" th:text="${pageNum}"
 								   th:if="${pageNum eq page.pageNum}" th:style="'font-weight:bold;background: #6faed9;'"></a>
 							</li>
 
 							<!-- 下一页 -->
 							<li th:if="${page.hasNextPage}">
-								<a th:href="@{'/getSortingOrderList?pageNum=' + ${page.nextPage}}" th:text="下一页"></a>
+								<a th:href="@{'/address/getList?pageNum=' + ${page.nextPage}}" th:text="下一页"></a>
 							</li>
 
 							<!-- 尾页 -->
 							<li>
-								<a th:href="@{'/getSortingOrderList?pageNum=' + ${page.pages}}">尾页</a>
+								<a th:href="@{'/address/getList?pageNum=' + ${page.pages}}">尾页</a>
 							</li>
 
 						</ul>
@@ -181,7 +181,7 @@
 					$.ajax({
 						dataType: "json",
 						type: "POST",
-						url: '/uploadOrderOriginal',
+						url: '/address/uploadOrderOriginal',
 						data: formData,
 						contentType: false,//必须false才会自closeLoading();动加上正确的Content-Type
 						processData: false,//必须false才会避开jQuery对 formdata 的默认处理XMLHttpRequest会对 formdata 进行正确的处理
@@ -193,7 +193,7 @@
 								msgs = data.msg.split(",");
 								alert("上传成功,共导入" + msgs[1] + "条数据")
 								$("#bathNo").val(msgs[0]);
-								window.location.href = "/getSortingOrderList";
+								window.location.href = "/address/getList";
 							}
 							if (data.code == 0) {
 								alert(data.msg)
@@ -213,7 +213,7 @@
 					alert("没有当前正在导入的数据！");
 					return;
 				}
-				window.location.href = "/download?fileName=" + $("#fileName").val();
+				window.location.href = "/address/download?fileName=" + $("#fileName").val();
 			});
 
 			var matchingFlag = false;
@@ -236,13 +236,14 @@
 				alert("正在匹配，请别重复点击");
 
 				$.ajax({
-					url: "/matchingBatchNo?batchNo=" + batchNo,
+					url: "/address/matchingBatchNo?batchNo=" + batchNo,
 					type: "POST",
 					ataType: 'json',//数据类型
 					success: function (date) {
+						alert(date.msg);
 						alert("匹配成功！");
 						matchingFlag = false;
-						window.location.href = "/getSortingOrderList";
+						window.location.href = "/address/getList";
 					},
 					error: function () {
 						alert("匹配失败，请重新匹配");
@@ -252,7 +253,7 @@
 
 			function downloadFile(fileName) {
 
-				window.location.href = "/sortingResultDownload?fileName=" + fileName;
+				window.location.href = "/address/download?fileName=" + fileName;
 			}
 		</script>
 	</body>
