@@ -27,6 +27,13 @@ public interface CommonVerifyService {
      * @return
      */
     SysResult verifyAppUserBalance(TbUserInfo userInfo,String token, String device, Integer meunu);
+    /**
+     * 扣费服务
+     * @param userInfo
+     * @param device
+     * @param meunu
+     * @return
+     */
 
     SysResult AppUserCost(TbUserInfo userInfo, String device, Integer meunu);
 }
