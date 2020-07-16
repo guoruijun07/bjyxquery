@@ -22,18 +22,16 @@ public interface CommonVerifyService {
      * 校验用户余额
      * @param userInfo
      * @param token
-     * @param device
      * @param meunu
      * @return
      */
-    SysResult verifyAppUserBalance(TbUserInfo userInfo,String token, String device, Integer meunu);
+    SysResult verifyAppUserBalance(TbUserInfo userInfo,String token, String meunu);
     /**
      * 扣费服务
      * @param userInfo
-     * @param device
      * @param meunu
      * @return
      */
 
-    SysResult AppUserCost(TbUserInfo userInfo, String device, Integer meunu);
+    SysResult AppUserCost(TbUserInfo userInfo, String meunu);
 }
