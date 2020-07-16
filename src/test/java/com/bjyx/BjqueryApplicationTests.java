@@ -1,14 +1,11 @@
 package com.bjyx;
 
 import com.alibaba.csb.sdk.HttpCallerException;
-import com.bjyx.controller.BindingRemoveRalationController;
-import com.bjyx.entity.bo.bindingandremove.BindingRalationBo;
-import com.bjyx.entity.bo.bindingandremove.RemoveRalationBo;
 import com.bjyx.entity.po.TbBindingRemoveRalation;
 import com.bjyx.mapper.TbBindingRmoveRalationMapper;
+import com.bjyx.service.QueryTrackInfo;
 import com.bjyx.service.bindingandremove.BindingRalation;
 import com.bjyx.service.bindingandremove.RemoveRalation;
-import com.bjyx.service.QueryTrackInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +55,7 @@ public class BjqueryApplicationTests {
       //bindingRalationBo.setValiditytime("2020-6-27 23:30:00");
       bindingRalationBo.setSource("1");
       bindingRalationBo.setMenu("1");
-      bindingRalationBo.setUserid("1");
+//      bindingRalationBo.setUserid("1");
       bindingRalationBo.setUsername("zhangsan");
       bindingRalation.bindingRalation(bindingRalationBo);
   }
@@ -92,8 +89,8 @@ public class BjqueryApplicationTests {
 
   @Test
   public void test7() throws IOException {
-    TbBindingRemoveRalation result =bindingRemoveRalationController.binding("15122625539","");
-    System.out.println(result.getResult());
+//    TbBindingRemoveRalation result =bindingRemoveRalationController.binding("15122625539","");
+//    System.out.println(result.getResult());
   }
 
 

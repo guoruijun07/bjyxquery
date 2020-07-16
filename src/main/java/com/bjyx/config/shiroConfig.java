@@ -1,9 +1,7 @@
 package com.bjyx.config;
 
-import com.bjyx.entity.po.SysPermissions;
 import com.bjyx.mapper.SysPermissionsMapper;
 import com.bjyx.shiro.CustomRealm;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -16,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +23,7 @@ import java.util.Map;
 @Configuration
 public class shiroConfig {
 
-    @Autowired(required = false)
+    @Autowired
     private SysPermissionsMapper sysPermissionsMapper;
 
     @Bean
@@ -81,24 +78,34 @@ public class shiroConfig {
         filterMap.put("/login", "anon");
         filterMap.put("/toLogin", "anon");
         filterMap.put("/dashboard", "anon");
+        filterMap.put("/binding", "anon");
+        filterMap.put("/removeBinding", "anon");
+        filterMap.put("/queryBinding", "anon");
+        filterMap.put("/appLogin", "anon");
+        filterMap.put("/queryBinding", "anon");
+        filterMap.put("/appLogin", "anon");
+        filterMap.put("/checkToken", "anon");
+        filterMap.put("/queryWaybillNo", "anon");
+        filterMap.put("/baseInfoDownload", "anon");
+        filterMap.put("/querySortingInfo", "anon");
 
         //自定义加载权限资源关系
-        List<SysPermissions> sysPermissions = sysPermissionsMapper.selectALL();
-        for (SysPermissions sysPermission : sysPermissions) {
-            if (StringUtils.isNotEmpty(sysPermission.getPerms())) {
-                String permimison = "perms[" + sysPermission.getPerms() + "]";
-                filterMap.put(sysPermission.getUrl(), permimison);
-            }
-        }
+//        List<SysPermissions> sysPermissions = sysPermissionsMapper.selectALL();
+//        for (SysPermissions sysPermission : sysPermissions) {
+//            if (StringUtils.isNotEmpty(sysPermission.getPerms())) {
+//                String permimison = "perms[" + sysPermission.getPerms() + "]";
+//                filterMap.put(sysPermission.getUrl(), permimison);
+//            }
+//        }
 
-//        filterMap.put("/sorting/getList","perms[sorting:getList]");
-//        filterMap.put("/sorting/upload","perms[sorting:upload]");
-//        filterMap.put("/sorting/download","perms[sorting:download]");
-//
-//        filterMap.put("/address/getList","perms[address:getList]");
-//        filterMap.put("/address/matchingBatchNo","perms[address:matchingBatchNo]");
-//        filterMap.put("/address/uploadOrderOriginal","perms[address:uploadOrderOriginal]");
-//        filterMap.put("/address/download","perms[address:download]");
+        filterMap.put("/sorting/getList","perms[sorting:getList]");
+        filterMap.put("/sorting/upload","perms[sorting:upload]");
+        filterMap.put("/sorting/download","perms[sorting:download]");
+
+        filterMap.put("/address/getList","perms[address:getList]");
+        filterMap.put("/address/matchingBatchNo","perms[address:matchingBatchNo]");
+        filterMap.put("/address/uploadOrderOriginal","perms[address:uploadOrderOriginal]");
+        filterMap.put("/address/download","perms[address:download]");
 
         filterMap.put("/**", "authc");
 

@@ -45,6 +45,7 @@ public class CommonVerifyServiceImpl implements CommonVerifyService {
     @Value("${baseDir}")
     private String baseDir;
 
+    @Override
     public SysResult verifyUser(String token, String version,String menu){
 
         if (!CommomUtils.isValidVersion(version,currentVersion)) {
@@ -101,7 +102,7 @@ public class CommonVerifyServiceImpl implements CommonVerifyService {
     }
 
     @Override
-    public SysResult verifyAppUserBalance(TbUserInfo userInfo, String token, String device, Integer meunu) {
+    public SysResult verifyAppUserBalance(TbUserInfo userInfo, String token, String meunu) {
 
         Date invalidDate = userInfo.getInvalidDate();
 
@@ -109,7 +110,7 @@ public class CommonVerifyServiceImpl implements CommonVerifyService {
             return new SysResult(0, "当前登录已失效，请重新登录");
         }
 
-        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(userInfo.getId(), EnumPriceCode.APP_PRICE.getCode(),meunu);
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(userInfo.getId(), EnumPriceCode.APP_PRICE.getCode(),Integer.valueOf(meunu));
 
         Double remainingSum = userInfo.getRemainingSum() == null ? 0.00 : userInfo.getRemainingSum();
 
@@ -122,8 +123,8 @@ public class CommonVerifyServiceImpl implements CommonVerifyService {
     }
 
     @Override
-    public SysResult AppUserCost(TbUserInfo userInfo, String device, Integer meunu) {
-        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(userInfo.getId(), EnumPriceCode.APP_PRICE.getCode(),meunu);
+    public SysResult AppUserCost(TbUserInfo userInfo, String meunu) {
+        TbPriceInfo tbPriceInfo = tbPriceInfoMapper.selectPriceByUserId(userInfo.getId(), EnumPriceCode.APP_PRICE.getCode(),Integer.valueOf(meunu));
 
         Double remainingSum = userInfo.getRemainingSum() == null ? 0.00 : userInfo.getRemainingSum();
 

@@ -10,6 +10,8 @@ import com.bjyx.service.bindingandremove.BindingRalation;
 import com.bjyx.service.bindingandremove.RemoveRalation;
 import com.bjyx.utils.SysResult;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +22,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BindingRemoveRalationController {
+    private static final Logger logger = LoggerFactory.getLogger(BindingRemoveRalationController.class);
     @Autowired(required = false)
     private BindingRalation bindingRalation;
     @Autowired(required = false)
@@ -50,8 +55,25 @@ public class BindingRemoveRalationController {
             outPut.put("msg",sysResult.getMsg());
             return outPut;
         }
-
         TbBindingRemoveRalation params = new TbBindingRemoveRalation();
+        //获取用户
+//        TbUserInfo tbUserInfo= (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
+        TbUserInfoVO tbUserInfoParam = new TbUserInfoVO();
+        tbUserInfoParam.setMobile(userMobile);
+        TbUserInfo tbUserInfo = tbuserInfoMapper.selectByMobile(tbUserInfoParam);
+        if (tbUserInfo != null) {
+            params.setUsername(tbUserInfo.getUsername());
+            params.setUserid(tbUserInfo.getId());
+        }
+
+        //查询用户余额是否够本次消费
+        SysResult sysResult1 = commonVerifyService.verifyAppUserBalance(tbUserInfo, token,menu);
+        if(1!=sysResult.getCode()){
+            outPut.put("code",sysResult1.getCode());
+            outPut.put("msg",sysResult1.getMsg());
+            return outPut;
+        }
+
         TbBindingRemoveRalation out = new TbBindingRemoveRalation();
         if (StringUtils.isBlank(phone)) {
             outPut.put("code","2");
@@ -63,14 +85,11 @@ public class BindingRemoveRalationController {
             outPut.put("msg","邮件号不能为空");
             return outPut;
         }
-        //获取用户
-//        TbUserInfo tbUserInfo= (TbUserInfo) session.getAttribute(Constants.SESSION_KEY);
-        TbUserInfoVO tbUserInfoParam = new TbUserInfoVO();
-        tbUserInfoParam.setMobile(userMobile);
-        TbUserInfo tbUserInfo = tbuserInfoMapper.selectByMobile(tbUserInfoParam);
-        if (tbUserInfo != null) {
-            params.setUsername(tbUserInfo.getUsername());
-            params.setUserid(tbUserInfo.getId());
+
+        //扣费一次
+        SysResult sysResult2 = commonVerifyService.AppUserCost(tbUserInfo, menu);
+        if(1==sysResult2.getCode()){
+            logger.info("扣费成功");
         }
         //获取菜单
 
