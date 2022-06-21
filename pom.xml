@@ -22,7 +22,7 @@
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-io.version>1.3.2</commons-io.version>
         <commons-net.version>3.3</commons-net.version>
-        <mysqlDriver.version>8.0.20</mysqlDriver.version>
+        <mysqlDriver.version>8.0.28</mysqlDriver.version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
         <thymeleaf-layout-dialect.version>2.4.1</thymeleaf-layout-dialect.version>
         <spring.version>5.1.3.RELEASE</spring.version>
